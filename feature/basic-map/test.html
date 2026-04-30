@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BCIT Underground Parking Lots</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #map { height: 600px; width: 100%; }
+
+    .controls {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    #output {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f4f4f4;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>BCIT Downtown Underground Parking</h2>
+
+  <div class="controls">
+    <button onclick="showLayer('P1')">P1</button>
+    <button onclick="showLayer('P2')">P2</button>
+    <button onclick="showLayer('P3')">P3</button>
+  </div>
+
+  <div id="map"></div>
+
+  <h3>Selected Parking Lot</h3>
+  <div id="output">Click a parking lot</div>
+
+  <script>
+
+
+    let map;
+    let layers = {};
+    let infoWindow;
+
+    const floorCoords = [
+      { lat: 49.283066104859046, lng: -123.11544537477086 },
+      { lat: 49.28331550506149, lng: -123.11588360341433 },
+      { lat: 49.283715714366444, lng: -123.11528151536503 },
+      { lat: 49.28345140153851, lng: -123.11489833733286 }
+    ];
+
+    const layerData = {
+        P1: {
+            lots: [
+            {
+                id: 'P1-001', status: 'available',
+                coords: [
+                { lat: 49.28320, lng: -123.11542 },
+                { lat: 49.28325, lng: -123.11550 },
+                { lat: 49.28332, lng: -123.11540 },
+                { lat: 49.28327, lng: -123.11532 }
+                ]
+            },
+            {
+                id: 'P1-002', status: 'full',
+                coords: [
+                { lat: 49.28328, lng: -123.11531 },
+                { lat: 49.28333, lng: -123.11539 },
+                { lat: 49.28340, lng: -123.11529 },
+                { lat: 49.28335, lng: -123.11521 }
+                ]
+            },
+            {
+                id: 'P1-003', status: 'available',
+                coords: [
+                { lat: 49.28336, lng: -123.11520 },
+                { lat: 49.28341, lng: -123.11528 },
+                { lat: 49.28348, lng: -123.11518 },
+                { lat: 49.28343, lng: -123.11510 }
+                ]
+            }
+            ]
+        },
+
+        P2: {
+            lots: [
+            {
+                id: 'P2-001', status: 'full',
+                coords: [
+                { lat: 49.28322, lng: -123.11544 },
+                { lat: 49.28327, lng: -123.11552 },
+                { lat: 49.28334, lng: -123.11542 },
+                { lat: 49.28329, lng: -123.11534 }
+                ]
+            },
+            {
+                id: 'P2-002', status: 'available',
+                coords: [
+                { lat: 49.28330, lng: -123.11533 },
+                { lat: 49.28335, lng: -123.11541 },
+                { lat: 49.28342, lng: -123.11531 },
+                { lat: 49.28337, lng: -123.11523 }
+                ]
+            },
+            {
+                id: 'P2-003', status: 'available',
+                coords: [
+                { lat: 49.28338, lng: -123.11522 },
+                { lat: 49.28343, lng: -123.11530 },
+                { lat: 49.28350, lng: -123.11520 },
+                { lat: 49.28345, lng: -123.11512 }
+                ]
+            }
+            ]
+        },
+
+        P3: {
+            lots: [
+            {
+                id: 'P3-001', status: 'available',
+                coords: [
+                { lat: 49.28324, lng: -123.11546 },
+                { lat: 49.28329, lng: -123.11554 },
+                { lat: 49.28336, lng: -123.11544 },
+                { lat: 49.28331, lng: -123.11536 }
+                ]
+            },
+            {
+                id: 'P3-002', status: 'full',
+                coords: [
+                { lat: 49.28332, lng: -123.11535 },
+                { lat: 49.28337, lng: -123.11543 },
+                { lat: 49.28344, lng: -123.11533 },
+                { lat: 49.28339, lng: -123.11525 }
+                ]
+            },
+            {
+                id: 'P3-003', status: 'full',
+                coords: [
+                { lat: 49.28340, lng: -123.11524 },
+                { lat: 49.28345, lng: -123.11532 },
+                { lat: 49.28352, lng: -123.11522 },
+                { lat: 49.28347, lng: -123.11514 }
+                ]
+            }
+            ]
+        }
+        };
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 19,
+        center: { lat: 49.28335, lng: -123.11535 },
+        mapTypeId: "roadmap"
+      });
+
+      infoWindow = new google.maps.InfoWindow();
+
+      createLayers();
+      showLayer("P1");
+    }
+
+    function createLayers() {
+      Object.keys(layerData).forEach(level => {
+        const floorPolygon = new google.maps.Polygon({
+          paths: floorCoords,
+          strokeColor: "#000000",
+          strokeOpacity: 1,
+          strokeWeight: 3,
+          fillColor: "#999999",
+          fillOpacity: 0.2,
+          map: null
+        });
+
+        const lotPolygons = layerData[level].lots.map(lot => {
+          const color = lot.status === "available" ? "#2ecc71" : "#e74c3c";
+
+          const lotPolygon = new google.maps.Polygon({
+            paths: lot.coords,
+            strokeColor: "#333333",
+            strokeOpacity: 1,
+            strokeWeight: 1,
+            fillColor: color,
+            fillOpacity: 0.8,
+            map: null
+          });
+
+          lotPolygon.meta = {
+            id: lot.id,
+            level: level,
+            status: lot.status
+          };
+
+          lotPolygon.addListener("click", function(event) {
+            const text =
+              `Parking Lot ID: ${lotPolygon.meta.id}\n` +
+              `Layer: ${lotPolygon.meta.level}\n` +
+              `Status: ${lotPolygon.meta.status}`;
+
+            document.getElementById("output").textContent = text;
+
+            infoWindow.setContent(`
+              <strong>${lotPolygon.meta.id}</strong><br>
+              Layer: ${lotPolygon.meta.level}<br>
+              Status: ${lotPolygon.meta.status}
+            `);
+
+            infoWindow.setPosition(event.latLng);
+            infoWindow.open(map);
+          });
+
+          return lotPolygon;
+        });
+
+        layers[level] = {
+          floor: floorPolygon,
+          lots: lotPolygons
+        };
+      });
+    }
+
+    function showLayer(level) {
+      Object.keys(layers).forEach(layerName => {
+        layers[layerName].floor.setMap(null);
+        layers[layerName].lots.forEach(lot => lot.setMap(null));
+      });
+
+      layers[level].floor.setMap(map);
+      layers[level].lots.forEach(lot => lot.setMap(map));
+
+      document.getElementById("output").textContent =
+        `Showing layer: ${level}`;
+    }
+  </script>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAxoG1moijgPbs_BwZYDSlvGzQHzC_Ino&callback=initMap">
+  </script>
+</body>
+</html>
