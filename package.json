@@ -4,7 +4,7 @@
   "description": "ACIT-2911-Agile-Project",
   "main": "index.js",
   "scripts": {
-    "start": "tsx --watch app.ts"
+    "start": "tsx --watch src/main.ts"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.6",
+    "@types/google.maps": "^3.64.0",
     "@types/node": "^25.6.0"
   }
 }
