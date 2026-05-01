@@ -1,4 +1,5 @@
-USE `bcitParkly`;
+CREATE DATABASE IF NOT EXISTS `bcit_parkly`;
+USE `bcit_parkly`;
 
 DROP TABLE IF EXISTS `reservations`;
 DROP TABLE IF EXISTS `parking_stall`;
@@ -20,7 +21,7 @@ DROP TABLE IF EXISTS `customers`;
 --         polygon GEOMETRY SRID 4326 NULL
 --     );
 CREATE TABLE `customers` (
-    customer_id INT PRIMARY KEY,
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     phone VARCHAR(10),
@@ -30,7 +31,7 @@ CREATE TABLE `customers` (
 );
 
 CREATE TABLE `parking_lot` (
-    lot_id INT PRIMARY KEY,
+    lot_id INT PRIMARY KEY AUTO_INCREMENT,
     lot_floor VARCHAR(10) NOT NULL UNIQUE,
     lot_type TEXT NOT NULL CHECK (
         lot_type IN ('staff', 'student', 'public')
@@ -41,7 +42,7 @@ CREATE TABLE `parking_lot` (
 );
 
 CREATE TABLE `parking_stall` (
-    stall_id INT PRIMARY KEY,
+    stall_id INT PRIMARY KEY AUTO_INCREMENT,
     occupied BOOLEAN DEFAULT FALSE,
     parking_type TEXT NOT NULL CHECK (
         parking_type IN (
@@ -56,7 +57,7 @@ CREATE TABLE `parking_stall` (
 );
 
 CREATE TABLE `reservations` (
-    reservation_id INT PRIMARY KEY,
+    reservation_id INT PRIMARY KEY AUTO_INCREMENT,
     purchase_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     license_plate VARCHAR(10) NOT NULL UNIQUE,
     total_cost DECIMAL(10, 2) NOT NULL,
@@ -68,3 +69,31 @@ CREATE TABLE `reservations` (
     FOREIGN KEY (lot_id) REFERENCES parking_lot (lot_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (stall_id) REFERENCES parking_stall (stall_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+INSERT INTO
+    customers (
+        customer_name,
+        email,
+        phone,
+        customer_type
+    )
+VALUES (
+        'leo',
+        'lmak@dsdf',
+        '123',
+        'student'
+    );
+
+INSERT INTO
+    customers (
+        customer_name,
+        email,
+        phone,
+        customer_type
+    )
+VALUES (
+        'chris',
+        'cgoat@dsdf',
+        '6767',
+        'staff'
+    );
