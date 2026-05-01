@@ -1,15 +1,15 @@
 import express from "express";
 
+const PORT: number = 5000;
 const app = express();
 
-const PORT = 5000;
-
 app.set("view engine", "ejs");
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("main.ejs");
 });
 
 app.listen(PORT, () => {
-  console.log(`Running Express server on port ${PORT}...`);
+  console.log(`App is listening on port ${PORT}...`);
 });
