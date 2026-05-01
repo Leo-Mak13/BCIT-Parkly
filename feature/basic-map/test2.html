@@ -1,0 +1,2743 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>BCIT Downtown Underground Parking</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    #map { height: 650px; width: 100%; border-radius: 10px; }
+    .controls { margin-bottom: 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    button { padding: 8px 12px; border: 1px solid #aaa; border-radius: 6px; background: #fff; cursor: pointer; }
+    button.active { background: #222; color: #fff; }
+    #output { margin-top: 10px; padding: 10px; background: #f4f4f4; font-family: monospace; white-space: pre-wrap; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h2>BCIT Downtown Underground Parking</h2>
+
+  <div class="controls" id="floorControls"></div>
+  <div class="controls" id="zoneControls"></div>
+
+  <div id="map"></div>
+
+  <h3>Selected Parking Lot</h3>
+  <div id="output">Click a parking lot</div>
+
+  <script>
+    let map;
+    let layers = {};
+    let infoWindow;
+    let currentFloor = "P1";
+    let currentZone = "ALL";
+
+    const layerData = {
+      "P1": {
+            "zones": {
+                  "P1A": {
+                        "lots": [
+                              {
+                                    "id": "P1A-1",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "Accessible Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836019,
+                                                "lng": -123.1154079
+                                          },
+                                          {
+                                                "lat": 49.2835799,
+                                                "lng": -123.1154409
+                                          },
+                                          {
+                                                "lat": 49.2835469,
+                                                "lng": -123.1153819
+                                          },
+                                          {
+                                                "lat": 49.2835689,
+                                                "lng": -123.1153499
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1A-2",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "Accessible Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835746,
+                                                "lng": -123.1154489
+                                          },
+                                          {
+                                                "lat": 49.2835536,
+                                                "lng": -123.1154809
+                                          },
+                                          {
+                                                "lat": 49.2835196,
+                                                "lng": -123.1154229
+                                          },
+                                          {
+                                                "lat": 49.2835416,
+                                                "lng": -123.1153899
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1A-3",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "EV Charger",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835484,
+                                                "lng": -123.115489
+                                          },
+                                          {
+                                                "lat": 49.2835264,
+                                                "lng": -123.115522
+                                          },
+                                          {
+                                                "lat": 49.2834934,
+                                                "lng": -123.115463
+                                          },
+                                          {
+                                                "lat": 49.2835144,
+                                                "lng": -123.115431
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1A-4",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "EV Charger",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283522,
+                                                "lng": -123.11553
+                                          },
+                                          {
+                                                "lat": 49.2835,
+                                                "lng": -123.115562
+                                          },
+                                          {
+                                                "lat": 49.283467,
+                                                "lng": -123.115504
+                                          },
+                                          {
+                                                "lat": 49.283489,
+                                                "lng": -123.115471
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1A-5",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "EV Charger",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834947,
+                                                "lng": -123.1155687
+                                          },
+                                          {
+                                                "lat": 49.2834737,
+                                                "lng": -123.1156017
+                                          },
+                                          {
+                                                "lat": 49.2834407,
+                                                "lng": -123.1155437
+                                          },
+                                          {
+                                                "lat": 49.2834617,
+                                                "lng": -123.1155107
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1A-6",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "EV Charger",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834676,
+                                                "lng": -123.1156084
+                                          },
+                                          {
+                                                "lat": 49.2834456,
+                                                "lng": -123.1156404
+                                          },
+                                          {
+                                                "lat": 49.2834126,
+                                                "lng": -123.1155824
+                                          },
+                                          {
+                                                "lat": 49.2834346,
+                                                "lng": -123.1155504
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1A-7",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "EV Charger",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834395,
+                                                "lng": -123.1156498
+                                          },
+                                          {
+                                                "lat": 49.2834175,
+                                                "lng": -123.1156828
+                                          },
+                                          {
+                                                "lat": 49.2833845,
+                                                "lng": -123.1156248
+                                          },
+                                          {
+                                                "lat": 49.2834065,
+                                                "lng": -123.1155918
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1A-8",
+                                    "zone": "P1A",
+                                    "floor": "P1",
+                                    "type": "EV Charger",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834131,
+                                                "lng": -123.1156909
+                                          },
+                                          {
+                                                "lat": 49.2833921,
+                                                "lng": -123.1157239
+                                          },
+                                          {
+                                                "lat": 49.2833591,
+                                                "lng": -123.1156649
+                                          },
+                                          {
+                                                "lat": 49.2833801,
+                                                "lng": -123.1156329
+                                          }
+                                    ]
+                              }
+                        ]
+                  },
+                  "P1B": {
+                        "lots": [
+                              {
+                                    "id": "P1B-22",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835548,
+                                                "lng": -123.1151557
+                                          },
+                                          {
+                                                "lat": 49.2835328,
+                                                "lng": -123.1151877
+                                          },
+                                          {
+                                                "lat": 49.2834998,
+                                                "lng": -123.1151297
+                                          },
+                                          {
+                                                "lat": 49.2835218,
+                                                "lng": -123.1150967
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-21",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835301,
+                                                "lng": -123.1151903
+                                          },
+                                          {
+                                                "lat": 49.2835091,
+                                                "lng": -123.1152233
+                                          },
+                                          {
+                                                "lat": 49.2834751,
+                                                "lng": -123.1151643
+                                          },
+                                          {
+                                                "lat": 49.2834971,
+                                                "lng": -123.1151323
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-20",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835073,
+                                                "lng": -123.1152273
+                                          },
+                                          {
+                                                "lat": 49.2834853,
+                                                "lng": -123.1152593
+                                          },
+                                          {
+                                                "lat": 49.2834523,
+                                                "lng": -123.1152013
+                                          },
+                                          {
+                                                "lat": 49.2834733,
+                                                "lng": -123.1151683
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-19",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834832,
+                                                "lng": -123.1152621
+                                          },
+                                          {
+                                                "lat": 49.2834612,
+                                                "lng": -123.1152951
+                                          },
+                                          {
+                                                "lat": 49.2834282,
+                                                "lng": -123.1152371
+                                          },
+                                          {
+                                                "lat": 49.2834502,
+                                                "lng": -123.1152041
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-18",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834594,
+                                                "lng": -123.1152974
+                                          },
+                                          {
+                                                "lat": 49.2834384,
+                                                "lng": -123.1153294
+                                          },
+                                          {
+                                                "lat": 49.2834054,
+                                                "lng": -123.1152714
+                                          },
+                                          {
+                                                "lat": 49.2834264,
+                                                "lng": -123.1152394
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-17",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834367,
+                                                "lng": -123.1153321
+                                          },
+                                          {
+                                                "lat": 49.2834147,
+                                                "lng": -123.1153651
+                                          },
+                                          {
+                                                "lat": 49.2833817,
+                                                "lng": -123.1153071
+                                          },
+                                          {
+                                                "lat": 49.2834037,
+                                                "lng": -123.1152741
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-16",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834133,
+                                                "lng": -123.1153677
+                                          },
+                                          {
+                                                "lat": 49.2833913,
+                                                "lng": -123.1154007
+                                          },
+                                          {
+                                                "lat": 49.2833583,
+                                                "lng": -123.1153417
+                                          },
+                                          {
+                                                "lat": 49.2833803,
+                                                "lng": -123.1153097
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-15",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833903,
+                                                "lng": -123.1154021
+                                          },
+                                          {
+                                                "lat": 49.2833693,
+                                                "lng": -123.1154341
+                                          },
+                                          {
+                                                "lat": 49.2833363,
+                                                "lng": -123.1153761
+                                          },
+                                          {
+                                                "lat": 49.2833573,
+                                                "lng": -123.1153431
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-14",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833681,
+                                                "lng": -123.1154361
+                                          },
+                                          {
+                                                "lat": 49.2833461,
+                                                "lng": -123.1154691
+                                          },
+                                          {
+                                                "lat": 49.2833131,
+                                                "lng": -123.1154101
+                                          },
+                                          {
+                                                "lat": 49.2833351,
+                                                "lng": -123.1153781
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-13",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833449,
+                                                "lng": -123.1154711
+                                          },
+                                          {
+                                                "lat": 49.2833239,
+                                                "lng": -123.1155031
+                                          },
+                                          {
+                                                "lat": 49.2832899,
+                                                "lng": -123.1154451
+                                          },
+                                          {
+                                                "lat": 49.2833119,
+                                                "lng": -123.1154121
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-12",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833224,
+                                                "lng": -123.1155051
+                                          },
+                                          {
+                                                "lat": 49.2833004,
+                                                "lng": -123.1155381
+                                          },
+                                          {
+                                                "lat": 49.2832674,
+                                                "lng": -123.1154791
+                                          },
+                                          {
+                                                "lat": 49.2832884,
+                                                "lng": -123.1154471
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-35",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834937,
+                                                "lng": -123.1150383
+                                          },
+                                          {
+                                                "lat": 49.2834717,
+                                                "lng": -123.1150713
+                                          },
+                                          {
+                                                "lat": 49.2834387,
+                                                "lng": -123.1150133
+                                          },
+                                          {
+                                                "lat": 49.2834607,
+                                                "lng": -123.1149803
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-34",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834696,
+                                                "lng": -123.1150733
+                                          },
+                                          {
+                                                "lat": 49.2834476,
+                                                "lng": -123.1151053
+                                          },
+                                          {
+                                                "lat": 49.2834146,
+                                                "lng": -123.1150473
+                                          },
+                                          {
+                                                "lat": 49.2834366,
+                                                "lng": -123.1150153
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-33",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834454,
+                                                "lng": -123.1151073
+                                          },
+                                          {
+                                                "lat": 49.2834244,
+                                                "lng": -123.1151403
+                                          },
+                                          {
+                                                "lat": 49.2833914,
+                                                "lng": -123.1150823
+                                          },
+                                          {
+                                                "lat": 49.2834124,
+                                                "lng": -123.1150493
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-32",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834213,
+                                                "lng": -123.1151437
+                                          },
+                                          {
+                                                "lat": 49.2833993,
+                                                "lng": -123.1151767
+                                          },
+                                          {
+                                                "lat": 49.2833663,
+                                                "lng": -123.1151177
+                                          },
+                                          {
+                                                "lat": 49.2833883,
+                                                "lng": -123.1150857
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-31",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833976,
+                                                "lng": -123.1151787
+                                          },
+                                          {
+                                                "lat": 49.2833766,
+                                                "lng": -123.1152107
+                                          },
+                                          {
+                                                "lat": 49.2833426,
+                                                "lng": -123.1151527
+                                          },
+                                          {
+                                                "lat": 49.2833646,
+                                                "lng": -123.1151197
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-30",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833735,
+                                                "lng": -123.1152141
+                                          },
+                                          {
+                                                "lat": 49.2833515,
+                                                "lng": -123.1152471
+                                          },
+                                          {
+                                                "lat": 49.2833185,
+                                                "lng": -123.1151881
+                                          },
+                                          {
+                                                "lat": 49.2833395,
+                                                "lng": -123.1151561
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-29",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833497,
+                                                "lng": -123.1152491
+                                          },
+                                          {
+                                                "lat": 49.2833277,
+                                                "lng": -123.1152811
+                                          },
+                                          {
+                                                "lat": 49.2832947,
+                                                "lng": -123.1152231
+                                          },
+                                          {
+                                                "lat": 49.2833167,
+                                                "lng": -123.1151901
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-28",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833256,
+                                                "lng": -123.1152824
+                                          },
+                                          {
+                                                "lat": 49.2833046,
+                                                "lng": -123.1153154
+                                          },
+                                          {
+                                                "lat": 49.2832706,
+                                                "lng": -123.1152564
+                                          },
+                                          {
+                                                "lat": 49.2832926,
+                                                "lng": -123.1152244
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-27",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Accessible Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2832984,
+                                                "lng": -123.1153241
+                                          },
+                                          {
+                                                "lat": 49.2832764,
+                                                "lng": -123.1153561
+                                          },
+                                          {
+                                                "lat": 49.2832434,
+                                                "lng": -123.1152981
+                                          },
+                                          {
+                                                "lat": 49.2832644,
+                                                "lng": -123.1152651
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-26",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Accessible Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2832712,
+                                                "lng": -123.1153642
+                                          },
+                                          {
+                                                "lat": 49.2832492,
+                                                "lng": -123.1153972
+                                          },
+                                          {
+                                                "lat": 49.2832162,
+                                                "lng": -123.1153382
+                                          },
+                                          {
+                                                "lat": 49.2832382,
+                                                "lng": -123.1153062
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-43",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283711,
+                                                "lng": -123.1151935
+                                          },
+                                          {
+                                                "lat": 49.283675,
+                                                "lng": -123.1152475
+                                          },
+                                          {
+                                                "lat": 49.283655,
+                                                "lng": -123.1152125
+                                          },
+                                          {
+                                                "lat": 49.283691,
+                                                "lng": -123.1151585
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-42",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.28369,
+                                                "lng": -123.1151559
+                                          },
+                                          {
+                                                "lat": 49.283654,
+                                                "lng": -123.1152099
+                                          },
+                                          {
+                                                "lat": 49.283634,
+                                                "lng": -123.1151749
+                                          },
+                                          {
+                                                "lat": 49.283671,
+                                                "lng": -123.1151209
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-41",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836692,
+                                                "lng": -123.1151195
+                                          },
+                                          {
+                                                "lat": 49.2836322,
+                                                "lng": -123.1151735
+                                          },
+                                          {
+                                                "lat": 49.2836132,
+                                                "lng": -123.1151385
+                                          },
+                                          {
+                                                "lat": 49.2836492,
+                                                "lng": -123.1150845
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-40",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836485,
+                                                "lng": -123.1150822
+                                          },
+                                          {
+                                                "lat": 49.2836125,
+                                                "lng": -123.1151362
+                                          },
+                                          {
+                                                "lat": 49.2835925,
+                                                "lng": -123.1151012
+                                          },
+                                          {
+                                                "lat": 49.2836285,
+                                                "lng": -123.1150472
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-39",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283627,
+                                                "lng": -123.1150449
+                                          },
+                                          {
+                                                "lat": 49.283591,
+                                                "lng": -123.1150989
+                                          },
+                                          {
+                                                "lat": 49.283571,
+                                                "lng": -123.1150639
+                                          },
+                                          {
+                                                "lat": 49.283607,
+                                                "lng": -123.1150099
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-38",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836057,
+                                                "lng": -123.1150072
+                                          },
+                                          {
+                                                "lat": 49.2835697,
+                                                "lng": -123.1150612
+                                          },
+                                          {
+                                                "lat": 49.2835497,
+                                                "lng": -123.1150262
+                                          },
+                                          {
+                                                "lat": 49.2835857,
+                                                "lng": -123.1149722
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-37",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835842,
+                                                "lng": -123.1149709
+                                          },
+                                          {
+                                                "lat": 49.2835482,
+                                                "lng": -123.1150249
+                                          },
+                                          {
+                                                "lat": 49.2835282,
+                                                "lng": -123.1149899
+                                          },
+                                          {
+                                                "lat": 49.2835642,
+                                                "lng": -123.1149359
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P1B-36",
+                                    "zone": "P1B",
+                                    "floor": "P1",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835625,
+                                                "lng": -123.1149332
+                                          },
+                                          {
+                                                "lat": 49.2835265,
+                                                "lng": -123.1149872
+                                          },
+                                          {
+                                                "lat": 49.2835065,
+                                                "lng": -123.1149522
+                                          },
+                                          {
+                                                "lat": 49.2835425,
+                                                "lng": -123.1148982
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            }
+      },
+      "P2": {
+            "zones": {
+                  "P2A": {
+                        "lots": [
+                              {
+                                    "id": "P2A-60",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835857,
+                                                "lng": -123.1152373
+                                          },
+                                          {
+                                                "lat": 49.2835647,
+                                                "lng": -123.1152693
+                                          },
+                                          {
+                                                "lat": 49.2835307,
+                                                "lng": -123.1152113
+                                          },
+                                          {
+                                                "lat": 49.2835527,
+                                                "lng": -123.1151783
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-61",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835639,
+                                                "lng": -123.1152707
+                                          },
+                                          {
+                                                "lat": 49.2835419,
+                                                "lng": -123.1153037
+                                          },
+                                          {
+                                                "lat": 49.2835089,
+                                                "lng": -123.1152447
+                                          },
+                                          {
+                                                "lat": 49.2835299,
+                                                "lng": -123.1152127
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-62",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835406,
+                                                "lng": -123.1153043
+                                          },
+                                          {
+                                                "lat": 49.2835186,
+                                                "lng": -123.1153363
+                                          },
+                                          {
+                                                "lat": 49.2834856,
+                                                "lng": -123.1152783
+                                          },
+                                          {
+                                                "lat": 49.2835076,
+                                                "lng": -123.1152453
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-63",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835173,
+                                                "lng": -123.1153377
+                                          },
+                                          {
+                                                "lat": 49.2834963,
+                                                "lng": -123.1153707
+                                          },
+                                          {
+                                                "lat": 49.2834633,
+                                                "lng": -123.1153117
+                                          },
+                                          {
+                                                "lat": 49.2834843,
+                                                "lng": -123.1152797
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-64",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834949,
+                                                "lng": -123.1153713
+                                          },
+                                          {
+                                                "lat": 49.2834729,
+                                                "lng": -123.1154033
+                                          },
+                                          {
+                                                "lat": 49.2834399,
+                                                "lng": -123.1153453
+                                          },
+                                          {
+                                                "lat": 49.2834619,
+                                                "lng": -123.1153123
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-65",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834716,
+                                                "lng": -123.1154047
+                                          },
+                                          {
+                                                "lat": 49.2834496,
+                                                "lng": -123.1154377
+                                          },
+                                          {
+                                                "lat": 49.2834166,
+                                                "lng": -123.1153797
+                                          },
+                                          {
+                                                "lat": 49.2834386,
+                                                "lng": -123.1153467
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-66",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834374,
+                                                "lng": -123.1154571
+                                          },
+                                          {
+                                                "lat": 49.2834164,
+                                                "lng": -123.1154891
+                                          },
+                                          {
+                                                "lat": 49.2833834,
+                                                "lng": -123.1154311
+                                          },
+                                          {
+                                                "lat": 49.2834044,
+                                                "lng": -123.1153991
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-67",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834151,
+                                                "lng": -123.1154918
+                                          },
+                                          {
+                                                "lat": 49.2833931,
+                                                "lng": -123.1155248
+                                          },
+                                          {
+                                                "lat": 49.2833601,
+                                                "lng": -123.1154668
+                                          },
+                                          {
+                                                "lat": 49.2833821,
+                                                "lng": -123.1154338
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-68",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833918,
+                                                "lng": -123.1155275
+                                          },
+                                          {
+                                                "lat": 49.2833708,
+                                                "lng": -123.1155605
+                                          },
+                                          {
+                                                "lat": 49.2833368,
+                                                "lng": -123.1155015
+                                          },
+                                          {
+                                                "lat": 49.2833588,
+                                                "lng": -123.1154695
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-71",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833094,
+                                                "lng": -123.1157608
+                                          },
+                                          {
+                                                "lat": 49.2832734,
+                                                "lng": -123.1158148
+                                          },
+                                          {
+                                                "lat": 49.2832534,
+                                                "lng": -123.1157798
+                                          },
+                                          {
+                                                "lat": 49.2832894,
+                                                "lng": -123.1157258
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-72",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2832885,
+                                                "lng": -123.1157225
+                                          },
+                                          {
+                                                "lat": 49.2832525,
+                                                "lng": -123.1157765
+                                          },
+                                          {
+                                                "lat": 49.2832325,
+                                                "lng": -123.1157415
+                                          },
+                                          {
+                                                "lat": 49.2832685,
+                                                "lng": -123.1156875
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-73",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2832668,
+                                                "lng": -123.1156855
+                                          },
+                                          {
+                                                "lat": 49.2832308,
+                                                "lng": -123.1157395
+                                          },
+                                          {
+                                                "lat": 49.2832108,
+                                                "lng": -123.1157045
+                                          },
+                                          {
+                                                "lat": 49.2832468,
+                                                "lng": -123.1156505
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-74",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2832455,
+                                                "lng": -123.1156491
+                                          },
+                                          {
+                                                "lat": 49.2832095,
+                                                "lng": -123.1157031
+                                          },
+                                          {
+                                                "lat": 49.2831895,
+                                                "lng": -123.1156681
+                                          },
+                                          {
+                                                "lat": 49.2832255,
+                                                "lng": -123.1156141
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-75",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2832242,
+                                                "lng": -123.1156108
+                                          },
+                                          {
+                                                "lat": 49.2831882,
+                                                "lng": -123.1156648
+                                          },
+                                          {
+                                                "lat": 49.2831682,
+                                                "lng": -123.1156298
+                                          },
+                                          {
+                                                "lat": 49.2832042,
+                                                "lng": -123.1155758
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-76",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2832029,
+                                                "lng": -123.1155738
+                                          },
+                                          {
+                                                "lat": 49.2831669,
+                                                "lng": -123.1156278
+                                          },
+                                          {
+                                                "lat": 49.2831469,
+                                                "lng": -123.1155928
+                                          },
+                                          {
+                                                "lat": 49.2831829,
+                                                "lng": -123.1155388
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-77",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283182,
+                                                "lng": -123.1155364
+                                          },
+                                          {
+                                                "lat": 49.283146,
+                                                "lng": -123.1155904
+                                          },
+                                          {
+                                                "lat": 49.283126,
+                                                "lng": -123.1155554
+                                          },
+                                          {
+                                                "lat": 49.283162,
+                                                "lng": -123.1155014
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-78",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2831611,
+                                                "lng": -123.1154994
+                                          },
+                                          {
+                                                "lat": 49.2831251,
+                                                "lng": -123.1155534
+                                          },
+                                          {
+                                                "lat": 49.2831051,
+                                                "lng": -123.1155184
+                                          },
+                                          {
+                                                "lat": 49.2831411,
+                                                "lng": -123.1154644
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-47",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836314,
+                                                "lng": -123.1153959
+                                          },
+                                          {
+                                                "lat": 49.2836094,
+                                                "lng": -123.1154289
+                                          },
+                                          {
+                                                "lat": 49.2835764,
+                                                "lng": -123.1153699
+                                          },
+                                          {
+                                                "lat": 49.2835974,
+                                                "lng": -123.1153379
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-48",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836091,
+                                                "lng": -123.1154295
+                                          },
+                                          {
+                                                "lat": 49.2835871,
+                                                "lng": -123.1154615
+                                          },
+                                          {
+                                                "lat": 49.2835541,
+                                                "lng": -123.1154035
+                                          },
+                                          {
+                                                "lat": 49.2835761,
+                                                "lng": -123.1153705
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-49",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835867,
+                                                "lng": -123.1154626
+                                          },
+                                          {
+                                                "lat": 49.2835657,
+                                                "lng": -123.1154956
+                                          },
+                                          {
+                                                "lat": 49.2835317,
+                                                "lng": -123.1154366
+                                          },
+                                          {
+                                                "lat": 49.2835537,
+                                                "lng": -123.1154046
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-50",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835652,
+                                                "lng": -123.1154962
+                                          },
+                                          {
+                                                "lat": 49.2835432,
+                                                "lng": -123.1155282
+                                          },
+                                          {
+                                                "lat": 49.2835102,
+                                                "lng": -123.1154702
+                                          },
+                                          {
+                                                "lat": 49.2835312,
+                                                "lng": -123.1154372
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-51",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835428,
+                                                "lng": -123.1155293
+                                          },
+                                          {
+                                                "lat": 49.2835208,
+                                                "lng": -123.1155623
+                                          },
+                                          {
+                                                "lat": 49.2834878,
+                                                "lng": -123.1155033
+                                          },
+                                          {
+                                                "lat": 49.2835098,
+                                                "lng": -123.1154713
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-52",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2835204,
+                                                "lng": -123.1155633
+                                          },
+                                          {
+                                                "lat": 49.2834994,
+                                                "lng": -123.1155953
+                                          },
+                                          {
+                                                "lat": 49.2834654,
+                                                "lng": -123.1155373
+                                          },
+                                          {
+                                                "lat": 49.2834874,
+                                                "lng": -123.1155043
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-53",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834989,
+                                                "lng": -123.1155959
+                                          },
+                                          {
+                                                "lat": 49.2834769,
+                                                "lng": -123.1156289
+                                          },
+                                          {
+                                                "lat": 49.2834439,
+                                                "lng": -123.1155699
+                                          },
+                                          {
+                                                "lat": 49.2834649,
+                                                "lng": -123.1155379
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-54",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834765,
+                                                "lng": -123.11563
+                                          },
+                                          {
+                                                "lat": 49.2834545,
+                                                "lng": -123.115662
+                                          },
+                                          {
+                                                "lat": 49.2834215,
+                                                "lng": -123.115604
+                                          },
+                                          {
+                                                "lat": 49.2834435,
+                                                "lng": -123.115571
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-55",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834536,
+                                                "lng": -123.1156623
+                                          },
+                                          {
+                                                "lat": 49.2834326,
+                                                "lng": -123.1156953
+                                          },
+                                          {
+                                                "lat": 49.2833996,
+                                                "lng": -123.1156373
+                                          },
+                                          {
+                                                "lat": 49.2834206,
+                                                "lng": -123.1156043
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-56",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834324,
+                                                "lng": -123.1156962
+                                          },
+                                          {
+                                                "lat": 49.2834104,
+                                                "lng": -123.1157282
+                                          },
+                                          {
+                                                "lat": 49.2833774,
+                                                "lng": -123.1156702
+                                          },
+                                          {
+                                                "lat": 49.2833994,
+                                                "lng": -123.1156382
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-57",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2834098,
+                                                "lng": -123.1157289
+                                          },
+                                          {
+                                                "lat": 49.2833878,
+                                                "lng": -123.1157619
+                                          },
+                                          {
+                                                "lat": 49.2833548,
+                                                "lng": -123.1157039
+                                          },
+                                          {
+                                                "lat": 49.2833768,
+                                                "lng": -123.1156709
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-46",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836527,
+                                                "lng": -123.1153632
+                                          },
+                                          {
+                                                "lat": 49.2836317,
+                                                "lng": -123.1153952
+                                          },
+                                          {
+                                                "lat": 49.2835977,
+                                                "lng": -123.1153372
+                                          },
+                                          {
+                                                "lat": 49.2836197,
+                                                "lng": -123.1153042
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-45",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836761,
+                                                "lng": -123.1153289
+                                          },
+                                          {
+                                                "lat": 49.2836541,
+                                                "lng": -123.1153619
+                                          },
+                                          {
+                                                "lat": 49.2836211,
+                                                "lng": -123.1153029
+                                          },
+                                          {
+                                                "lat": 49.2836421,
+                                                "lng": -123.1152709
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-58",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833875,
+                                                "lng": -123.1157633
+                                          },
+                                          {
+                                                "lat": 49.2833665,
+                                                "lng": -123.1157963
+                                          },
+                                          {
+                                                "lat": 49.2833335,
+                                                "lng": -123.1157373
+                                          },
+                                          {
+                                                "lat": 49.2833545,
+                                                "lng": -123.1157053
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-44",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2836983,
+                                                "lng": -123.1152956
+                                          },
+                                          {
+                                                "lat": 49.2836763,
+                                                "lng": -123.1153276
+                                          },
+                                          {
+                                                "lat": 49.2836433,
+                                                "lng": -123.1152696
+                                          },
+                                          {
+                                                "lat": 49.2836653,
+                                                "lng": -123.1152366
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-59",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833663,
+                                                "lng": -123.1157965
+                                          },
+                                          {
+                                                "lat": 49.2833443,
+                                                "lng": -123.1158295
+                                          },
+                                          {
+                                                "lat": 49.2833113,
+                                                "lng": -123.1157705
+                                          },
+                                          {
+                                                "lat": 49.2833323,
+                                                "lng": -123.1157385
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-70",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283346,
+                                                "lng": -123.115598
+                                          },
+                                          {
+                                                "lat": 49.283325,
+                                                "lng": -123.11563
+                                          },
+                                          {
+                                                "lat": 49.283291,
+                                                "lng": -123.115572
+                                          },
+                                          {
+                                                "lat": 49.283313,
+                                                "lng": -123.115539
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2A-69",
+                                    "zone": "P2A",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.2833694,
+                                                "lng": -123.1155625
+                                          },
+                                          {
+                                                "lat": 49.2833474,
+                                                "lng": -123.1155945
+                                          },
+                                          {
+                                                "lat": 49.2833144,
+                                                "lng": -123.1155365
+                                          },
+                                          {
+                                                "lat": 49.2833354,
+                                                "lng": -123.1155035
+                                          }
+                                    ]
+                              }
+                        ]
+                  },
+                  "P2B": {
+                        "lots": [
+                              {
+                                    "id": "P2B-89",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283555,
+                                                "lng": -123.115156
+                                          },
+                                          {
+                                                "lat": 49.283533,
+                                                "lng": -123.115188
+                                          },
+                                          {
+                                                "lat": 49.2835,
+                                                "lng": -123.11513
+                                          },
+                                          {
+                                                "lat": 49.283522,
+                                                "lng": -123.115097
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-88",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.28353,
+                                                "lng": -123.11519
+                                          },
+                                          {
+                                                "lat": 49.283509,
+                                                "lng": -123.115223
+                                          },
+                                          {
+                                                "lat": 49.283475,
+                                                "lng": -123.115164
+                                          },
+                                          {
+                                                "lat": 49.283497,
+                                                "lng": -123.115132
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-87",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283507,
+                                                "lng": -123.115227
+                                          },
+                                          {
+                                                "lat": 49.283485,
+                                                "lng": -123.115259
+                                          },
+                                          {
+                                                "lat": 49.283452,
+                                                "lng": -123.115201
+                                          },
+                                          {
+                                                "lat": 49.283473,
+                                                "lng": -123.115168
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-86",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283483,
+                                                "lng": -123.115262
+                                          },
+                                          {
+                                                "lat": 49.283461,
+                                                "lng": -123.115295
+                                          },
+                                          {
+                                                "lat": 49.283428,
+                                                "lng": -123.115237
+                                          },
+                                          {
+                                                "lat": 49.28345,
+                                                "lng": -123.115204
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-85",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283459,
+                                                "lng": -123.115297
+                                          },
+                                          {
+                                                "lat": 49.283438,
+                                                "lng": -123.115329
+                                          },
+                                          {
+                                                "lat": 49.283405,
+                                                "lng": -123.115271
+                                          },
+                                          {
+                                                "lat": 49.283426,
+                                                "lng": -123.115239
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-84",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283437,
+                                                "lng": -123.115332
+                                          },
+                                          {
+                                                "lat": 49.283415,
+                                                "lng": -123.115365
+                                          },
+                                          {
+                                                "lat": 49.283382,
+                                                "lng": -123.115307
+                                          },
+                                          {
+                                                "lat": 49.283404,
+                                                "lng": -123.115274
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-83",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283413,
+                                                "lng": -123.115368
+                                          },
+                                          {
+                                                "lat": 49.283391,
+                                                "lng": -123.115401
+                                          },
+                                          {
+                                                "lat": 49.283358,
+                                                "lng": -123.115342
+                                          },
+                                          {
+                                                "lat": 49.28338,
+                                                "lng": -123.11531
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-82",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.28339,
+                                                "lng": -123.115402
+                                          },
+                                          {
+                                                "lat": 49.283369,
+                                                "lng": -123.115434
+                                          },
+                                          {
+                                                "lat": 49.283336,
+                                                "lng": -123.115376
+                                          },
+                                          {
+                                                "lat": 49.283357,
+                                                "lng": -123.115343
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-81",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283368,
+                                                "lng": -123.115436
+                                          },
+                                          {
+                                                "lat": 49.283346,
+                                                "lng": -123.115469
+                                          },
+                                          {
+                                                "lat": 49.283313,
+                                                "lng": -123.11541
+                                          },
+                                          {
+                                                "lat": 49.283335,
+                                                "lng": -123.115378
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-80",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283345,
+                                                "lng": -123.115471
+                                          },
+                                          {
+                                                "lat": 49.283324,
+                                                "lng": -123.115503
+                                          },
+                                          {
+                                                "lat": 49.28329,
+                                                "lng": -123.115445
+                                          },
+                                          {
+                                                "lat": 49.283312,
+                                                "lng": -123.115412
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-79",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283322,
+                                                "lng": -123.115505
+                                          },
+                                          {
+                                                "lat": 49.2833,
+                                                "lng": -123.115538
+                                          },
+                                          {
+                                                "lat": 49.283267,
+                                                "lng": -123.115479
+                                          },
+                                          {
+                                                "lat": 49.283288,
+                                                "lng": -123.115447
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-102",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283494,
+                                                "lng": -123.115038
+                                          },
+                                          {
+                                                "lat": 49.283472,
+                                                "lng": -123.115071
+                                          },
+                                          {
+                                                "lat": 49.283439,
+                                                "lng": -123.115013
+                                          },
+                                          {
+                                                "lat": 49.283461,
+                                                "lng": -123.11498
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-101",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.28347,
+                                                "lng": -123.115073
+                                          },
+                                          {
+                                                "lat": 49.283448,
+                                                "lng": -123.115105
+                                          },
+                                          {
+                                                "lat": 49.283415,
+                                                "lng": -123.115047
+                                          },
+                                          {
+                                                "lat": 49.283437,
+                                                "lng": -123.115015
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-100",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283445,
+                                                "lng": -123.115107
+                                          },
+                                          {
+                                                "lat": 49.283424,
+                                                "lng": -123.11514
+                                          },
+                                          {
+                                                "lat": 49.283391,
+                                                "lng": -123.115082
+                                          },
+                                          {
+                                                "lat": 49.283412,
+                                                "lng": -123.115049
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-99",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283421,
+                                                "lng": -123.115144
+                                          },
+                                          {
+                                                "lat": 49.283399,
+                                                "lng": -123.115177
+                                          },
+                                          {
+                                                "lat": 49.283366,
+                                                "lng": -123.115118
+                                          },
+                                          {
+                                                "lat": 49.283388,
+                                                "lng": -123.115086
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-98",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283398,
+                                                "lng": -123.115179
+                                          },
+                                          {
+                                                "lat": 49.283377,
+                                                "lng": -123.115211
+                                          },
+                                          {
+                                                "lat": 49.283343,
+                                                "lng": -123.115153
+                                          },
+                                          {
+                                                "lat": 49.283365,
+                                                "lng": -123.11512
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-97",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283374,
+                                                "lng": -123.115214
+                                          },
+                                          {
+                                                "lat": 49.283352,
+                                                "lng": -123.115247
+                                          },
+                                          {
+                                                "lat": 49.283318,
+                                                "lng": -123.115188
+                                          },
+                                          {
+                                                "lat": 49.28334,
+                                                "lng": -123.115156
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-96",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.28335,
+                                                "lng": -123.115249
+                                          },
+                                          {
+                                                "lat": 49.283328,
+                                                "lng": -123.115281
+                                          },
+                                          {
+                                                "lat": 49.283295,
+                                                "lng": -123.115223
+                                          },
+                                          {
+                                                "lat": 49.283317,
+                                                "lng": -123.11519
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-95",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283326,
+                                                "lng": -123.115282
+                                          },
+                                          {
+                                                "lat": 49.283305,
+                                                "lng": -123.115315
+                                          },
+                                          {
+                                                "lat": 49.283271,
+                                                "lng": -123.115256
+                                          },
+                                          {
+                                                "lat": 49.283293,
+                                                "lng": -123.115224
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-94",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Accessible Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283298,
+                                                "lng": -123.115324
+                                          },
+                                          {
+                                                "lat": 49.283276,
+                                                "lng": -123.115356
+                                          },
+                                          {
+                                                "lat": 49.283243,
+                                                "lng": -123.115298
+                                          },
+                                          {
+                                                "lat": 49.283264,
+                                                "lng": -123.115265
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-93",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Accessible Parking",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283271,
+                                                "lng": -123.115364
+                                          },
+                                          {
+                                                "lat": 49.283249,
+                                                "lng": -123.115397
+                                          },
+                                          {
+                                                "lat": 49.283216,
+                                                "lng": -123.115338
+                                          },
+                                          {
+                                                "lat": 49.283238,
+                                                "lng": -123.115306
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-110",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283711,
+                                                "lng": -123.115194
+                                          },
+                                          {
+                                                "lat": 49.283675,
+                                                "lng": -123.115248
+                                          },
+                                          {
+                                                "lat": 49.283655,
+                                                "lng": -123.115212
+                                          },
+                                          {
+                                                "lat": 49.283691,
+                                                "lng": -123.115158
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-109",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.28369,
+                                                "lng": -123.115156
+                                          },
+                                          {
+                                                "lat": 49.283654,
+                                                "lng": -123.11521
+                                          },
+                                          {
+                                                "lat": 49.283634,
+                                                "lng": -123.115175
+                                          },
+                                          {
+                                                "lat": 49.283671,
+                                                "lng": -123.115121
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-108",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283669,
+                                                "lng": -123.11512
+                                          },
+                                          {
+                                                "lat": 49.283632,
+                                                "lng": -123.115174
+                                          },
+                                          {
+                                                "lat": 49.283613,
+                                                "lng": -123.115138
+                                          },
+                                          {
+                                                "lat": 49.283649,
+                                                "lng": -123.115084
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-107",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283648,
+                                                "lng": -123.115082
+                                          },
+                                          {
+                                                "lat": 49.283612,
+                                                "lng": -123.115136
+                                          },
+                                          {
+                                                "lat": 49.283592,
+                                                "lng": -123.115101
+                                          },
+                                          {
+                                                "lat": 49.283628,
+                                                "lng": -123.115047
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-106",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283627,
+                                                "lng": -123.115045
+                                          },
+                                          {
+                                                "lat": 49.283591,
+                                                "lng": -123.115099
+                                          },
+                                          {
+                                                "lat": 49.283571,
+                                                "lng": -123.115064
+                                          },
+                                          {
+                                                "lat": 49.283607,
+                                                "lng": -123.11501
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-105",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283606,
+                                                "lng": -123.115007
+                                          },
+                                          {
+                                                "lat": 49.28357,
+                                                "lng": -123.115061
+                                          },
+                                          {
+                                                "lat": 49.28355,
+                                                "lng": -123.115026
+                                          },
+                                          {
+                                                "lat": 49.283586,
+                                                "lng": -123.114972
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-104",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283584,
+                                                "lng": -123.114971
+                                          },
+                                          {
+                                                "lat": 49.283548,
+                                                "lng": -123.115025
+                                          },
+                                          {
+                                                "lat": 49.283528,
+                                                "lng": -123.11499
+                                          },
+                                          {
+                                                "lat": 49.283564,
+                                                "lng": -123.114936
+                                          }
+                                    ]
+                              },
+                              {
+                                    "id": "P2B-103",
+                                    "zone": "P2B",
+                                    "floor": "P2",
+                                    "type": "Small Car",
+                                    "status": "available",
+                                    "coords": [
+                                          {
+                                                "lat": 49.283562,
+                                                "lng": -123.114933
+                                          },
+                                          {
+                                                "lat": 49.283526,
+                                                "lng": -123.114987
+                                          },
+                                          {
+                                                "lat": 49.283506,
+                                                "lng": -123.114952
+                                          },
+                                          {
+                                                "lat": 49.283542,
+                                                "lng": -123.114898
+                                          }
+                                    ]
+                              }
+                        ]
+                  }
+            }
+      }
+};
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 19.5,
+        center: { lat: 49.28335, lng: -123.11535 },
+        mapTypeId: "roadmap"
+      });
+
+      infoWindow = new google.maps.InfoWindow();
+      createControls();
+      createLayers();
+      showFloor("P1");
+    }
+
+    function createControls() {
+      const floorControls = document.getElementById("floorControls");
+      floorControls.innerHTML = "<strong>Floor:</strong>";
+
+      Object.keys(layerData).forEach(floor => {
+        const btn = document.createElement("button");
+        btn.textContent = floor;
+        btn.id = "floor-" + floor;
+        btn.onclick = () => showFloor(floor);
+        floorControls.appendChild(btn);
+      });
+    }
+
+    function createZoneControls(floor) {
+      const zoneControls = document.getElementById("zoneControls");
+      zoneControls.innerHTML = "<strong>Zone:</strong>";
+
+      const allBtn = document.createElement("button");
+      allBtn.textContent = "ALL";
+      allBtn.id = "zone-ALL";
+      allBtn.onclick = () => showZone("ALL");
+      zoneControls.appendChild(allBtn);
+
+      Object.keys(layerData[floor].zones).forEach(zone => {
+        const btn = document.createElement("button");
+        btn.textContent = zone;
+        btn.id = "zone-" + zone;
+        btn.onclick = () => showZone(zone);
+        zoneControls.appendChild(btn);
+      });
+    }
+
+    function createLayers() {
+      Object.keys(layerData).forEach(floor => {
+        layers[floor] = {};
+
+        Object.keys(layerData[floor].zones).forEach(zone => {
+          layers[floor][zone] = layerData[floor].zones[zone].lots.map(lot => {
+            const polygon = new google.maps.Polygon({
+              paths: lot.coords,
+              strokeColor: "#333333",
+              strokeOpacity: 1,
+              strokeWeight: 1,
+              fillColor: getColor(lot.type, lot.status),
+              fillOpacity: 0.75,
+              map: null
+            });
+
+            polygon.meta = {
+              id: lot.id,
+              floor: lot.floor,
+              zone: lot.zone,
+              type: lot.type,
+              status: lot.status,
+              coords: lot.coords
+            };
+
+            polygon.addListener("click", event => {
+              const text =
+                "Parking Lot ID: " + polygon.meta.id + "\n" +
+                "Floor: " + polygon.meta.floor + "\n" +
+                "Zone: " + polygon.meta.zone + "\n" +
+                "Type: " + polygon.meta.type + "\n" +
+                "Status: " + polygon.meta.status;
+
+              document.getElementById("output").textContent = text;
+
+              infoWindow.setContent(
+                "<strong>" + polygon.meta.id + "</strong><br>" +
+                "Floor: " + polygon.meta.floor + "<br>" +
+                "Zone: " + polygon.meta.zone + "<br>" +
+                "Type: " + polygon.meta.type + "<br>" +
+                "Status: " + polygon.meta.status
+              );
+              infoWindow.setPosition(event.latLng);
+              infoWindow.open(map);
+            });
+
+            return polygon;
+          });
+        });
+      });
+    }
+
+    function getColor(type, status) {
+      if (status === "full") return "#e74c3c";
+      if (type.includes("Accessible")) return "#3498db";
+      if (type.includes("EV")) return "#9b59b6";
+      return "#2ecc71";
+    }
+
+    function hideAll() {
+      Object.keys(layers).forEach(floor => {
+        Object.keys(layers[floor]).forEach(zone => {
+          layers[floor][zone].forEach(poly => poly.setMap(null));
+        });
+      });
+    }
+
+    function showFloor(floor) {
+      currentFloor = floor;
+      currentZone = "ALL";
+      createZoneControls(floor);
+      showZone("ALL");
+      setActiveButtons();
+    }
+
+    function showZone(zone) {
+      currentZone = zone;
+      hideAll();
+
+      if (zone === "ALL") {
+        Object.keys(layers[currentFloor]).forEach(z => {
+          layers[currentFloor][z].forEach(poly => poly.setMap(map));
+        });
+      } else {
+        layers[currentFloor][zone].forEach(poly => poly.setMap(map));
+      }
+
+      const count = countVisibleLots();
+      document.getElementById("output").textContent =
+        "Showing: " + currentFloor + " / " + currentZone + "\n" +
+        "Lots: " + count;
+
+      setActiveButtons();
+    }
+
+    function countVisibleLots() {
+      if (currentZone === "ALL") {
+        return Object.values(layers[currentFloor]).reduce((sum, lots) => sum + lots.length, 0);
+      }
+      return layers[currentFloor][currentZone].length;
+    }
+
+    function setActiveButtons() {
+      document.querySelectorAll("button").forEach(btn => btn.classList.remove("active"));
+      const floorBtn = document.getElementById("floor-" + currentFloor);
+      const zoneBtn = document.getElementById("zone-" + currentZone);
+      if (floorBtn) floorBtn.classList.add("active");
+      if (zoneBtn) zoneBtn.classList.add("active");
+    }
+  </script>
+
+  <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAAxoG1moijgPbs_BwZYDSlvGzQHzC_Ino&callback=initMap"></script>
+</body>
+</html>
