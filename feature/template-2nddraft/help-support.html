@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help &amp; Support | BCIT Parking</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-box">BCIT</div>
+        <div class="logo-text">
+          <span class="logo-title">Parking</span>
+          <span class="logo-sub">Downtown Campus</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Find Parking</a>
+        <a href="permits-rates.html" class="nav-link">Permits &amp; Rates</a>
+        <a href="my-reservations.html" class="nav-link">My Reservations</a>
+        <a href="help-support.html" class="nav-link active">Help &amp; Support</a>
+      </nav>
+      <div class="header-right">
+        <a href="#" class="signin-btn" onclick="openSignIn(); return false;"><i class="fa fa-user"></i> Sign In</a>
+        <button class="hamburger" id="hamburger">&#9776;</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Find Parking</a>
+    <a href="permits-rates.html">Permits &amp; Rates</a>
+    <a href="my-reservations.html">My Reservations</a>
+    <a href="help-support.html">Help &amp; Support</a>
+    <a href="#" onclick="openSignIn(); return false;">Sign In</a>
+  </div>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="index.html">Home</a> &rsaquo; Help &amp; Support
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Help &amp; Support</h1>
+    <p>BCIT Downtown Campus &mdash; Parking help, FAQs, and contact information</p>
+  </div>
+
+  <!-- Page content -->
+  <div class="page-content">
+
+    <!-- Contact info boxes -->
+    <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:8px;">
+
+      <div class="contact-box" style="flex:1; min-width:220px;">
+        <h3><i class="fa fa-phone"></i> Phone</h3>
+        <p><strong>604-434-5734</strong><br>Monday – Friday<br>8:00 am – 4:30 pm</p>
+      </div>
+
+      <div class="contact-box" style="flex:1; min-width:220px;">
+        <h3><i class="fa fa-envelope"></i> Email</h3>
+        <p><a href="mailto:parking@bcit.ca"><strong>parking@bcit.ca</strong></a><br>We respond within 1–2 business days.</p>
+      </div>
+
+      <div class="contact-box" style="flex:1; min-width:220px;">
+        <h3><i class="fa fa-location-dot"></i> In Person</h3>
+        <p>555 Seymour Street<br>Vancouver, BC V6B 3H6<br>Monday – Friday, 8:00 am – 4:30 pm</p>
+      </div>
+
+    </div>
+
+    <!-- Contact form -->
+    <h2>Send Us a Message</h2>
+    <p>Fill out the form below and we will get back to you as soon as possible.</p>
+
+    <form onsubmit="submitContact(event)" style="max-width:600px;">
+      <div class="form-row-2">
+        <div class="form-group">
+          <label for="contactFirst">First Name</label>
+          <input type="text" id="contactFirst" placeholder="John" required />
+        </div>
+        <div class="form-group">
+          <label for="contactLast">Last Name</label>
+          <input type="text" id="contactLast" placeholder="Doe" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="contactEmail">Email Address</label>
+        <input type="email" id="contactEmail" placeholder="student@bcit.ca" required />
+      </div>
+      <div class="form-group">
+        <label for="contactSubject">Subject</label>
+        <select id="contactSubject">
+          <option value="">-- Select a topic --</option>
+          <option value="reservation">Reservation Issue</option>
+          <option value="payment">Payment / Billing</option>
+          <option value="permit">Permit Inquiry</option>
+          <option value="ticket">Parking Ticket</option>
+          <option value="ev">EV Charging</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="contactMessage">Message</label>
+        <textarea id="contactMessage" rows="5" placeholder="Describe your issue or question..." required
+          style="width:100%; padding:9px 12px; border:1px solid #ccc; border-radius:4px; font-size:13px; background:#f9f9f9; resize:vertical; font-family:Arial,sans-serif;"></textarea>
+      </div>
+      <button type="submit" class="auth-submit-btn" style="max-width:200px;">Send Message</button>
+    </form>
+
+    <!-- FAQ section -->
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How do I make a parking reservation?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Sign in to your BCIT Parking account, go to <strong>Find Parking</strong>, select an available lot, and click <strong>Reserve a Spot</strong>. Choose your date and time, confirm your vehicle details, and complete payment. You will receive a confirmation email.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How do I cancel a reservation?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Go to <strong>My Reservations</strong>, find the booking you want to cancel, and click the <strong>Cancel</strong> button. Cancellations made more than 2 hours before the reservation start time are fully refunded. Cancellations within 2 hours may be subject to a $2.00 fee.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        What payment methods are accepted?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        We accept Visa, Mastercard, American Express, and debit cards. Cash is accepted at the parking office in person only. The BCIT Parking app also supports Apple Pay and Google Pay.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        I got a parking ticket. What do I do?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Parking tickets can be paid online through your account or in person at the Parking Office. If you believe the ticket was issued in error, you can submit a dispute within 14 days of the issue date. Contact us at <a href="mailto:parking@bcit.ca">parking@bcit.ca</a> with your ticket number and a brief explanation.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Can I extend my reservation while I'm parked?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Yes! If spots are still available, you can extend your reservation through the app or website up to 30 minutes before your current booking ends. Go to <strong>My Reservations &rarr; Active &rarr; Edit</strong> to extend your time.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        Is there accessible parking available?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Yes. Accessible parking stalls are available in all BCIT Downtown Campus parking areas. A valid provincial accessible parking placard must be displayed. Please register your placard with the Parking Office to receive your free accessible permit.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        How does real-time availability work?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Our system uses sensor data from each parking stall to detect occupancy in real time. The map on the <strong>Find Parking</strong> page updates every 30 seconds. Green means available, yellow means limited (fewer than 5 spots), and red means full.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        I forgot my password. How do I reset it?
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">
+        Click <strong>Sign In</strong> and then <strong>Forgot password?</strong>. Enter your registered email address and we will send you a password reset link. The link expires after 24 hours. If you don't receive the email, check your spam folder or contact us.
+      </div>
+    </div>
+
+  </div><!-- end page-content -->
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <div class="footer-logo-box">BCIT</div>
+        <p>3700 Willingdon Ave.<br>Burnaby, British Columbia<br>Canada V5G 3H2</p>
+        <p>604-434-5734<br>1-866-434-1610</p>
+      </div>
+      <div class="footer-links">
+        <p><strong>QUICK LINKS</strong></p>
+        <a href="#">Visit</a>
+        <a href="#">Apply Now</a>
+        <a href="#">Give</a>
+        <a href="#">News</a>
+        <a href="#">Events</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="footer-links">
+        <p><strong>BCIT CAMPUSES</strong></p>
+        <a href="#">Burnaby Campus</a>
+        <a href="#">Downtown Campus</a>
+        <a href="#">Marine Campus</a>
+        <a href="#">Aerospace Technology Campus</a>
+        <a href="#">Annacis Island Campus</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <a href="#">Copyright</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Accessibility</a>
+    </div>
+  </footer>
+
+  <!-- Sign In Modal -->
+  <div class="modal-overlay" id="signinOverlay" onclick="closeSignIn()" style="display:none;">
+    <div class="modal-box auth-box" onclick="event.stopPropagation()">
+      <div class="auth-header">
+        <h2>Sign In</h2>
+        <button class="modal-close" onclick="closeSignIn()">&times;</button>
+      </div>
+      <p class="auth-sub">Sign in to your BCIT Parking account</p>
+      <form onsubmit="handleSignIn(event)">
+        <div class="form-group">
+          <label for="signinEmail">Email Address</label>
+          <input type="email" id="signinEmail" placeholder="student@bcit.ca" required />
+        </div>
+        <div class="form-group">
+          <label for="signinPassword">Password</label>
+          <input type="password" id="signinPassword" placeholder="Enter your password" required />
+        </div>
+        <div class="form-row">
+          <label class="checkbox-label"><input type="checkbox" /> Remember me</label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+        <button type="submit" class="auth-submit-btn">Sign In</button>
+      </form>
+      <div class="auth-divider"><span>or</span></div>
+      <p class="auth-switch">Don't have an account? <a href="#" onclick="switchToRegister()">Register here</a></p>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal-overlay" id="registerOverlay" onclick="closeRegister()" style="display:none;">
+    <div class="modal-box auth-box" onclick="event.stopPropagation()">
+      <div class="auth-header">
+        <h2>Create Account</h2>
+        <button class="modal-close" onclick="closeRegister()">&times;</button>
+      </div>
+      <p class="auth-sub">Register for a BCIT Parking account</p>
+      <form onsubmit="handleRegister(event)">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="regFirstName">First Name</label>
+            <input type="text" id="regFirstName" placeholder="John" required />
+          </div>
+          <div class="form-group">
+            <label for="regLastName">Last Name</label>
+            <input type="text" id="regLastName" placeholder="Doe" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email Address</label>
+          <input type="email" id="regEmail" placeholder="student@bcit.ca" required />
+        </div>
+        <div class="form-group">
+          <label for="regStudent">Student / Employee ID</label>
+          <input type="text" id="regStudent" placeholder="A00123456" required />
+        </div>
+        <div class="form-group">
+          <label for="regRole">Role</label>
+          <select id="regRole">
+            <option value="">-- Select role --</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="staff">Staff</option>
+            <option value="visitor">Visitor</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" placeholder="Create a password" required />
+        </div>
+        <div class="form-group">
+          <label for="regConfirm">Confirm Password</label>
+          <input type="password" id="regConfirm" placeholder="Repeat your password" required />
+        </div>
+        <div class="form-group">
+          <label class="checkbox-label"><input type="checkbox" required /> I agree to the <a href="#">Terms &amp; Conditions</a></label>
+        </div>
+        <button type="submit" class="auth-submit-btn">Create Account</button>
+      </form>
+      <div class="auth-divider"><span>or</span></div>
+      <p class="auth-switch">Already have an account? <a href="#" onclick="switchToSignIn()">Sign in here</a></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    function submitContact(e) {
+      e.preventDefault();
+      // TODO: connect to backend API
+      alert('Message sent! We will get back to you within 1-2 business days. (placeholder)');
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
