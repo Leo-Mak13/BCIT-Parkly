@@ -15,13 +15,13 @@ const pool = mysql
     })
     .promise();
 
-// get ALL customers
+// get ALL customers (returns an array of customer objects)
 async function get_customers() {
     const [output] = await pool.query("SELECT * FROM customers");
     return output;
 }
 
-// get and individual customer matching ID number
+// get and individual customer matching ID number (returns dict?)
 async function get_customer(id: number) {
     const [output] = await pool.query(
         `
@@ -34,6 +34,7 @@ async function get_customer(id: number) {
     return output;
 }
 
+// creates and returns info of new customer (returns dict?)
 async function create_customer(
     customerName: string,
     email: string,
