@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>BCIT DTC Map</title>
+    <title>BCIT Parkly</title>
 
     <link rel="stylesheet" type="text/css" href="main.css" />
     <script type="module" src="map.js"></script>
@@ -42,12 +42,51 @@
       })({ key: "AIzaSyAAxoG1moijgPbs_BwZYDSlvGzQHzC_Ino", v: "weekly" });
     </script>
   </head>
+
   <body>
-    <!-- The map, centered at BCT DTC -->
-    <gmp-map center="49.2835,-123.1153" zoom="19.3" map-id="dtc-map-id">
-      <div id="controls" slot="control-inline-start-block-start">
-        <h3>BCIT Downtown Campus</h3>
+    <!-- The top header box -->
+    <header>
+      <img src="img/bcit-logo.png" alt="BCIT Logo">
+
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
       </div>
-    </gmp-map>
+
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/permits">Permits & Rates</a>
+        <a href="/reservations">My Reservations</a>
+        <a href="/help">Help & Support</a>
+      </div>
+    </header>
+
+    <!-- The Main Body Wrapper (Row) -->
+    <div style="display: flex; height: calc(100vh - 60px); overflow: hidden;">
+    
+    <!-- Sidebar Box (Left) -->
+    <aside id="sidebar" style="width: 350px; background: #f8f9fa; border-right: 1px solid #ddd; overflow-y: auto;">
+      <div style="padding: 15px; background: #002147; color: white;">PARKING LOT LIST</div>
+      
+      <!-- This is where your Back-end logic will eventually "loop" through parking data -->
+      <div id="parking-list" style="padding: 10px;">
+        <div style="background: white; padding: 15px; margin-bottom: 10px; border-left: 5px solid #003366; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+          <strong>North Parkade</strong>
+          <p style="font-size: 0.8em; color: #666;">555 Seymour Street</p>
+          <span style="color: green; font-weight: bold;">● Available</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- The map, centered at BCT DTC -->
+    <main style="flex: 1; position: relative">
+      <gmp-map center="49.2835,-123.1153" zoom="19.3" map-id="dtc-map-id">
+        <div id="controls" slot="control-inline-start-block-start">
+          <h3>BCIT Downtown Campus</h3>
+        </div>
+      </gmp-map>
+    </main>
   </body>
 </html>
