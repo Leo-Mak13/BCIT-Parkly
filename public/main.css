@@ -1,4 +1,4 @@
-/* --- Map Styles ---*/
+/* --- Main find parking page styles ---*/
 
 html,
 body {
@@ -6,17 +6,20 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/*Header tabs*/
+/* --- HEADER BAR ---*/
 header {
   background-color: #003366;
   color: white;
   display: flex;
   align-items: stretch;
   padding: 0 20px 0 25px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   height: 60px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  position: relative;
 }
 
 /*BCIT logo*/
@@ -58,6 +61,7 @@ header h6 {
   gap: 20px;
 }
 
+/*Tab links in header (Find Parking, My Reservations, ...)*/
 .header-tabs a {
   display: flex;
   align-items: center;
@@ -76,6 +80,43 @@ header h6 {
 .header-tabs a:hover {
   opacity: 1;
   border-bottom: 3px solid white;
+}
+
+/*--- BREADCRUM BAR ---*/
+/*The white breadcrum bar under the main blue header bar*/
+.breadcrumb-bar {
+  background-color: white;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 25px;
+  margin: 0px 10px;
+}
+
+.subheading {
+  display: flex;
+  align-items: left;
+  font-size: 12px;
+}
+
+.subheading span {
+  opacity: 0.7;
+}
+
+/*The seperator between the current page link and name*/
+.subheading .seperator {
+  padding: 0 5px 0 5px;
+}
+
+/*The current page link*/
+.subheading a {
+  text-decoration: none;
+  color: #003366;
+}
+
+/*When hovering over the current page link*/
+.subheading a:hover {
+  text-decoration: underline;
 }
 
 /* BCIT DTC Map */
