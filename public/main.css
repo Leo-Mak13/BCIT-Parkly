@@ -5,8 +5,17 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  /* Allow vertical scrolling so we can reach the footer */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+main {
+  position: relative;
+  /* Ensure map fills its flex container */
+  flex: 1;
 }
 
 /* --- HEADER BAR ---*/
@@ -15,11 +24,12 @@ header {
   color: white;
   display: flex;
   align-items: stretch;
-  padding: 0 1.5rem 0 1.5rem;
+  padding: 0 1.5rem;
   height: 60px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
   position: relative;
+  flex-shrink: 0;
 }
 
 /*BCIT logo*/
@@ -90,10 +100,11 @@ header h6 {
   border: rgb(171, 171, 171) 1px solid;
   align-self: center;
   margin-left: auto;
-  padding: 8px 10px 8px 10px;
+  padding: 8px 10px;
   align-items: center;
   font-size: 14px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 /*When hovering over the sign in button*/
@@ -109,7 +120,8 @@ header h6 {
   height: 35px;
   display: flex;
   align-items: center;
-  padding: 0 1.5rem 0 1.5rem;
+  padding: 0 1.5rem;
+  flex-shrink: 0;
 }
 
 .subheading {
@@ -141,18 +153,21 @@ header h6 {
 /*Main div body wrapper for the app*/
 .app-container {
   display: flex;
-  height: calc(100vh - 95px);
-  overflow: hidden;
+  flex-direction: row;
+  /* This ensures the map area fills the screen height minus header/breadcrumb */
+  min-height: calc(100vh - 95px);
+  flex-shrink: 0;
+  width: 100%;
 }
 
 /*--- SIDEBAR ---*/
 .sidebar {
-  flex: 0 0 350px;
-  max-width: 25vw;
-  min-width: 300px;
+  width: 350px; /* Fixed width for standard desktop */
+  max-width: 30vw; /* Responsive limit */
   background: #f8f9fa;
   border-right: 1px solid #ddd;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar-header {
@@ -161,8 +176,6 @@ header h6 {
   justify-content: space-between;
   align-items: center;
   padding: 10px 15px;
-  height: auto;
-  min-height: 10px;
   background: #003366;
   color: white;
 }
@@ -186,7 +199,7 @@ header h6 {
 .sidebar-header h3 {
   margin: 0;
   padding-left: 10px;
-  font-size: 18px;
+  font-size: 1.1rem;
 }
 
 /*--- PARKING LOTS LIST ---*/
@@ -194,6 +207,8 @@ header h6 {
 .parking-list {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
 }
 
 /*--- INDIVIDUAL LOT CARD ---*/
@@ -354,37 +369,31 @@ ul {
 /* The container holding the search bar and buttons */
 .map-controls {
   position: absolute;
-  top: 5px;
-  right: 60px;
+  top: 15px;
+  right: 15px;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   z-index: 5;
 }
 
 /*Search bar*/
 .map-search-bar {
-  width: 200px;
+  width: 250px;
   display: flex;
   align-items: center;
-  padding: 8px;
+  background: white;
   border-radius: 4px;
-  z-index: 5;
-  height: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .map-search-bar input {
-  border-radius: 4px;
-  border: 1px rgb(183, 177, 177) solid;
-  padding: 5px 10px 5px 10px;
+  border: none;
+  padding: 8px 12px;
   outline: none;
   width: 100%;
-  margin-left: 10px;
+  border-radius: 4px;
   font-size: 14px;
-}
-
-.map-search-bar i {
-  color: #003366;
 }
 
 /*Reset & filter buttons*/
@@ -394,13 +403,11 @@ ul {
   border-radius: 5px;
   border: none;
   margin: 0;
-  align-self: center;
-  padding: 6px 15px 6px 15px;
-  align-items: center;
+  padding: 8px 15px;
   font-size: 14px;
   font-weight: bold;
-  white-space: nowrap;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .reset-btn {
@@ -411,21 +418,115 @@ ul {
   background-color: #0a7ae9;
 }
 
-.reset-btn:hover,
-.filter-btn:hover {
-  transition: 0.5s ease;
-}
-
 .reset-btn:hover {
   background-color: #114a82;
 }
-
 .filter-btn:hover {
   background-color: #0558ab;
 }
 
 /* BCIT DTC Map */
 gmp-map {
-  flex-grow: 1;
+  flex: 1;
   height: 100%;
+  width: 100%;
+}
+
+/*--- THE FOOTER SECTION ---*/
+footer {
+  background-color: #003366;
+  color: white;
+  width: 100%;
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
+}
+
+/*Main footer container*/
+.footer-container {
+  max-width: 1300px;
+  max-height: 250px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 60px;
+  padding: 40px 20px;
+}
+
+/*Individual footer column*/
+.footer-col {
+  flex: 1;
+  min-width: 200px;
+}
+
+/*BCIT logo*/
+.footer-logo img {
+  height: 80px;
+  background-color: white;
+  margin-bottom: 20px;
+}
+
+/*Footer headers*/
+.footer-col h4 {
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/*Footer column body paragraphs*/
+.footer-col p {
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+/*Footer colum list*/
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li {
+  margin-bottom: 8px;
+}
+
+.footer-col ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+/*When hovering over a footer column list item (link)*/
+.footer-col ul li a:hover {
+  text-decoration: underline;
+}
+
+/*Bottom legal bar*/
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px 0;
+}
+
+/*Footer bottom legal links*/
+.footer-bottom-links {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-bottom-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+/*When hovering over footer bottom legal links*/
+.footer-bottom-links a:hover {
+  text-decoration: underline;
 }

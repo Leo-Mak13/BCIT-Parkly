@@ -4,7 +4,10 @@
 
     <link rel="stylesheet" type="text/css" href="main.css" />
     <script type="module" src="map.js"></script>
-    <script src="https://kit.fontawesome.com/39589cb536.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/39589cb536.js"
+      crossorigin="anonymous"
+    ></script>
     <script>
       ((g) => {
         var h,
@@ -47,7 +50,7 @@
   <body>
     <!-- THE TOP HEADER AREA -->
     <header>
-      <img src="img/bcit-logo.png" alt="BCIT Logo">
+      <img src="img/bcit-logo.png" alt="BCIT Logo" />
 
       <!--Header title and subtitle-->
       <div class="header-titles">
@@ -69,7 +72,7 @@
         Sign In
       </button>
     </header>
-    
+
     <!--Breadcrum bar under the header bar-->
     <section class="breadcrumb-bar">
       <div class="subheading">
@@ -82,53 +85,52 @@
 
     <!-- The Main Body Wrapper (Row) -->
     <div class="app-container">
-    
-    <!-- THE SIDE BAR AREA -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h3>Parking Lot List</h3>
+      <!-- THE SIDE BAR AREA -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h3>Parking Lot List</h3>
 
-        <!--Toggle that closes/opens the sidebar-->
-        <button class="sidebar-toggle">
-          <i class="fa-solid fa-caret-left"></i>
-        </button>
-      </div>
-      
-      <!-- Parking lots list -->
-      <div class="parking-list">
-        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER USING A FOR LOOP TO LOOP THRU THE LOTS LIST ❗❗❗-->
-        <!--Individual parking lot card #1-->
-        <div class="lot-card">
-          <!--Header & details button-->
-          <div class="lot-header-btn">
-            <h3>North Parkade</h3>
-            <button>
-              Details
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
+          <!--Toggle that closes/opens the sidebar-->
+          <button class="sidebar-toggle">
+            <i class="fa-solid fa-caret-left"></i>
+          </button>
+        </div>
 
-          <p>555 Seymour Street</p>
-          <p>Vancouver, BC V6B 3H6</p>
-
-          <!--Status pill & number of empty lots-->
-          <div class="status">
-            <p class="status-pill">
-              <i class="fa-solid fa-circle"></i>
-              Available
-            </p>
-            <p class="open-spots">12 spots open</p>
-          </div>
-
-          <!--Schedule table with times and prices-->
-          <div class="schedule-table">
-            <div class="schedule-row">
-              <div class="label">Daytime</div>
-              <div class="details">
-                <p class="time">8:00 AM – 6:00 PM</p>
-                <p class="price">$3.00 / 30 min – Max $25.00</p>
-              </div>
+        <!-- Parking lots list -->
+        <div class="parking-list">
+          <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER USING A FOR LOOP TO LOOP THRU THE LOTS LIST ❗❗❗-->
+          <!--Individual parking lot card #1-->
+          <div class="lot-card">
+            <!--Header & details button-->
+            <div class="lot-header-btn">
+              <h3>North Parkade</h3>
+              <button>
+                Details
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
             </div>
+
+            <p>555 Seymour Street</p>
+            <p>Vancouver, BC V6B 3H6</p>
+
+            <!--Status pill & number of empty lots-->
+            <div class="status">
+              <p class="status-pill">
+                <i class="fa-solid fa-circle"></i>
+                Available
+              </p>
+              <p class="open-spots">12 spots open</p>
+            </div>
+
+            <!--Schedule table with times and prices-->
+            <div class="schedule-table">
+              <div class="schedule-row">
+                <div class="label">Daytime</div>
+                <div class="details">
+                  <p class="time">8:00 AM – 6:00 PM</p>
+                  <p class="price">$3.00 / 30 min – Max $25.00</p>
+                </div>
+              </div>
 
               <div class="schedule-row">
                 <div class="label">Evenings</div>
@@ -144,51 +146,51 @@
                   <p class="price">$2.00 / 30 min – Max $10.00</p>
                 </div>
               </div>
-          </div>
-
-          <!--Valid permits list-->
-          <div class="valid-permits">
-            <h4>Valid Permits</h4>
-            <ul>
-              <li>Student</li>
-              <li>Faculty & Staff</li>
-              <li>Visitor</li>
-            </ul>
-          </div>
-        </div>
-
-         <!--Individual parking lot card #2-->
-        <div class="lot-card">
-          <!--Header & details button-->
-          <div class="lot-header-btn">
-            <h3>North Parkade</h3>
-            <button>
-              Details
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <p>555 Seymour Street</p>
-          <p>Vancouver, BC V6B 3H6</p>
-
-          <!--Status pill & number of empty lots-->
-          <div class="status">
-            <p class="status-pill">
-              <i class="fa-solid fa-circle"></i>
-              Available
-            </p>
-            <p class="open-spots">12 spots open</p>
-          </div>
-
-          <!--Schedule table with times and prices-->
-          <div class="schedule-table">
-            <div class="schedule-row">
-              <div class="label">Daytime</div>
-              <div class="details">
-                <p class="time">8:00 AM – 6:00 PM</p>
-                <p class="price">$3.00 / 30 min – Max $25.00</p>
-              </div>
             </div>
+
+            <!--Valid permits list-->
+            <div class="valid-permits">
+              <h4>Valid Permits</h4>
+              <ul>
+                <li>Student</li>
+                <li>Faculty & Staff</li>
+                <li>Visitor</li>
+              </ul>
+            </div>
+          </div>
+
+          <!--Individual parking lot card #2-->
+          <div class="lot-card">
+            <!--Header & details button-->
+            <div class="lot-header-btn">
+              <h3>North Parkade</h3>
+              <button>
+                Details
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <p>555 Seymour Street</p>
+            <p>Vancouver, BC V6B 3H6</p>
+
+            <!--Status pill & number of empty lots-->
+            <div class="status">
+              <p class="status-pill">
+                <i class="fa-solid fa-circle"></i>
+                Available
+              </p>
+              <p class="open-spots">12 spots open</p>
+            </div>
+
+            <!--Schedule table with times and prices-->
+            <div class="schedule-table">
+              <div class="schedule-row">
+                <div class="label">Daytime</div>
+                <div class="details">
+                  <p class="time">8:00 AM – 6:00 PM</p>
+                  <p class="price">$3.00 / 30 min – Max $25.00</p>
+                </div>
+              </div>
 
               <div class="schedule-row">
                 <div class="label">Evenings</div>
@@ -204,51 +206,51 @@
                   <p class="price">$2.00 / 30 min – Max $10.00</p>
                 </div>
               </div>
-          </div>
-
-          <!--Valid permits list-->
-          <div class="valid-permits">
-            <h4>Valid Permits</h4>
-            <ul>
-              <li>Student</li>
-              <li>Faculty & Staff</li>
-              <li>Visitor</li>
-            </ul>
-          </div>
-        </div>
-
-         <!--Individual parking lot card #3-->
-        <div class="lot-card">
-          <!--Header & details button-->
-          <div class="lot-header-btn">
-            <h3>North Parkade</h3>
-            <button>
-              Details
-              <i class="fa-solid fa-arrow-right"></i>
-            </button>
-          </div>
-
-          <p>555 Seymour Street</p>
-          <p>Vancouver, BC V6B 3H6</p>
-
-          <!--Status pill & number of empty lots-->
-          <div class="status">
-            <p class="status-pill">
-              <i class="fa-solid fa-circle"></i>
-              Available
-            </p>
-            <p class="open-spots">12 spots open</p>
-          </div>
-
-          <!--Schedule table with times and prices-->
-          <div class="schedule-table">
-            <div class="schedule-row">
-              <div class="label">Daytime</div>
-              <div class="details">
-                <p class="time">8:00 AM – 6:00 PM</p>
-                <p class="price">$3.00 / 30 min – Max $25.00</p>
-              </div>
             </div>
+
+            <!--Valid permits list-->
+            <div class="valid-permits">
+              <h4>Valid Permits</h4>
+              <ul>
+                <li>Student</li>
+                <li>Faculty & Staff</li>
+                <li>Visitor</li>
+              </ul>
+            </div>
+          </div>
+
+          <!--Individual parking lot card #3-->
+          <div class="lot-card">
+            <!--Header & details button-->
+            <div class="lot-header-btn">
+              <h3>North Parkade</h3>
+              <button>
+                Details
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <p>555 Seymour Street</p>
+            <p>Vancouver, BC V6B 3H6</p>
+
+            <!--Status pill & number of empty lots-->
+            <div class="status">
+              <p class="status-pill">
+                <i class="fa-solid fa-circle"></i>
+                Available
+              </p>
+              <p class="open-spots">12 spots open</p>
+            </div>
+
+            <!--Schedule table with times and prices-->
+            <div class="schedule-table">
+              <div class="schedule-row">
+                <div class="label">Daytime</div>
+                <div class="details">
+                  <p class="time">8:00 AM – 6:00 PM</p>
+                  <p class="price">$3.00 / 30 min – Max $25.00</p>
+                </div>
+              </div>
 
               <div class="schedule-row">
                 <div class="label">Evenings</div>
@@ -264,44 +266,104 @@
                   <p class="price">$2.00 / 30 min – Max $10.00</p>
                 </div>
               </div>
-          </div>
+            </div>
 
-          <!--Valid permits list-->
-          <div class="valid-permits">
-            <h4>Valid Permits</h4>
-            <ul>
-              <li>Student</li>
-              <li>Faculty & Staff</li>
-              <li>Visitor</li>
-            </ul>
+            <!--Valid permits list-->
+            <div class="valid-permits">
+              <h4>Valid Permits</h4>
+              <ul>
+                <li>Student</li>
+                <li>Faculty & Staff</li>
+                <li>Visitor</li>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
-    </aside>
+      </aside>
 
-    <!-- THE MAP AREA -->
-    <main style="flex: 1; position: relative">
-      <div class="map-controls">
-        <!--Search bar-->
-        <div class="map-search-bar">
-          <input type="text" placeholder="Search for a spot at DTC">
+      <!-- THE MAP AREA -->
+      <main style="flex: 1; position: relative">
+        <div class="map-controls">
+          <!--Search bar-->
+          <div class="map-search-bar">
+            <input type="text" placeholder="Search for a spot at DTC" />
+          </div>
+
+          <!--Reset & filter buttons next to the search bar-->
+          <button class="reset-btn">
+            Reset
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+
+          <button class="filter-btn">
+            Filter
+            <i class="fa-solid fa-sliders"></i>
+          </button>
         </div>
 
-        <!--Reset & filter buttons next to the search bar-->
-        <button class="reset-btn">
-          Reset
-          <i class="fa-solid fa-arrows-rotate"></i>
-        </button>
+        <!-- The map, centered at BCIT DTC -->
+        <gmp-map center="49.2835,-123.1153" zoom="19.3" map-id="dtc-map-id">
+        </gmp-map>
+      </main>
+    </div>
 
-        <button class="filter-btn">
-          Filter
-          <i class="fa-solid fa-sliders"></i>
-        </button>
+    <!--THE FOOTER SECTION-->
+    <footer>
+      <div class="footer-container">
+        <!-- Logo and address column -->
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="img/bcit-logo.png" alt="BCIT Logo" />
+          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
+        </div>
+
+        <!-- Quick links column -->
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <!-- Campuses column -->
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
       </div>
 
-      <!-- The map, centered at BCIT DTC -->
-      <gmp-map center="49.2835,-123.1153" zoom="19.3" map-id="dtc-map-id">
-      </gmp-map>
-    </main>
+      <!-- Bottom legal Bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
