@@ -282,6 +282,7 @@ header h6 {
   color: rgb(1, 78, 1);
   background-color: rgb(188, 246, 188);
   font-size: 0.7rem;
+  border: 1px rgb(19, 186, 19) solid;
   border-radius: 10px;
   padding: 3px 7px;
   font-weight: bold;
