@@ -15,7 +15,7 @@ header {
   color: white;
   display: flex;
   align-items: stretch;
-  padding: 0 20px 0 25px;
+  padding: 0 1.5rem 0 1.5rem;
   height: 60px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
@@ -36,14 +36,14 @@ header img {
   flex-direction: column;
   justify-content: center;
   gap: 2px;
-  margin-right: 40px;
+  margin-right: 2.5rem;
 }
 
 /*BCIT Parkly title*/
 header h2 {
   margin: 0;
-  font-size: 16px;
-  margin-right: 40px;
+  font-size: 1.1rem;
+  margin-right: 2.5rem;
   white-space: nowrap;
 }
 
@@ -58,7 +58,7 @@ header h6 {
 .header-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
 /*Tab links in header (Find Parking, My Reservations, ...)*/
@@ -68,9 +68,9 @@ header h6 {
   justify-content: center;
   color: white;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 0.8rem;
   font-weight: bold;
-  padding: 5px 0;
+  padding: 0 5px;
   opacity: 0.7;
   transition: border-bottom 0.2s ease;
   border-bottom: 3px solid transparent;
@@ -86,17 +86,16 @@ header h6 {
 /*The white breadcrum bar under the main blue header bar*/
 .breadcrumb-bar {
   background-color: white;
-  height: 30px;
+  height: 35px;
   display: flex;
   align-items: center;
-  padding: 0 20px 0 25px;
-  margin: 0px 10px;
+  padding: 0 1.5rem 0 1.5rem;
 }
 
 .subheading {
   display: flex;
-  align-items: left;
-  font-size: 12px;
+  align-items: center;
+  font-size: 0.75rem;
 }
 
 .subheading span {
@@ -105,7 +104,7 @@ header h6 {
 
 /*The seperator between the current page link and name*/
 .subheading .seperator {
-  padding: 0 5px 0 5px;
+  padding: 0 8px;
 }
 
 /*The current page link*/
@@ -119,8 +118,195 @@ header h6 {
   text-decoration: underline;
 }
 
+/*Main div body wrapper for the app*/
+.app-container {
+  display: flex;
+  height: calc(100vh - 95px);
+  overflow: hidden;
+}
+
+/*--- SIDEBAR ---*/
+.sidebar {
+  flex: 0 0 350px;
+  max-width: 25vw;
+  min-width: 300px;
+  background: #f8f9fa;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+/*Sidebar header ("Parking Lot List")*/
+.sidebar-header {
+  padding: 15px;
+  height: auto;
+  min-height: 10px;
+  background: #003366;
+  color: white;
+}
+
+/*--- PARKING LOTS LIST ---*/
+/*Parking lots list*/
+.parking-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/*--- INDIVIDUAL LOT CARD ---*/
+/*Individual parking lot card*/
+.lot-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.lot-header-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/*Lot header button ("Details")*/
+.lot-header-btn button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: auto;
+  min-width: 6rem;
+  background-color: #0e6ac5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-size: 0.75rem;
+}
+
+/*When hovering over the lot header button*/
+.lot-header-btn button:hover {
+  background-color: #0a549e;
+}
+
+.lot-card h3,
+.lot-card p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/*Lot card header (lot's name)*/
+.lot-card h3 {
+  font-size: 0.9rem;
+  color: #003366;
+  margin-bottom: 2px;
+}
+
+/*Lot card body (lot's address)*/
+.lot-card p {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+/*Lot card status and open slots*/
+.status {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5rem 0 0.6rem 0;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/*Lot Status pill (Available, Limited, Full)*/
+.status .status-pill {
+  color: rgb(1, 78, 1);
+  background-color: rgb(188, 246, 188);
+  font-size: 0.7rem;
+  border-radius: 10px;
+  padding: 3px 7px;
+  font-weight: bold;
+}
+
+/*Open slots text next to the status pill*/
+.status .open-spots {
+  font-size: 0.75rem;
+  color: black;
+  opacity: 0.7;
+  font-weight: normal;
+}
+
+/*--- LOT CARD SCHEDULE ---*/
+.schedule-table {
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+/*Schedule row*/
+.schedule-row {
+  display: flex;
+  flex-direction: row;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+/*Remove the underline after the last item in the schedule table*/
+.schedule-row:last-child {
+  border-bottom: none;
+}
+
+/*Label*/
+.schedule-row .label {
+  color: black;
+  opacity: 0.7;
+  font-weight: bold;
+  font-size: 0.8rem;
+  width: 5.5rem;
+  flex-shrink: 0;
+}
+
+/*Label detials (time & price)*/
+.schedule-row .details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-grow: 1;
+}
+
+/*Price*/
+.schedule-row .price {
+  color: #003366;
+  opacity: 1;
+  font-weight: bold;
+}
+
+/*Valid permits list*/
+.valid-permits h4,
+ul {
+  margin: 0;
+  padding: 0;
+  color: black;
+  opacity: 0.7;
+}
+
+/*Valid permits header*/
+.valid-permits h4 {
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/*Valid permits list*/
+.valid-permits ul {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  padding: 2px 0 0 15px;
+}
+
 /* BCIT DTC Map */
 gmp-map {
+  flex-grow: 1;
   height: 100%;
-  width: 100%;
 }
