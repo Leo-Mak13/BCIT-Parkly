@@ -1,16 +1,18 @@
+## Project Structure
+
 ```txt
 BCIT-Parkly/
 ├── public/               # Browser-side files (The "Front-end")
-│   ├── main.css          # General styles (Map height, reset)
-│   ├── sidebar.css       # UBC-style sidebar & card styles (New!)
-│   ├── map.ts            # Google Maps logic & Sidebar toggle logic
-│   └── map.js            # Compiled JS (The file the browser actually reads)
+│   ├── img/              # Images & logos
+│   ├── main.css          # General styles for the main page
+│   ├── map.ts            # Google maps logic & sidebar toggle logic
+│   └── map.js            # Compiled JS (the file the browser actually reads)
 │
 ├── src/                  # Server-side files (The "Back-end")
-│   └── main.ts           # Express server setup & routes
+│   └── main.ts           # Express server setup
 │
 ├── views/                # HTML Templates
-│   └── main.ejs          # Your main page structure (Map + Sidebar HTML)
+│   └── main.ejs          # Homepage structure
 │
 ├── package.json
 ├── tsconfig.json

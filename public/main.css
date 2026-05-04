@@ -5,7 +5,6 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  /* Allow vertical scrolling so we can reach the footer */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -14,7 +13,6 @@ body {
 
 main {
   position: relative;
-  /* Ensure map fills its flex container */
   flex: 1;
 }
 
@@ -154,7 +152,6 @@ header h6 {
 .app-container {
   display: flex;
   flex-direction: row;
-  /* This ensures the map area fills the screen height minus header/breadcrumb */
   min-height: calc(100vh - 95px);
   flex-shrink: 0;
   width: 100%;
@@ -162,8 +159,8 @@ header h6 {
 
 /*--- SIDEBAR ---*/
 .sidebar {
-  width: 350px; /* Fixed width for standard desktop */
-  max-width: 30vw; /* Responsive limit */
+  width: 350px;
+  max-width: 30vw;
   background: #f8f9fa;
   border-right: 1px solid #ddd;
   display: flex;
@@ -445,13 +442,12 @@ footer {
 /*Main footer container*/
 .footer-container {
   max-width: 1300px;
-  max-height: 250px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 60px;
-  padding: 40px 20px;
+  gap: 30px;
+  padding: 20px 20px;
 }
 
 /*Individual footer column*/
@@ -462,24 +458,24 @@ footer {
 
 /*BCIT logo*/
 .footer-logo img {
-  height: 80px;
+  height: 50px;
   background-color: white;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 /*Footer headers*/
 .footer-col h4 {
   font-size: 13px;
   letter-spacing: 1px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 
 /*Footer column body paragraphs*/
 .footer-col p {
-  line-height: 1.6;
-  margin-bottom: 15px;
-  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  font-size: 13px;
 }
 
 /*Footer colum list*/
@@ -490,13 +486,13 @@ footer {
 }
 
 .footer-col ul li {
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .footer-col ul li a {
   color: white;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 /*When hovering over a footer column list item (link)*/
@@ -507,7 +503,7 @@ footer {
 /*Bottom legal bar*/
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 20px 0;
+  padding: 15px 0;
 }
 
 /*Footer bottom legal links*/
@@ -523,10 +519,86 @@ footer {
 .footer-bottom-links a {
   color: white;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 /*When hovering over footer bottom legal links*/
 .footer-bottom-links a:hover {
   text-decoration: underline;
+}
+
+/*--- MEDIA QUERIES ---*/
+/* Responsive Overrides */
+@media (max-width: 1024px) {
+  .header-titles {
+    margin-right: 1rem;
+  }
+  .header-tabs {
+    gap: 1rem;
+  }
+  .sidebar {
+    width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+  }
+  .header-titles {
+    margin-right: 0;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .header-tabs {
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .header-tabs a {
+    height: 40px;
+  }
+  .sign-in-btn {
+    margin: 0 auto;
+  }
+  .app-container {
+    flex-direction: column;
+    height: auto;
+  }
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    height: 400px;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+  main {
+    height: 400px;
+  }
+  .map-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: calc(100% - 30px);
+  }
+  .map-search-bar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  header h2 {
+    font-size: 1rem;
+  }
+  .header-tabs a {
+    font-size: 0.7rem;
+  }
+  .footer-container {
+    gap: 20px;
+  }
+  .footer-col {
+    min-width: 100%;
+  }
 }
