@@ -51,7 +51,7 @@ CREATE TABLE
         lot_id INT NOT NULL,
         valid_permits VARCHAR(20) NOT NULL CHECK (valid_permits IN ('staff', 'student', 'public')),
         PRIMARY KEY (lot_id, valid_permits),
-        FOREIGN KEY (lot_id) REFERENCES parking_lot (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -62,7 +62,7 @@ CREATE TABLE
             parking_type IN ('regular', 'electric', 'small', 'handicap')
         ),
         lot_id INT,
-        FOREIGN KEY (lot_id) REFERENCES parking_lot (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -76,8 +76,8 @@ CREATE TABLE
         stall_id INT,
         customer_id INT,
         FOREIGN KEY (customer_id) REFERENCES customers (customer_id) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (lot_id) REFERENCES parking_lot (lot_id) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (stall_id) REFERENCES parking_stall (stall_id) ON DELETE CASCADE ON UPDATE CASCADE
+        FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (stall_id) REFERENCES parking_stalls (stall_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 INSERT INTO
@@ -87,7 +87,7 @@ VALUES
     ('chris', 'cgoat@dsdf', '6767', 'staff');
 
 INSERT INTO
-    parking_lot (
+    parking_lots (
         lot_floor,
         lot_type,
         lot_capacity,
@@ -111,7 +111,7 @@ VALUES
     (2, 'student');
 
 INSERT INTO
-    parking_stall (occupied, parking_type, lot_id)
+    parking_stalls (occupied, parking_type, lot_id)
 VALUES
     (FALSE, 'regular', 1),
     (FALSE, 'electric', 1),
