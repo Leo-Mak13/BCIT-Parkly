@@ -4,13 +4,13 @@ USE `bcit_parkly`;
 
 DROP TABLE IF EXISTS `reservations`;
 
-DROP TABLE IF EXISTS `parking_stall`;
+DROP TABLE IF EXISTS `parking_stalls`;
 
 DROP TABLE IF EXISTS `customers`;
 
 DROP TABLE IF EXISTS `parking_lot_valid_permits`;
 
-DROP TABLE IF EXISTS `parking_lot`;
+DROP TABLE IF EXISTS `parking_lots`;
 
 -- CREATE TABLE
 --     parking_lots (
@@ -41,9 +41,9 @@ CREATE TABLE
         lot_floor VARCHAR(10) NOT NULL UNIQUE,
         lot_type TEXT NOT NULL CHECK (lot_type IN ('staff', 'student', 'public')),
         lot_capacity INT NOT NULL,
-        daytime_rate DECIMAL NOT NULL,
-        evening_rate DECIMAL NOT NULL,
-        weekend_rate DECIMAL NOT NULL
+        daytime_rate DECIMAL(10, 2) NOT NULL,
+        evening_rate DECIMAL(10, 2) NOT NULL,
+        weekend_rate DECIMAL(10, 2) NOT NULL
     );
 
 CREATE TABLE
