@@ -1,14 +1,10 @@
 import mysql from "mysql2";
-import dotenv from "dotenv";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: resolve(__dirname, "../.env") });
+import "dotenv/config";
 
 const pool = mysql
     .createPool({
         host: process.env.MYSQL_HOST || "localhost",
+        port: Number(process.env.MYSQL_PORT) || 2911,
         user: process.env.MYSQL_USER || "root",
         password: process.env.MYSQL_PASSWORD || "",
         database: process.env.MYSQL_DATABASE || "bcit_parkly",
@@ -81,8 +77,4 @@ async function main() {
 
 // main();
 
-export {
-    get_customers, 
-    get_customer, 
-    create_customer
-}
+export { get_customers, get_customer, create_customer };
