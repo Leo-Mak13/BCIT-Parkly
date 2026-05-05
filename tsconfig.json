@@ -3,7 +3,7 @@
   "compilerOptions": {
     // File Layout
     "rootDir": "./",
-    "outDir": "./public", // put the compiled JS file here
+    "outDir": "./public/js", // put the compiled JS file here
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module

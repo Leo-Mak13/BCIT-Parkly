@@ -3,7 +3,7 @@ import {
   get_customers,
   get_customer,
   create_customer,
-} from "../database/database.js";
+} from "../database/database.ts";
 
 const PORT: number = 5000;
 const app = express();
