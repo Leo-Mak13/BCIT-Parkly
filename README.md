@@ -2,19 +2,55 @@
 
 ```txt
 BCIT-Parkly/
-├── public/               # Browser-side files (The "Front-end")
-│   ├── img/              # Images & logos
-│   ├── main.css          # General styles for the main page
-│   ├── map.ts            # Google maps logic & sidebar toggle logic
-│   └── map.js            # Compiled JS (the file the browser actually reads)
+├── database/
+│   ├── database.ts                 # Connection pool logic (MySQL)
+│   └── schema.sql                  # Table definitions
 │
-├── src/                  # Server-side files (The "Back-end")
-│   └── main.ts           # Express server setup
+├── node_modules/
+|
+├── public/
+│   ├── css/
+│   │   └── main.css
+│   ├── js/
+│   │   ├── map.js
+│   │   └── map.ts
+│   └── img/
+|
+├── src/
+│   ├── index.ts                    # Server entry point (app.listen)
+│   ├── app.ts                      # Express config (middleware, routes setup)
+│   │
+│   ├── controllers/
+│   │   ├── userController.ts       # Login/Signup logic
+│   │   └── parkingController.ts    # Logic for finding/filtering lots
+│   │
+│   ├── models/
+│   │   ├── userModel.ts            # SQL queries for users[cite: 2]
+│   │   └── lotModel.ts             # SQL queries for parking spot availability
+│   │
+│   ├── routes/
+│   │   ├── userRoutes.ts           # /api/users
+│   │   ├── parkingRoutes.ts        # /api/lots
+│   │   └── apiRoutes.ts            # Main router to combine everything
+│   │
+│   ├── middleware/
+│   │   └── authMiddleware.ts       # Checking JWT/Session tokens
+│   │
+│   ├── utils/
+│   │
+│   └── types/
+│       └── index.d.ts
 │
-├── views/                # HTML Templates
-│   └── main.ejs          # Homepage structure
+├── views/
+│   ├── main.ejs
+│   ├── customers.ejs
+│   ├── reservations.ejs
+│   └── login.ejs
 │
+├── .env
+├── .gitignore
+├── package-lock.json
 ├── package.json
-├── tsconfig.json
-└── .gitignore
+├── README.md
+└── tsconfig.json
 ```
