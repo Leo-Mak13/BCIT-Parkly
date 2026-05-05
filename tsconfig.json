@@ -2,8 +2,8 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./public",
-    "outDir": "./public", // put the compiled JS file here
+    "rootDir": "./",
+    "outDir": "./public/js", // put the compiled JS file here
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
