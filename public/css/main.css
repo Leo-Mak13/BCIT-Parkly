@@ -603,3 +603,18 @@ footer {
     min-width: 100%;
   }
 }
+
+/*
+reservation styles
+*/
+.containerReservation {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+}
+.induvidualReservation {
+  padding: 15px;
+  width: 100%;
+}

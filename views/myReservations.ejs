@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BCIT Parkly</title>
+  </head>
+  <body>
+    <h1>Reservations</h1>
+    <div class="allReservations">
+          <% reservations.forEach(reservation => { %>
+                <div class="induvidualReservations">
+                  <div class="infoReservations">
+                    <p><%= reservation.stall_location %></p>
+                    <p><%= reservation.purchase_date %></p>
+                  </div>
+                  <div class="btnReservation">
+                    <a href="/view/<%= reservation.reservation_id %>">View</a>
+                    <a href="/edit/<%= reservation.reservation_id %>">Edit</a>
+                    <a href="/delete/<%= reservation.reservation_id %>">Delete</a>
+                  </div>
+                </div>
+          <% }) %>
+      </div>
+  </body>
+</html>
