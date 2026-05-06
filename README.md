@@ -2,19 +2,63 @@
 
 ```txt
 BCIT-Parkly/
-├── public/               # Browser-side files (The "Front-end")
-│   ├── img/              # Images & logos
-│   ├── main.css          # General styles for the main page
-│   ├── map.ts            # Google maps logic & sidebar toggle logic
-│   └── map.js            # Compiled JS (the file the browser actually reads)
+├── database/                              # Database logic
+│   ├── database.ts                        # Connection pool (MySQL)
+│   └── schema.sql                         # Table definitions
 │
-├── src/                  # Server-side files (The "Back-end")
-│   └── main.ts           # Express server setup
+├── public/                                # Browser-side files
+│   ├── css/                               # Styling
+│   │   └── main.css
+│   ├── js/                                # Compiled JS files for frontend
+│   │   ├── map.js
+│   │   └── map.ts
+│   └── assets/                            # Images & logos
 │
-├── views/                # HTML Templates
-│   └── main.ejs          # Homepage structure
+├── src/
+│   ├── index.ts                           # Server entry point (app.listen)
+│   ├── app.ts                             # Express config (middleware, routes setup)
+│   │
+│   ├── controllers/                       # Handles incoming requests (talks to services)
+│   │   ├── userController.ts
+│   │   ├── reservationController.ts
+│   │   └── lotController.ts
+│   │
+│   ├── models/                            # Database tables (SQL queries)
+│   │   ├── userModel.ts
+│   │   ├── reservationModel.ts
+│   │   └── lotModel.ts
+│   │
+│   ├── routes/                            # API endpoints
+│   │   ├── userRoutes.ts                  # /api/users
+│   │   ├── reservationRoutes.ts           # /api/reservations
+│   │   └── lotRoutes.ts                   # /api/lots
+│   │
+│   ├── services/                          # App business logic (talks to models)
+│   │   ├── userService.ts
+│   │   ├── reservationService.ts
+│   │   └── lotService.ts
+│   │
+│   ├── middleware/                        # Authentication
+│   │   └── authMiddleware.ts
+│   │
+│   ├── utils/                             # Any additional unrelated helper functions
+│   │
+│   └── types/                             # Cutom TS interfaces
+│       ├── core.d.ts
+│       ├── map.d.ts
+│       └── api.d.ts
 │
+├── views/                                 # Rendered dynamic HTML pages
+│   ├── main.ejs
+│   ├── users.ejs
+│   ├── reservations.ejs
+│   ├── lots.ejs
+│   └── login.ejs
+│
+├── .env
+├── .gitignore
+├── package-lock.json
 ├── package.json
-├── tsconfig.json
-└── .gitignore
+├── README.md
+└── tsconfig.json
 ```
