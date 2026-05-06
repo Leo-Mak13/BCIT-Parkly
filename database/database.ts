@@ -1,7 +1,8 @@
 import mysql from "mysql2";
 import "dotenv/config";
 
-const pool = mysql
+
+const pool: any = mysql
     .createPool({
         host: process.env.MYSQL_HOST || "localhost",
         port: Number(process.env.MYSQL_PORT) || 2911,
@@ -93,4 +94,4 @@ async function main() {
 
 // main();
 
-export { get_customers, get_customer, create_customer, create_reservation };
+export { get_customers, get_customer, create_customer, create_reservation, pool };
