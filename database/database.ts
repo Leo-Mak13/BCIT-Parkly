@@ -52,6 +52,18 @@ async function create_customer(
   };
 }
 
+async function create_session(
+  id: string,
+  secret_hash: string,
+  created_at: number,
+) {
+  const [stmt] = await pool.query(
+    `INSERT INTO session (id, secret_hash, created_at)
+    VALUES (?, ?, ?);`,
+    [id, secret_hash, created_at],
+  );
+}
+
 async function main() {
   try {
     const creationConfirmation = await create_customer(
