@@ -30,6 +30,33 @@ async function get_customer(id: number) {
   return output;
 }
 
+async function get_reservations(id: string) {
+  const [output] = await pool.query(
+    `
+        SELECT stall_location, purchase_date FROM reservations
+        WHERE customer_id = ?
+    `,
+    [id],
+  );
+  return output;
+}
+
+async function get_reservation(id: string) {
+  const [output] = await pool.query(
+    `
+        select stall_location, total_cost, purchase_date FROM reservations
+        WHERE reservation_id = ?
+        `,
+    [id],
+  );
+  return output;
+}
+
+async function create_reservation(
+  license_plate: string,
+  stall_location: string,
+) {}
+
 // creates and returns info of new customer (returns dict?)
 async function create_customer(
   customerName: string,
@@ -77,4 +104,10 @@ async function main() {
 
 // main();
 
-export { get_customers, get_customer, create_customer };
+export {
+  get_customers,
+  get_customer,
+  create_customer,
+  get_reservations,
+  get_reservation,
+};

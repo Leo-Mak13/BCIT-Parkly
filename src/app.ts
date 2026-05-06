@@ -4,6 +4,7 @@ import {
   get_customer,
   create_customer,
 } from "../database/database.ts";
+import reserveRoute from "../routes/reserveRoute.js";
 import { EOL } from "os";
 
 const PORT: number = 5000;
@@ -11,6 +12,8 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+
+app.use("/reservations", reserveRoute);
 
 app.get("/", (req, res) => {
   res.render("main");
