@@ -52,6 +52,22 @@ async function create_customer(
     };
 }
 
+//insert reservation into database
+async function create_reservation(
+    license_plate: string,
+    total_cost: number,
+    stall_location: string,
+    lot_id: number,
+    stall_id: number,
+    customer_id: number,
+) {
+    const [result] = await pool.query(
+        `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
+        VALUES(?, ?, ?, ?, ?, ?)`,
+        [license_plate, total_cost, stall_location, lot_id, stall_id, customer_id],
+    );
+}
+
 async function main() {
     try {
         const creationConfirmation = await create_customer(
@@ -77,4 +93,4 @@ async function main() {
 
 // main();
 
-export { get_customers, get_customer, create_customer };
+export { get_customers, get_customer, create_customer, create_reservation };

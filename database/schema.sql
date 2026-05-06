@@ -4,28 +4,18 @@ USE `bcit_parkly`;
 
 DROP TABLE IF EXISTS `reservations`;
 
-DROP TABLE IF EXISTS `parking_stalls`;
+DROP TABLE IF EXISTS `parking_stall_vertices`;
 
-DROP TABLE IF EXISTS `customers`;
+DROP TABLE IF EXISTS `parking_stalls`;
 
 DROP TABLE IF EXISTS `parking_lot_valid_permits`;
 
+DROP TABLE IF EXISTS `parking_lot_schedules`;
+
 DROP TABLE IF EXISTS `parking_lots`;
 
--- CREATE TABLE
---     parking_lots (
---         lot_id VARCHAR(20) PRIMARY KEY,
---         floor_zone VARCHAR(10) NOT NULL,
---         level VARCHAR(5) NOT NULL,
---         zone VARCHAR(5),
---         parking_type VARCHAR(50),
---         status VARCHAR(20) DEFAULT 'available',
---         centroid_lat DECIMAL(10, 7),
---         centroid_lng DECIMAL(10, 7),
---         polygon_wkt TEXT,
---         coordinates_json JSON,
---         polygon GEOMETRY SRID 4326 NULL
---     );
+DROP TABLE IF EXISTS `customers`;
+
 CREATE TABLE
     `customers` (
         customer_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -41,9 +31,25 @@ CREATE TABLE
         lot_floor VARCHAR(10) NOT NULL UNIQUE,
         lot_type TEXT NOT NULL CHECK (lot_type IN ('staff', 'student', 'public')),
         lot_capacity INT NOT NULL,
-        daytime_rate DECIMAL(10, 2) NOT NULL,
-        evening_rate DECIMAL(10, 2) NOT NULL,
-        weekend_rate DECIMAL(10, 2) NOT NULL
+        street VARCHAR(100) NOT NULL,
+        city VARCHAR(50) NOT NULL,
+        province VARCHAR(50) NOT NULL,
+        postal_code VARCHAR(10) NOT NULL,
+        lot_availability TEXT CHECK (
+            lot_availability IN ('available', 'full', 'closed')
+        ),
+        lat DECIMAL(10, 7),
+        lon DECIMAL(10, 7)
+    );
+
+CREATE TABLE
+    `parking_lot_schedules` (
+        schedule_id INT PRIMARY KEY AUTO_INCREMENT,
+        lot_id INT NOT NULL,
+        start_time TIME,
+        end_time TIME,
+        price DECIMAL(10, 2) NOT NULL,
+        FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -61,8 +67,23 @@ CREATE TABLE
         parking_type TEXT NOT NULL CHECK (
             parking_type IN ('regular', 'electric', 'small', 'handicap')
         ),
+        centroid_lat DECIMAL(10, 7),
+        centroid_lng DECIMAL(10, 7),
+        polygon_wkt TEXT,
+        coordinates_json JSON,
+        POLYGON GEOMETRY SRID 4326 NULL,
         lot_id INT,
         FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
+    );
+
+CREATE TABLE
+    `parking_stall_vertices` (
+        vertex_order INT NOT NULL,
+        lat DECIMAL(10, 7) NOT NULL,
+        lng DECIMAL(10, 7) NOT NULL,
+        stall_id INT NOT NULL,
+        PRIMARY KEY (stall_id, vertex_order),
+        FOREIGN KEY (stall_id) REFERENCES parking_stalls (stall_id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -91,14 +112,43 @@ INSERT INTO
         lot_floor,
         lot_type,
         lot_capacity,
-        daytime_rate,
-        evening_rate,
-        weekend_rate
+        street,
+        city,
+        province,
+        postal_code,
+        lot_availability
     )
 VALUES
-    ('P1', 'staff', 100, 5.00, 3.00, 2.00),
-    ('P2', 'student', 150, 4.00, 2.50, 1.50),
-    ('P3', 'public', 200, 6.00, 4.00, 3.00);
+    (
+        'P1',
+        'staff',
+        100,
+        '3700 Willingdon Ave',
+        'Burnaby',
+        'BC',
+        'V5G3H2',
+        'available'
+    ),
+    (
+        'P2',
+        'student',
+        150,
+        '3700 Willingdon Ave',
+        'Burnaby',
+        'BC',
+        'V5G3H2',
+        'available'
+    ),
+    (
+        'P3',
+        'public',
+        200,
+        '3700 Willingdon Ave',
+        'Burnaby',
+        'BC',
+        'V5G3H2',
+        'available'
+    );
 
 INSERT INTO
     parking_lot_valid_permits (lot_id, valid_permits)
