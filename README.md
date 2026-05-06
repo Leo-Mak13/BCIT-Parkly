@@ -13,20 +13,20 @@ BCIT-Parkly/
 │   │   ├── map.js
 │   │   └── map.ts
 │   └── assets/                            # Images & logos
-|
+│
 ├── src/
 │   ├── index.ts                           # Server entry point (app.listen)
 │   ├── app.ts                             # Express config (middleware, routes setup)
 │   │
-│   ├── controllers/                       # Handling incoming requests (talks to services)
-│   │   ├── userController.ts              # Login/Signup logic
-│   │   ├── reservationController.ts       # Login/Signup logic
-│   │   └── lotController.ts               # Logic for finding/filtering lots
+│   ├── controllers/                       # Handles incoming requests (talks to services)
+│   │   ├── userController.ts
+│   │   ├── reservationController.ts
+│   │   └── lotController.ts
 │   │
 │   ├── models/                            # Database tables (SQL queries)
-│   │   ├── userModel.ts                   # for users
-│   │   ├── reservationModel.ts            # for reservations
-│   │   └── lotModel.ts                    # for parking lots
+│   │   ├── userModel.ts
+│   │   ├── reservationModel.ts
+│   │   └── lotModel.ts
 │   │
 │   ├── routes/                            # API endpoints
 │   │   ├── userRoutes.ts                  # /api/users
@@ -37,14 +37,16 @@ BCIT-Parkly/
 │   │   ├── userService.ts
 │   │   ├── reservationService.ts
 │   │   └── lotService.ts
-|   |
+│   │
 │   ├── middleware/                        # Authentication
-│   │   └── authMiddleware.ts              # Checking JWT/Session tokens
+│   │   └── authMiddleware.ts
 │   │
-│   ├── utils/
+│   ├── utils/                             # Any additional unrelated helper functions
 │   │
-│   └── types/
-│       └── user.d.ts
+│   └── types/                             # Cutom TS interfaces
+│       ├── core.d.ts
+│       ├── map.d.ts
+│       └── api.d.ts
 │
 ├── views/                                 # Rendered dynamic HTML pages
 │   ├── main.ejs
