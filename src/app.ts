@@ -5,16 +5,14 @@ import {
   create_customer,
 } from "../database/database.ts";
 import { EOL } from "os";
+import lotRoutes from "./routes/lotRoutes";
 
 const PORT: number = 5000;
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-
-app.get("/", (req, res) => {
-  res.render("main");
-});
+app.use("/", lotRoutes);
 
 app.get("/customers", async (req, res) => {
   const customers = await get_customers();

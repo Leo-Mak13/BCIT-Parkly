@@ -12,21 +12,25 @@ interface Address {
 interface Schedule {
   daytimePrice: number;
   daytimeRate: number;
-  daytimeTime: string;
+  daytimeStartTime: string;
+  daytimeEndTime: string;
   daytimeMaxPrice: number;
   eveningPrice: number;
   eveningRate: number;
-  eveningTime: string;
+  eveningStartTime: string;
+  eveningEndTime: string;
   eveningMaxPrice: number;
   weekendPrice: number;
   weekendRate: number;
-  weekendTime: string;
+  weekendStartTime: string;
+  weekendEndTime: string;
   weekendMaxPrice: number;
   rateUnit: string;
 }
 
 export interface ParkingLot {
   lotId: number;
+  name: string;
   floor: number;
   type: "staff" | "student";
   capacity: number;
@@ -36,6 +40,8 @@ export interface ParkingLot {
   address: Address;
   validPermits: Array<string>;
   description?: string;
+  availability: string | null;
+  openSpots: number;
 }
 
 export interface Stall {

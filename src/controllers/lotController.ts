@@ -1,5 +1,4 @@
-import { get } from "node:http";
-import { getAllLots } from "../services/lotService";
+import { getAllLotsWithAvail } from "../services/lotService";
 import { Request, Response } from "express";
 
 /**
@@ -9,13 +8,13 @@ import { Request, Response } from "express";
  */
 export async function getHomePage(req: Request, res: Response): Promise<void> {
   try {
-    const allLots = await getAllLots();
+    const allLots = await getAllLotsWithAvail();
     res.render("main", { parkingLots: allLots });
   } catch (err) {
     res
       .status(500)
       .send(
-        "Something went wrong! Couldn't get parking lot data from the database",
+        "Something went wrong! Couldn't get parking lot data from the database.",
       );
   }
 }
