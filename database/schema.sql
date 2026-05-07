@@ -148,7 +148,7 @@ INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) 
     ('555 Seymour St', 'Vancouver', 'BC', 'V6B 3H6', 1);
 
 INSERT INTO `parking_lot_schedules` (daytimePrice, daytimeRate, daytime_start_time, daytime_end_time, daytimeMaxPrice, eveningPrice, eveningRate, evening_start_time, evening_end_time, eveningMaxPrice, weekendPrice, weekendRate, weekend_start_time, weekend_end_time, weekendMaxPrice, rate_unit, lot_id) VALUES
-    (5.00, 5.00, '08:00:00', '18:00:00', 25.00, 3.00, 3.00, '18:00:00', '00:00:00', 12.00, 2.50, 2.50, '06:00:00', NULL, 10.00, 'hr', 1);
+    (5.00, 5.00, '08:00:00', '18:00:00', 25.00, 3.00, 3.00, '18:00:00', '00:00:00', 12.00, 2.50, 2.50, '06:00:00', '18:00:00', 10.00, 'hr', 1);
 
 INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
     (1, 'staff'),

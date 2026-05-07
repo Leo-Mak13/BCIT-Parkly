@@ -100,7 +100,7 @@
           <div class="lot-card">
 
             <div class="lot-header-btn">
-              <h3><%= lot.lot_name %></h3>
+              <h3><%= lot.name %></h3>
               <button>
                 Details
                 <i class="fa-solid fa-arrow-right"></i>
@@ -115,13 +115,13 @@
                   <%= lot.address.postalCode %>
             </p>
 
-            <div class="status">
+            <div class="<%= lot.availability.charAt(0).toLowerCase() + lot.availability.slice(1) %>">
               <p class="status-pill">
                 <i class="fa-solid fa-circle"></i>
                  <%= lot.availability %>
               </p>
               <p class="open-spots">
-                <%= lot.capacity %> total spots
+                <%= lot.openSpots %> total spots
               </p>
             </div>
 
@@ -130,11 +130,11 @@
                 <div class="label">Daytime</div>
                 <div class="details">
                   <p class="time">
-                    <%= lot.schedule.daytimeStartTime %> - <%= lot.schedule.daytimeEndTime %>
+                    <%= lot.schedule.daytimeStartTime %> AM – <%= lot.schedule.daytimeEndTime %> PM
                   </p>
                   <p class="price">
-                    $<%= lot.schedule.daytimePrice %> / <%= lot.schedule.daytimeRate %>
-                        <%= lot.schedule.rateUnit %> -
+                    $<%= lot.schedule.daytimePrice.toFixed(2) %> / <%= lot.schedule.daytimeRate %>
+                        <%= lot.schedule.rateUnit %> –
                           Max $<%= lot.schedule.daytimeMaxPrice %>
                   </p>
                 </div>
@@ -144,9 +144,12 @@
                 <div class="label">Evenings</div>
                 <div class="details">
                   <p class="time">
-                    <%= lot.schedule.eveningStartTime %> - <%= lot.schedule.eveningEndTime %>
+                    <%= lot.schedule.eveningStartTime %> AM – <%= lot.schedule.eveningEndTime %> PM
                   </p>
-                  <p class="price">$<%= lot.schedule.eveningPrice %> / <%= lot.schedule.rateUnit %>
+                  <p class="price">
+                    $<%= lot.schedule.eveningPrice.toFixed(2) %> / <%= lot.schedule.eveningRate %>
+                        <%= lot.schedule.rateUnit %> –
+                          Max $<%= lot.schedule.eveningMaxPrice %>
                   </p>
                 </div>
               </div>
@@ -155,9 +158,12 @@
                 <div class="label">Weekends</div>
                 <div class="details">
                   <p class="time">
-                    <%= lot.schedule.weekendStartTime %>AM - <%= lot.schedule.weekendEndTime %>PM
+                    <%= lot.schedule.weekendStartTime %> AM – <%= lot.schedule.weekendEndTime %> PM
                   </p>
-                  <p class="price">$<%= lot.schedule.weekendPrice %> / <%= lot.schedule.rateUnit %>
+                  <p class="price">
+                    $<%= lot.schedule.weekendPrice.toFixed(2) %> / <%= lot.schedule.weekendRate %>
+                        <%= lot.schedule.rateUnit %> –
+                          Max $<%= lot.schedule.weekendMaxPrice %>
                   </p>
                 </div>
               </div>

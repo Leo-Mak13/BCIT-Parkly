@@ -1,14 +1,14 @@
-import { getAllLotsWithAvail } from "../services/lotService";
+import { getLotAvailability } from "../services/lotService";
 import { Request, Response } from "express";
 
 /**
- * @func Renders the homepage.
+ * @func Renders the homepage
  * @params req, res
- * @returns An empty promise.
+ * @returns An empty promise
  */
 export async function getHomePage(req: Request, res: Response): Promise<void> {
   try {
-    const allLots = await getAllLotsWithAvail();
+    const allLots = await getLotAvailability();
     res.render("main", { parkingLots: allLots });
   } catch (err) {
     res

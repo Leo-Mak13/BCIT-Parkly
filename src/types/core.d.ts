@@ -1,5 +1,5 @@
 /**
- * @file Custom interfaces for parking lots and users.
+ * @file Custom interfaces for parking lots and users
  */
 
 interface Address {

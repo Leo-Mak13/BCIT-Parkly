@@ -1,45 +1,36 @@
-import { fetchAllLots } from "../models/lotModel";
+import {
+  mapRowToParkingLot,
+  getNumberOfOccupiedStalls,
+} from "../models/lotModel";
 import { ParkingLot } from "../types/core";
-import { pool } from "../../database/database";
 
 /**
- * @func
- * @params
- * @returns
+ * @func Gets availability and number of open spots for each parking lot
+ * @params Array of ParkingLot data types
+ * @returns A promise with an array of parking lots with the calculated availability and openSpots attributes
  */
-async function getLotAvailability(pLots: ParkingLot[]): Promise<ParkingLot[]> {
-  for (const lot of pLots) {
+export async function getLotAvailability(): Promise<ParkingLot[]> {
+  const lotsMap = await mapRowToParkingLot();
+  const lotsArray = Array.from(lotsMap.values()); // convert map values to an array
+
+  for (const lot of lotsArray) {
     // Get number of stalls that are occupied per lot
-    const [rows] = await pool.query(
-      `SELECT COUNT(*) as count FROM parking_stalls 
-       WHERE occupied = TRUE AND lot_id = ${lot.lotId}`,
-    );
+    const rows = await getNumberOfOccupiedStalls(lotsArray);
 
     const occupiedSpots = rows[0].count;
     const availableSpots = lot.capacity - occupiedSpots;
 
     // Check lot availability based on number of occupied spots
     if (availableSpots == 0) {
-      lot.availability = "full";
+      lot.availability = "Full";
     } else if (availableSpots <= 0.15 * lot.capacity) {
-      lot.availability = "limited";
+      lot.availability = "Limited";
     } else {
-      lot.availability = "available";
+      lot.availability = "Available";
     }
 
     lot.openSpots = availableSpots;
   }
 
-  return pLots;
-}
-
-/**
- * @func
- * @params
- * @returns
- */
-export async function getAllLotsWithAvail(): Promise<ParkingLot[]> {
-  const lots = await fetchAllLots();
-  const calculatedAvail = await getLotAvailability(lots);
-  return calculatedAvail;
+  return lotsArray;
 }

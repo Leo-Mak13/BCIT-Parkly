@@ -11,83 +11,109 @@ import { pool } from "../../database/database";
  * @params None
  * @returns A promise with an array of type ParkingLot.
  */
-export async function fetchAllLots(): Promise<ParkingLot[]> {
-  const lotsList: ParkingLot[] = [];
+async function fetchLotData(): Promise<any> {
+  try {
+    // Fetch all data needed from the 3 database tables
+    const [rows] = await pool.query(`
+    SELECT * FROM parking_lots l
+    LEFT JOIN parking_lot_address a ON l.lot_id = a.lot_id
+    LEFT JOIN parking_lot_schedules s ON l.lot_id = s.lot_id
+    LEFT JOIN parking_lot_valid_permits v ON l.lot_id = v.lot_id
+    `);
+
+    return rows;
+  } catch (err) {
+    throw new Error(`An error occurred: ${err}`);
+  }
+}
+
+/**
+ * @func Gets all lots from the database and store them in map based on lot id
+ * @params None
+ * @returns A promise with map of unique parking lot objects
+ */
+export async function mapRowToParkingLot(): Promise<Map<number, ParkingLot>> {
+  const uniqueLots: Map<number, ParkingLot> = new Map(); // map to store unique parking lots by id
 
   try {
-    // Fetch parking lot data from parking_lots table
-    const [lotsInDB] = await pool.query("SELECT * FROM parking_lots");
+    const rows = await fetchLotData();
 
-    for (const lot of lotsInDB) {
-      // Fetch address data from parking_lot_address table
-      const [addressRows] = await pool.query(
-        `SELECT * FROM parking_lot_address WHERE lot_id = ${Number(lot.lot_id)}`,
-      );
+    // Create a parking lot for each unique lot (by id) and add the unique lots to the map
+    for (const lot of rows) {
+      if (!uniqueLots.has(lot.lot_id)) {
+        const newLot: ParkingLot = {
+          lotId: lot.lot_id,
+          name: lot.lot_name,
+          floor: Number(lot.lot_floor),
+          type: lot.lot_type,
+          capacity: lot.lot_capacity,
+          latitude: Number(Number(lot.lat).toFixed(2)),
+          longitude: Number(Number(lot.lon).toFixed(2)),
+          validPermits: [lot.valid_permits],
+          description:
+            lot.lot_description.charAt(0).toUpperCase() +
+            lot.lot_description.slice(1),
+          availability: null,
+          openSpots: 0,
+          address: {
+            street: lot.street,
+            city: lot.city,
+            province: lot.province,
+            postalCode: lot.postal_code,
+          },
+          schedule: {
+            daytimePrice: Number(lot.daytimePrice),
+            daytimeRate: Number(lot.daytimeRate),
+            daytimeStartTime: lot.daytime_start_time.slice(0, 5),
+            daytimeEndTime: lot.daytime_end_time.slice(0, 5),
+            daytimeMaxPrice: Number(lot.daytimeMaxPrice),
+            eveningPrice: Number(lot.eveningPrice),
+            eveningRate: Number(lot.eveningRate),
+            eveningStartTime: lot.evening_start_time.slice(0, 5),
+            eveningEndTime: lot.evening_end_time.slice(0, 5),
+            eveningMaxPrice: Number(lot.eveningMaxPrice),
+            weekendPrice: Number(lot.weekendPrice),
+            weekendRate: Number(lot.weekendRate),
+            weekendStartTime: lot.weekend_start_time.slice(0, 5),
+            weekendEndTime: lot.weekend_end_time,
+            weekendMaxPrice: Number(lot.weekendMaxPrice),
+            rateUnit: lot.rate_unit,
+          },
+        };
 
-      // Fetch schedule data from parking_lot_schedules table
-      const [scheduleRows] = await pool.query(
-        `SELECT * FROM parking_lot_schedules WHERE lot_id = ${Number(lot.lot_id)}`,
-      );
-
-      // Fetch all valid permits from parking_lot_valid_permits table
-      const [validPermitsRows] = await pool.query(
-        `SELECT * FROM parking_lot_valid_permits WHERE lot_id = ${Number(lot.lot_id)}`,
-      );
-
-      // Create new parking lot type for each lot then append it to lotsList array
-      const newLot: ParkingLot = {
-        lotId: lot.lot_id,
-        name: lot.lot_name,
-        floor: Number(lot.lot_floor),
-        type: lot.lot_type,
-        capacity: lot.lot_capacity,
-        latitude: Number(Number(lot.lat).toFixed(2)),
-        longitude: Number(Number(lot.lon).toFixed(2)),
-        validPermits: validPermitsRows.map((vp: any) => vp.valid_permits),
-        description:
-          lot.lot_description.charAt(0).toUpperCase() +
-          lot.lot_description.slice(1),
-        availability: null,
-        openSpots: 0,
-
-        address: {
-          street: addressRows.map((a: any) => a.street)[0],
-          city: addressRows.map((a: any) => a.city)[0],
-          province: addressRows.map((a: any) => a.province)[0],
-          postalCode: addressRows.map((a: any) => a.postal_code)[0],
-        },
-
-        schedule: {
-          daytimePrice: scheduleRows.map((s: any) => Number(s.daytimePrice))[0],
-          daytimeRate: scheduleRows.map((s: any) => Number(s.daytimeRate))[0],
-          daytimeStartTime: scheduleRows.map((s: any) => s.daytimeStartTime)[0],
-          daytimeEndTime: scheduleRows.map((s: any) => s.daytimeEndTime)[0],
-          daytimeMaxPrice: scheduleRows.map((s: any) =>
-            Number(s.daytimeMaxPrice),
-          )[0],
-          eveningPrice: scheduleRows.map((s: any) => Number(s.eveningPrice))[0],
-          eveningRate: scheduleRows.map((s: any) => Number(s.eveningRate))[0],
-          eveningStartTime: scheduleRows.map((s: any) => s.eveningStartTime)[0],
-          eveningEndTime: scheduleRows.map((s: any) => s.eveningEndTime)[0],
-          eveningMaxPrice: scheduleRows.map((s: any) =>
-            Number(s.eveningMaxPrice),
-          )[0],
-          weekendPrice: scheduleRows.map((s: any) => Number(s.weekendPrice))[0],
-          weekendRate: scheduleRows.map((s: any) => Number(s.weekendRate))[0],
-          weekendStartTime: scheduleRows.map((s: any) => s.weekendStartTime)[0],
-          weekendEndTime: scheduleRows.map((s: any) => s.weekendEndTime)[0],
-          weekendMaxPrice: scheduleRows.map((s: any) =>
-            Number(s.weekendMaxPrice),
-          )[0],
-          rateUnit: scheduleRows.map((s: any) => s.rate_unit)[0],
-        },
-      };
-
-      lotsList.push(newLot);
-      // console.log(lotsList);
+        uniqueLots.set(lot.lot_id, newLot);
+      }
+      // If this lot already exists in the map, just append the new valid permit to validPermits array
+      else {
+        const existingLot = uniqueLots.get(lot.lot_id) as ParkingLot;
+        existingLot.validPermits.push(lot.valid_permits);
+      }
     }
   } catch (err) {
     throw new Error(`An error occurred: ${err}`);
   }
-  return lotsList;
+  return uniqueLots;
+}
+
+/**
+ * @func Gets number of occupied stalls for each parking lot.
+ * @params An array of all the parking lots.
+ * @returns A promise with a dictionary with the count of occupied stalls per lot.
+ */
+export async function getNumberOfOccupiedStalls(
+  lots: ParkingLot[],
+): Promise<any> {
+  let rows;
+
+  for (const lot of lots) {
+    try {
+      [rows] = await pool.query(
+        `SELECT COUNT(*) as count FROM parking_stalls 
+       WHERE occupied = TRUE AND lot_id = ${lot.lotId}`,
+      );
+    } catch (err) {
+      throw new Error(`An error occurred: ${err}`);
+    }
+  }
+  return rows;
 }
