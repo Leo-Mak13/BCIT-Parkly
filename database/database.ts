@@ -33,7 +33,7 @@ async function get_customer(id: number) {
 async function get_reservations(id: string) {
   const [output] = await pool.query(
     `
-        SELECT stall_location, purchase_date FROM reservations
+        SELECT stall_location, purchase_date, total_cost, license_plate FROM reservations
         WHERE customer_id = ?
     `,
     [id],
