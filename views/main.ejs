@@ -99,36 +99,68 @@
         <!-- Parking lots list -->
         <div class="parking-list">
           <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER USING A FOR LOOP TO LOOP THRU THE LOTS LIST ❗❗❗-->
-          <!--Individual parking lot card #1-->
+          <!--Individual parking lot cards-->
           <div class="lot-card">
             <!--Header & details button-->
             <div class="lot-header-btn">
-              <h3>North Parkade</h3>
+              <% parkingLots.forEach(lot => { %>
+                <h3><%= lot.lot_name %></h3>
+              <% }) %>
+              <!-- <h3>North Parkade</h3> -->
               <button>
                 Details
                 <i class="fa-solid fa-arrow-right"></i>
               </button>
             </div>
 
-            <p>555 Seymour Street</p>
-            <p>Vancouver, BC V6B 3H6</p>
+            <% parkingLots.forEach(lot => { %>
+                <p><%= lot.address.street %></p>
+                <p><%= lot.address.city %>, <%= lot.address.province %> <%= lot.address.postalCode %></p>
+            <% }) %>
+
+            <!-- <p>555 Seymour Street</p>
+            <p>Vancouver, BC V6B 3H6</p> -->
 
             <!--Status pill & number of empty lots-->
             <div class="status">
               <p class="status-pill">
                 <i class="fa-solid fa-circle"></i>
-                Available
+                <% parkingLots.forEach(lot => { %>
+                  <%= lot.availability %><
+                <% }) %>
+                <!-- Available -->
               </p>
-              <p class="open-spots">12 spots open</p>
+              <p class="open-spots">
+                <% parkingLots.forEach(lot => { %>
+                  <%= lot.openSpots %> spots open<
+                <% }) %>
+                <!-- 12 spots open -->
+              </p>
             </div>
 
             <!--Schedule table with times and prices-->
             <div class="schedule-table">
               <div class="schedule-row">
-                <div class="label">Daytime</div>
+                <div class="label">
+                  <% parkingLots.forEach(lot => { %>
+                    <%= lot.schedule.timeOfDay %>
+                  <% }) %>
+                  <!-- Daytime -->
+                </div>
+
                 <div class="details">
-                  <p class="time">8:00 AM – 6:00 PM</p>
-                  <p class="price">$3.00 / 30 min – Max $25.00</p>
+                  <p class="time">
+                    <% parkingLots.forEach(lot => { %>
+                      <%= lot.schedule.time %>
+                    <% }) %>
+                  <!-- 8:00 AM – 6:00 PM -->
+                </p>
+                  <p class="price">
+                    <% parkingLots.forEach(lot => { %>
+                      <%= lot.schedule.price %>
+                    <% }) %>
+                  <!-- $3.00 / 30 min – Max $25.00 -->
+                </p>
                 </div>
               </div>
 
@@ -152,14 +184,17 @@
             <div class="valid-permits">
               <h4>Valid Permits</h4>
               <ul>
-                <li>Student</li>
-                <li>Faculty & Staff</li>
-                <li>Visitor</li>
+                <li>
+                  <% parkingLots.forEach(lot => { %>
+                    <%= lot.validPermits %>
+                  <% }) %>
+                  <!-- Student -->
+                </li>
               </ul>
             </div>
           </div>
 
-          <!--Individual parking lot card #2-->
+          <!--Individual parking lot card-->
           <div class="lot-card">
             <!--Header & details button-->
             <div class="lot-header-btn">

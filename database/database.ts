@@ -1,15 +1,13 @@
-import mysql from "mysql2";
+import mysql from "mysql2/promise";
 import "dotenv/config";
 
-const pool = mysql
-  .createPool({
-    host: process.env.MYSQL_HOST || "localhost",
-    port: Number(process.env.MYSQL_PORT) || 2911,
-    user: process.env.MYSQL_USER || "root",
-    password: process.env.MYSQL_PASSWORD || "",
-    database: process.env.MYSQL_DATABASE || "bcit_parkly",
-  })
-  .promise();
+export const pool: any = mysql.createPool({
+  host: process.env.MYSQL_HOST || "localhost",
+  port: Number(process.env.MYSQL_PORT) || 2911,
+  user: process.env.MYSQL_USER || "root",
+  password: process.env.MYSQL_PASSWORD || "",
+  database: process.env.MYSQL_DATABASE || "bcit_parkly",
+});
 
 // get ALL customers (returns an array of customer objects)
 async function get_customers() {
