@@ -17,7 +17,7 @@ interface Schedule {
   eveningPrice: number;
   eveningRate: number;
   eveningTime: string;
-  evningMaxPrice: number;
+  eveningMaxPrice: number;
   weekendPrice: number;
   weekendRate: number;
   weekendTime: string;
@@ -27,7 +27,7 @@ interface Schedule {
 
 export interface ParkingLot {
   lotId: number;
-  floor: string;
+  floor: number;
   type: "staff" | "student";
   capacity: number;
   schedule: Schedule;

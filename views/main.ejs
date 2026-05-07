@@ -142,22 +142,21 @@
             <div class="schedule-table">
               <div class="schedule-row">
                 <div class="label">
-                  <% parkingLots.forEach(lot => { %>
-                    <%= lot.schedule.timeOfDay %>
-                  <% }) %>
-                  <!-- Daytime -->
+                  Daytime
                 </div>
 
                 <div class="details">
                   <p class="time">
                     <% parkingLots.forEach(lot => { %>
-                      <%= lot.schedule.time %>
+                      <%= lot.schedule.daytimeTime %>
                     <% }) %>
                   <!-- 8:00 AM – 6:00 PM -->
                 </p>
                   <p class="price">
                     <% parkingLots.forEach(lot => { %>
-                      <%= lot.schedule.price %>
+                      $<%= lot.schedule.daytimePrice %> / 
+                      <%= lot.schedule.daytimeRate %> <%= lot.schedule.rateUnit %> - 
+                      Max $<%= lot.schedule.daytimeMaxPrice %>
                     <% }) %>
                   <!-- $3.00 / 30 min – Max $25.00 -->
                 </p>
