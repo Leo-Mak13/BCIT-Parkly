@@ -4,6 +4,11 @@ import {
   createSession,
   validateSessionToken,
 } from "./src/middleware/authMiddleware.js";
+import {
+  create_session,
+  get_session,
+  delete_session,
+} from "./database/database.js";
 
 // function generateSecureRandomString(): string {
 //   /*
@@ -45,17 +50,17 @@ import {
 
 // test session creation and insertion into DB
 
-async function testSession() {
-  try {
-    const session = await createSession();
-    console.log("Token: ", session.token);
-  } catch (err) {
-    console.log("ERROR!", err);
-  }
-}
-testSession();
+// async function testSession() {
+//   try {
+//     const session = await createSession();
+//     console.log("Token: ", session.token);
+//   } catch (err) {
+//     console.log("ERROR!", err);
+//   }
+// }
+// testSession();
 
-// const testToken = "revx6qyvbyetpuojftdt1ads.lvx2j4u1h3bhlhugoeidtl2v";
+const testToken = "zvhi64cdvzthunh4sj6ilbwr.4slqw3p2kf5nbp1rk2dhz2fr";
 
 // async function testValidate() {
 //   try {
@@ -67,3 +72,14 @@ testSession();
 // }
 
 // testValidate();
+
+async function testFuncs() {
+  try {
+    const result = await validateSessionToken(testToken);
+    console.log(result);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+testFuncs();

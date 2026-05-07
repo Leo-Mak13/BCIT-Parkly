@@ -6,18 +6,14 @@ import {
   delete_session,
 } from "../../database/database";
 
-interface SessionWithToken extends Session {
-  token: string;
-}
-
 function generateSecureRandomString(): string {
   /*
     For generating session IDs and secrets
     Generate 24-length byte array, encode it into a string, using 120 bits of entropy
     Using crypto - secure random generator
     Returns a 24-length byte array as string 
-  */
-  const alphabet = "abcdefghijklmnopqrstuvwxyz1234567890";
+    */
+  const alphabet = "abcdefghijkmnpqrstuvwxyz23456789";
 
   const bytes = new Uint8Array(24);
   crypto.getRandomValues(bytes);
@@ -64,6 +60,9 @@ async function hashSecret(secret: string): Promise<Uint8Array> {
   return new Uint8Array(secretHashBuffer);
 }
 
+interface SessionWithToken extends Session {
+  token: string;
+}
 const sessionExpiresInSeconds = 60 * 60 * 48; // 2 day expiration before session deletion
 
 async function validateSessionToken(token: string): Promise<Session | null> {
@@ -97,7 +96,7 @@ async function validateSessionToken(token: string): Promise<Session | null> {
 async function getSession(sessionId: string): Promise<Session | null> {
   const now = new Date(); // compare today's current date to the expiration stored in the session
 
-  const currentSession = get_session(sessionId) as SessionRow[];
+  const currentSession = (await get_session(sessionId)) as SessionRow[];
 
   if (currentSession.length === 0) {
     return null;
@@ -111,8 +110,6 @@ async function getSession(sessionId: string): Promise<Session | null> {
     secretHash: new Uint8Array(row.secret_hash),
     createdAt: row.created_at,
   };
-
-  console.log("*********************TEST!!!!!!!!!!", session);
 
   if (
     now.getTime() - session.createdAt.getTime() >=

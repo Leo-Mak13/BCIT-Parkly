@@ -62,15 +62,18 @@ async function create_session(
     VALUES (?, ?, ?);`,
     [id, secret_hash, created_at],
   );
+  await pool.end();
 }
 
 async function get_session(id: string) {
   const [stmt] = await pool.query(`SELECT * FROM sessions WHERE id = ?`, [id]);
+  await pool.end();
   return stmt;
 }
 
 async function delete_session(id: string) {
   const [stmt] = await pool.query(`DELETE FROM sessions WHERE id = ?`, [id]);
+  await pool.end();
 }
 
 async function main() {
