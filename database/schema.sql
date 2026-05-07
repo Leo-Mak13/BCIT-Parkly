@@ -140,15 +140,15 @@ INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (FALSE, 'electric', 1);
 
 INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id) VALUES
-    ('BC5J6K', 5.00, 'L1-07', 1, 7, 7),
-    ('BC6L7M', 7.50, 'L1-08', 1, 8, 8),
-    ('BC7N8P', 2.50, 'L1-10', 1, 10, 9);
+    ('BC5J6K', 5.00, 'L1-01', 1, 1, 1),
+    ('BC6L7M', 7.50, 'L1-02', 1, 2, 2),
+    ('BC7N8P', 2.50, 'L1-03', 1, 3, 3);
 
 INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) VALUES
     ('555 Seymour St', 'Vancouver', 'BC', 'V6B 3H6', 1);
 
 INSERT INTO `parking_lot_schedules` (daytimePrice, daytimeRate, daytime_start_time, daytime_end_time, daytimeMaxPrice, eveningPrice, eveningRate, evening_start_time, evening_end_time, eveningMaxPrice, weekendPrice, weekendRate, weekend_start_time, weekend_end_time, weekendMaxPrice, rate_unit, lot_id) VALUES
-    (5.00, 5.00, '08:00:00', '18:00:00', 25.00, 3.00, 3.00, '18:00:00', '00:00:00', 12.00, 2.50, 2.50, '06:00:00', NULL, 10.00, 'hr', 1);
+    (5.00, 5.00, '08:00:00', '18:00:00', 25.00, 3.00, 3.00, '18:00:00', '00:00:00', 12.00, 2.50, 2.50, '06:00:00', '18:00:00', 10.00, 'hr', 1);
 
 INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
     (1, 'staff'),
