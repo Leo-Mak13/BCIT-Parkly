@@ -50,6 +50,27 @@ async function create_customer(
   };
 }
 
+async function create_session(
+  id: string,
+  secret_hash: Buffer,
+  created_at: Date,
+) {
+  const [stmt] = await pool.query(
+    `INSERT INTO sessions (id, secret_hash, created_at)
+    VALUES (?, ?, ?);`,
+    [id, secret_hash, created_at],
+  );
+}
+
+async function get_session(id: string) {
+  const [stmt] = await pool.query(`SELECT * FROM sessions WHERE id = ?`, [id]);
+  return stmt;
+}
+
+async function delete_session(id: string) {
+  const [stmt] = await pool.query(`DELETE FROM sessions WHERE id = ?`, [id]);
+}
+
 //insert reservation into database
 async function create_reservation(
   license_plate: string,
@@ -91,4 +112,12 @@ async function main() {
 
 // main();
 
-export { get_customers, get_customer, create_customer, create_reservation };
+export {
+  get_customers,
+  get_customer,
+  create_customer,
+  create_session,
+  get_session,
+  delete_session,
+  create_reservation,
+};
