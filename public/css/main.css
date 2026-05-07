@@ -269,7 +269,9 @@ header h6 {
 }
 
 /*Lot card status and open slots*/
-.status {
+.available,
+.limited,
+.full {
   display: flex;
   flex-direction: row;
   padding: 0.5rem 0 0.6rem 0;
@@ -278,14 +280,29 @@ header h6 {
 }
 
 /*Lot Status pill (Available, Limited, Full)*/
-.status .status-pill {
-  color: rgb(1, 78, 1);
-  background-color: rgb(188, 246, 188);
+.status-pill {
   font-size: 0.7rem;
-  border: 1px rgb(19, 186, 19) solid;
   border-radius: 10px;
   padding: 3px 7px;
   font-weight: bold;
+}
+
+.available .status-pill {
+  color: rgb(1, 78, 1);
+  background-color: rgb(188, 246, 188);
+  border: 1px rgb(19, 186, 19) solid;
+}
+
+.limited .status-pill {
+  color: rgb(133, 100, 4);
+  background-color: rgb(255, 243, 205);
+  border: 1px rgb(255, 193, 7) solid;
+}
+
+.full .status-pill {
+  color: rgb(132, 32, 41);
+  background-color: rgb(248, 215, 218);
+  border: 1px rgb(220, 53, 69) solid;
 }
 
 /*Open slots text next to the status pill*/
