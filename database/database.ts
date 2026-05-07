@@ -1,15 +1,13 @@
-import mysql from "mysql2";
+import mysql from "mysql2/promise";
 import "dotenv/config";
 
-const pool = mysql
-  .createPool({
-    host: process.env.MYSQL_HOST || "localhost",
-    port: Number(process.env.MYSQL_PORT) || 2911,
-    user: process.env.MYSQL_USER || "root",
-    password: process.env.MYSQL_PASSWORD || "",
-    database: process.env.MYSQL_DATABASE || "bcit_parkly",
-  })
-  .promise();
+export const pool: any = mysql.createPool({
+  host: process.env.MYSQL_HOST || "localhost",
+  port: Number(process.env.MYSQL_PORT) || 2911,
+  user: process.env.MYSQL_USER || "root",
+  password: process.env.MYSQL_PASSWORD || "",
+  database: process.env.MYSQL_DATABASE || "bcit_parkly",
+});
 
 // get ALL customers (returns an array of customer objects)
 async function get_customers() {
@@ -52,6 +50,22 @@ async function create_customer(
   };
 }
 
+//insert reservation into database
+async function create_reservation(
+  license_plate: string,
+  total_cost: number,
+  stall_location: string,
+  lot_id: number,
+  stall_id: number,
+  customer_id: number,
+) {
+  const [result] = await pool.query(
+    `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
+        VALUES(?, ?, ?, ?, ?, ?)`,
+    [license_plate, total_cost, stall_location, lot_id, stall_id, customer_id],
+  );
+}
+
 async function main() {
   try {
     const creationConfirmation = await create_customer(
@@ -77,4 +91,4 @@ async function main() {
 
 // main();
 
-export { get_customers, get_customer, create_customer };
+export { get_customers, get_customer, create_customer, create_reservation };
