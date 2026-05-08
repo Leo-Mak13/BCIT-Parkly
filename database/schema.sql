@@ -193,10 +193,10 @@ INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) 
     ('1200 Hornby St', 'Vancouver', 'BC', 'V6Z 2E2', 4);
 
 INSERT INTO `parking_lot_schedules` (daytimePrice, daytimeRate, daytime_start_time, daytime_end_time, daytimeMaxPrice, eveningPrice, eveningRate, evening_start_time, evening_end_time, eveningMaxPrice, weekendPrice, weekendRate, weekend_start_time, weekend_end_time, weekendMaxPrice, lot_id) VALUES
-    (5.00, 'hr', '08:00:00', '18:00:00', 25.00, 3.00, 'hr', '18:00:00', '00:00:00', 12.00, 2.50, 'hr', '06:00:00', '18:00:00', 10.00, 1),
-    (5.50, 'hr', '08:00:00', '18:00:00', 27.50, 3.25, 'hr', '18:00:00', '00:00:00', 13.00, 2.75, 'hr', '06:00:00', '18:00:00', 11.00, 2),
-    (4.75, 'hr', '07:00:00', '19:00:00', 24.00, 2.75, 'hr', '19:00:00', '07:00:00', 11.00, 2.25, 'hr', '06:00:00', '19:00:00', 9.00, 3),
-    (6.00, 'hr', '08:00:00', '20:00:00', 30.00, 3.50, 'hr', '20:00:00', '08:00:00', 14.00, 3.00, 'hr', '06:00:00', '20:00:00', 12.00, 4);
+    (5.00, 'min', '08:00:00', '18:00:00', 25.00, 3.00, 'min', '18:00:00', '00:00:00', 12.00, 2.50, 'min', '06:00:00', '18:00:00', 10.00, 1),
+    (5.50, 'min', '08:00:00', '18:00:00', 27.50, 3.25, 'min', '18:00:00', '00:00:00', 13.00, 2.75, 'min', '06:00:00', '18:00:00', 11.00, 2),
+    (4.75, 'min', '07:00:00', '19:00:00', 24.00, 2.75, 'min', '19:00:00', '07:00:00', 11.00, 2.25, 'min', '06:00:00', '19:00:00', 9.00, 3),
+    (6.00, 'min', '08:00:00', '20:00:00', 30.00, 3.50, 'min', '20:00:00', '08:00:00', 14.00, 3.00, 'min', '06:00:00', '20:00:00', 12.00, 4);
 
 INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
     (1, 'staff'),
