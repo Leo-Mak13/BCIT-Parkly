@@ -21,4 +21,4 @@ async function delete_session(id: string) {
   const [stmt] = await pool.query(`DELETE FROM sessions WHERE id = ?`, [id]);
 }
 
-export { create_session, get_session, delete_session };
+export { create_session, get_session, delete_session, pool };
