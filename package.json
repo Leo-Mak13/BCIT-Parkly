@@ -22,6 +22,7 @@
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "mysql2": "^3.22.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"

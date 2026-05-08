@@ -3,8 +3,8 @@
 <head>
   <title>BCIT Parkly</title>
 
-  <link rel="stylesheet" type="text/css" href="css/main.css" />
-  <script type="module" src="js/map.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/main.css" />
+  <script type="module" src="/js/map.js"></script>
   <script src="https://kit.fontawesome.com/39589cb536.js" crossorigin="anonymous"></script>
   <script>
     ((g) => {
@@ -48,7 +48,7 @@
 <body>
   <!-- THE TOP HEADER AREA -->
   <header>
-    <img src="assets/bcit-logo.png" alt="BCIT Logo" />
+    <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
 
     <!--Header title and subtitle-->
     <div class="header-titles">
@@ -65,10 +65,10 @@
     </div>
 
     <!--Sign in button-->
-    <button class="sign-in-btn">
+    <a role="button" href="/login" class="sign-in-btn">
       <i class="fa-solid fa-user"></i>
       Sign In
-    </button>
+    </a>
   </header>
 
   <!--Breadcrum bar under the header bar-->
@@ -217,7 +217,7 @@
       <!-- Logo and address column -->
       <div class="footer-col">
         <div class="footer-logo">
-          <img src="assets/bcit-logo.png" alt="BCIT Logo" />
+          <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
         </div>
         <p>
           3700 Willingdon Ave.
