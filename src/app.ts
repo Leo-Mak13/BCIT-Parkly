@@ -7,7 +7,7 @@ import {
 import { EOL } from "os";
 import lotRoutes from "./routes/lotRoutes";
 
-const PORT: number = 3000;
+const PORT: number = 5000;
 const app = express();
 
 app.set("view engine", "ejs");
@@ -21,5 +21,5 @@ app.get("/customers", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Running Express server${EOL}http://localhost:3000`);
+  console.log(`Running Express server${EOL}http://localhost:5000`);
 });
