@@ -23,5 +23,3 @@ app.get("/customers", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Running Express server${EOL}http://localhost:3000`);
 });
-
-export default app
