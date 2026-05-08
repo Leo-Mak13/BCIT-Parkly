@@ -4,6 +4,7 @@ import {
   get_customer,
   create_customer,
 } from "../database/database.ts";
+import reserveRoute from "../routes/reserveRoute.js";
 import { EOL } from "os";
 import session from "express-session";
 
