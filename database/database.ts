@@ -50,11 +50,6 @@ async function get_reservation(id: string) {
   return output;
 }
 
-async function create_reservation(
-  license_plate: string,
-  stall_location: string,
-) {}
-
 // creates and returns info of new customer (returns dict?)
 async function create_customer(
   customerName: string,
@@ -123,8 +118,5 @@ export {
   get_reservations,
   get_reservation,
   create_customer,
-  create_session,
-  get_session,
-  delete_session,
   create_reservation,
 };
