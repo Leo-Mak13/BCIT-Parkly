@@ -30,10 +30,29 @@
         Sign In
       </button>
     </header>
-
     </section>
-    <h1>myReservations</h1>
-    <a class="reservation-create " href="/create">Create new reservation</a>
+    <!--Breadcrum bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">myReservations</span>
+      </div>
+    </section>
+    <!-- reservation heading under breadcrumb bar -->
+    <div class="reservation-heading">
+      <h1>Your Reservations</h1>
+    </div>
+    <!-- buttons to see different versions -->
+    <div class="status">
+      <!-- ‼️‼️ I will eventually make it dynamic and show differnet reservations on click -->
+      <button class="status-buttons">Today</button>
+      <button class="status-buttons">Upcoming</button>
+      <button class="status-buttons">Cancelled</button>
+    </div>
+    <a class="reservation-create " href="/create"> + Create new reservation</a>
+    <!-- displays all the reservations under a specifc user dynamically -->
     <div class="all-reservations"> 
       <% reservations.forEach(reservation => { %>
         <div class="induvidual-reservation">

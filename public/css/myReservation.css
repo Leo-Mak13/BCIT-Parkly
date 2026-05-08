@@ -260,8 +260,9 @@ footer {
 /* formatting for the view, create, and cancel buttons */
 .reservation-btn a {
   border-radius: 10px;
+  text-decoration: none;
   border: none;
-  margin: 20px;
+  margin: 5px;
   padding: 8px 15px;
   font-size: 14px;
   font-weight: bold;
@@ -296,13 +297,16 @@ footer {
   background-color: #0e6ac5;
 }
 
-/* container for all reservations */
+/* container for all reservations 
+allows buttons to be on the same line as the info
+*/
 .all-reservations {
   display: flex;
   flex-direction: column;
   flex-grow: 0.5;
   gap: 30px;
-  margin: 40px;
+  margin: 5px 250px;
+  margin-bottom: 30px;
 }
 
 /* styles/format for each induvidual reservations (p tags and a tags) */
@@ -312,7 +316,10 @@ footer {
   border: 1px solid black;
   border-radius: 10px;
   align-items: center;
-  box-shadow: 0 5px 4px grey;
+}
+
+.induvidual-reservation:hover {
+  box-shadow: 0 3px 2px grey;
 }
 
 /* format for p tags and the distance between the a tags */
@@ -320,7 +327,7 @@ footer {
   display: flex;
   flex-direction: column;
   flex-grow: 0.5;
-  align-items: center;
+  align-items: stretch;
 }
 
 /* make the p tags closer together so that each reservation does not get too large */
@@ -343,19 +350,72 @@ footer {
 /* format/style for the create new reservation link */
 .reservation-create {
   background-color: #0e6ac5;
+  text-decoration: none;
   color: white;
   border-radius: 10px;
   border: none;
-  width: 165px;
+  width: 175px;
   padding: 8px 15px;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin: 10px 50px;
+  margin-right: 20%;
   margin-left: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .reservation-create:hover {
   background-color: #114a82;
+}
+
+.reservation-heading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #003366;
+}
+
+.reservation-heading h1 {
+  color: white;
+  margin: 25px 20%;
+}
+
+/* styling for today, upcoming, and cancelled buttons */
+.status {
+  display: flex;
+  border-bottom: 2px solid lightgray;
+  margin-right: 20%;
+  margin-left: 20%;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  justify-content: center;
+  gap: 20%;
+}
+
+.status-buttons {
+  border: none;
+  margin-bottom: 5px;
+  background: none;
+  color: grey;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: -2px;
+  border-bottom: 2px solid transparent;
+}
+
+.status-buttons:hover {
+  color: #114a82;
+  border-bottom: 2px solid #114a82;
+}
+
+/* makes it so that new styling stays when clicked until another click 
+    which then reverts the styling back to the original
+*/
+.status-buttons:focus {
+  color: #114a82;
+  border-bottom: 2px solid #114a82;
 }
