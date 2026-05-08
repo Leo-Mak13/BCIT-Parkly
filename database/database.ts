@@ -31,7 +31,7 @@ async function get_customer(id: number) {
 async function get_reservations(id: string) {
   const [output] = await pool.query(
     `
-        SELECT stall_location, purchase_date, total_cost, license_plate FROM reservations
+        SELECT reservation_id, stall_location, purchase_date, total_cost, license_plate FROM reservations
         WHERE customer_id = ?
     `,
     [id],
@@ -42,18 +42,15 @@ async function get_reservations(id: string) {
 async function get_reservation(id: string) {
   const [output] = await pool.query(
     `
-        select stall_location, total_cost, purchase_date FROM reservations
+        SELECT stall_location, total_cost, purchase_date, parking_lots.lot_floor, parking_lots.lot_name, parking_stalls.parking_type FROM reservations
+        INNER JOIN parking_stalls ON reservations.stall_id = parking_stalls.stall_id
+        INNER JOIN parking_lots ON reservations.lot_id = parking_lots.lot_id
         WHERE reservation_id = ?
         `,
     [id],
   );
   return output;
 }
-
-async function create_reservation(
-  license_plate: string,
-  stall_location: string,
-) {}
 
 // creates and returns info of new customer (returns dict?)
 async function create_customer(

@@ -8,7 +8,7 @@ router.get("/:customer_id", async (req, res) => {
 });
 
 router.get("/view/:reservation_id", async (req, res) => {
-  const reservation = [database.get_reservation(req.params.reservation_id)];
+  const reservation = await database.get_reservation(req.params.reservation_id);
   res.render("singleReservation", { reservation });
 });
 
