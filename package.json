@@ -4,7 +4,7 @@
   "description": "ACIT-2911-Agile-Project",
   "main": "index.js",
   "scripts": {
-    "start": "tsx --watch app.ts"
+    "start": "tsx --watch src/app.ts"
   },
   "repository": {
     "type": "git",
