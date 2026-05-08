@@ -20,6 +20,10 @@ app.get("/customers", async (req, res) => {
   res.render("customers", { customers });
 });
 
+app.get("/login", (req, res) => {
+  res.render("login");
+});
+
 app.listen(PORT, () => {
   console.log(`Running Express server${EOL}http://localhost:5000`);
 });
