@@ -1,369 +1,283 @@
 <html>
-  <head>
-    <title>BCIT Parkly</title>
 
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
-    <script type="module" src="js/map.js"></script>
-    <script
-      src="https://kit.fontawesome.com/39589cb536.js"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      ((g) => {
-        var h,
-          a,
-          k,
-          p = "The Google Maps JavaScript API",
-          c = "google",
-          l = "importLibrary",
-          q = "__ib__",
-          m = document,
-          b = window;
-        b = b[c] || (b[c] = {});
-        var d = b.maps || (b.maps = {}),
-          r = new Set(),
-          e = new URLSearchParams(),
-          u = () =>
-            h ||
-            (h = new Promise(async (f, n) => {
-              await (a = m.createElement("script"));
-              e.set("libraries", [...r] + "");
-              for (k in g)
-                e.set(
-                  k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
-                  g[k],
-                );
-              e.set("callback", c + ".maps." + q);
-              a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
-              d[q] = f;
-              a.onerror = () => (h = n(Error(p + " could not load.")));
-              a.nonce = m.querySelector("script[nonce]")?.nonce || "";
-              m.head.append(a);
-            }));
-        d[l]
-          ? console.warn(p + " only loads once. Ignoring:", g)
-          : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-      })({ key: "AIzaSyAAxoG1moijgPbs_BwZYDSlvGzQHzC_Ino", v: "weekly" });
-    </script>
-  </head>
+<head>
+  <title>BCIT Parkly</title>
 
-  <body>
-    <!-- THE TOP HEADER AREA -->
-    <header>
-      <img src="assets/bcit-logo.png" alt="BCIT Logo" />
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
 
-      <!--Header title and subtitle-->
-      <div class="header-titles">
-        <h2>Parkly</h2>
-        <h6>Downtown Campus</h6>
-      </div>
+  <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
+  <script>
+    const parkingLotsData = <%- JSON.stringify(parkingLots) %>;
+  </script>
+  <script type="module" src="js/map.js"></script>
 
-      <!--Header tabs-->
-      <div class="header-tabs">
-        <a href="/">Find Parking</a>
-        <a href="/permits">Permits & Rates</a>
-        <a href="/reservations">My Reservations</a>
-        <a href="/help">Help & Support</a>
-      </div>
+  <!-- Icons kit -->
+  <script src="https://kit.fontawesome.com/39589cb536.js" crossorigin="anonymous"></script>
 
-      <!--Sign in button-->
-      <button class="sign-in-btn">
-        <i class="fa-solid fa-user"></i>
-        Sign In
-      </button>
-    </header>
+  <!-- Map -->
+  <script>
+    ((g) => {
+      var h,
+        a,
+        k,
+        p = "The Google Maps JavaScript API",
+        c = "google",
+        l = "importLibrary",
+        q = "__ib__",
+        m = document,
+        b = window;
+      b = b[c] || (b[c] = {});
+      var d = b.maps || (b.maps = {}),
+        r = new Set(),
+        e = new URLSearchParams(),
+        u = () =>
+          h ||
+          (h = new Promise(async (f, n) => {
+            await (a = m.createElement("script"));
+            e.set("libraries", [...r] + "");
+            for (k in g)
+              e.set(
+                k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+                g[k],
+              );
+            e.set("callback", c + ".maps." + q);
+            a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+            d[q] = f;
+            a.onerror = () => (h = n(Error(p + " could not load.")));
+            a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+            m.head.append(a);
+          }));
+      d[l]
+        ? console.warn(p + " only loads once. Ignoring:", g)
+        : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
+    })({ key: "AIzaSyAAxoG1moijgPbs_BwZYDSlvGzQHzC_Ino", v: "weekly" });
+  </script>
+</head>
 
-    <!--Breadcrum bar under the header bar-->
-    <section class="breadcrumb-bar">
-      <div class="subheading">
-        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
-        <a href="/">Home</a>
-        <span class="seperator">›</span>
-        <span class="current-pg">Find Parking</span>
-      </div>
-    </section>
+<body>
+  <!-- THE TOP HEADER AREA -->
+  <header>
+    <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
 
-    <!-- The Main Body Wrapper (Row) -->
-    <div class="app-container">
-      <!-- THE SIDE BAR AREA -->
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <h3>Parking Lot List</h3>
-
-          <!--Toggle that closes/opens the sidebar-->
-          <button class="sidebar-toggle">
-            <i class="fa-solid fa-caret-left"></i>
-          </button>
-        </div>
-
-        <!-- Parking lots list -->
-        <div class="parking-list">
-          <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER USING A FOR LOOP TO LOOP THRU THE LOTS LIST ❗❗❗-->
-          <!--Individual parking lot card #1-->
-          <div class="lot-card">
-            <!--Header & details button-->
-            <div class="lot-header-btn">
-              <h3>North Parkade</h3>
-              <button>
-                Details
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-
-            <p>555 Seymour Street</p>
-            <p>Vancouver, BC V6B 3H6</p>
-
-            <!--Status pill & number of empty lots-->
-            <div class="status">
-              <p class="status-pill">
-                <i class="fa-solid fa-circle"></i>
-                Available
-              </p>
-              <p class="open-spots">12 spots open</p>
-            </div>
-
-            <!--Schedule table with times and prices-->
-            <div class="schedule-table">
-              <div class="schedule-row">
-                <div class="label">Daytime</div>
-                <div class="details">
-                  <p class="time">8:00 AM – 6:00 PM</p>
-                  <p class="price">$3.00 / 30 min – Max $25.00</p>
-                </div>
-              </div>
-
-              <div class="schedule-row">
-                <div class="label">Evenings</div>
-                <div class="details">
-                  <p class="time">6:00 PM – 12:00 AM</p>
-                  <p class="price">$2.00 / 30 min – Max $10.00</p>
-                </div>
-              </div>
-
-              <div class="schedule-row">
-                <div class="label">Weekends</div>
-                <div class="details">
-                  <p class="price">$2.00 / 30 min – Max $10.00</p>
-                </div>
-              </div>
-            </div>
-
-            <!--Valid permits list-->
-            <div class="valid-permits">
-              <h4>Valid Permits</h4>
-              <ul>
-                <li>Student</li>
-                <li>Faculty & Staff</li>
-                <li>Visitor</li>
-              </ul>
-            </div>
-          </div>
-
-          <!--Individual parking lot card #2-->
-          <div class="lot-card">
-            <!--Header & details button-->
-            <div class="lot-header-btn">
-              <h3>North Parkade</h3>
-              <button>
-                Details
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-
-            <p>555 Seymour Street</p>
-            <p>Vancouver, BC V6B 3H6</p>
-
-            <!--Status pill & number of empty lots-->
-            <div class="status">
-              <p class="status-pill">
-                <i class="fa-solid fa-circle"></i>
-                Available
-              </p>
-              <p class="open-spots">12 spots open</p>
-            </div>
-
-            <!--Schedule table with times and prices-->
-            <div class="schedule-table">
-              <div class="schedule-row">
-                <div class="label">Daytime</div>
-                <div class="details">
-                  <p class="time">8:00 AM – 6:00 PM</p>
-                  <p class="price">$3.00 / 30 min – Max $25.00</p>
-                </div>
-              </div>
-
-              <div class="schedule-row">
-                <div class="label">Evenings</div>
-                <div class="details">
-                  <p class="time">6:00 PM – 12:00 AM</p>
-                  <p class="price">$2.00 / 30 min – Max $10.00</p>
-                </div>
-              </div>
-
-              <div class="schedule-row">
-                <div class="label">Weekends</div>
-                <div class="details">
-                  <p class="price">$2.00 / 30 min – Max $10.00</p>
-                </div>
-              </div>
-            </div>
-
-            <!--Valid permits list-->
-            <div class="valid-permits">
-              <h4>Valid Permits</h4>
-              <ul>
-                <li>Student</li>
-                <li>Faculty & Staff</li>
-                <li>Visitor</li>
-              </ul>
-            </div>
-          </div>
-
-          <!--Individual parking lot card #3-->
-          <div class="lot-card">
-            <!--Header & details button-->
-            <div class="lot-header-btn">
-              <h3>North Parkade</h3>
-              <button>
-                Details
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-
-            <p>555 Seymour Street</p>
-            <p>Vancouver, BC V6B 3H6</p>
-
-            <!--Status pill & number of empty lots-->
-            <div class="status">
-              <p class="status-pill">
-                <i class="fa-solid fa-circle"></i>
-                Available
-              </p>
-              <p class="open-spots">12 spots open</p>
-            </div>
-
-            <!--Schedule table with times and prices-->
-            <div class="schedule-table">
-              <div class="schedule-row">
-                <div class="label">Daytime</div>
-                <div class="details">
-                  <p class="time">8:00 AM – 6:00 PM</p>
-                  <p class="price">$3.00 / 30 min – Max $25.00</p>
-                </div>
-              </div>
-
-              <div class="schedule-row">
-                <div class="label">Evenings</div>
-                <div class="details">
-                  <p class="time">6:00 PM – 12:00 AM</p>
-                  <p class="price">$2.00 / 30 min – Max $10.00</p>
-                </div>
-              </div>
-
-              <div class="schedule-row">
-                <div class="label">Weekends</div>
-                <div class="details">
-                  <p class="price">$2.00 / 30 min – Max $10.00</p>
-                </div>
-              </div>
-            </div>
-
-            <!--Valid permits list-->
-            <div class="valid-permits">
-              <h4>Valid Permits</h4>
-              <ul>
-                <li>Student</li>
-                <li>Faculty & Staff</li>
-                <li>Visitor</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <!-- THE MAP AREA -->
-      <main style="flex: 1; position: relative">
-        <div class="map-controls">
-          <!--Search bar-->
-          <div class="map-search-bar">
-            <input type="text" placeholder="Search for a spot at DTC" />
-          </div>
-
-          <!--Reset & filter buttons next to the search bar-->
-          <button class="reset-btn">
-            Reset
-            <i class="fa-solid fa-arrows-rotate"></i>
-          </button>
-
-          <button class="filter-btn">
-            Filter
-            <i class="fa-solid fa-sliders"></i>
-          </button>
-        </div>
-
-        <!-- The map, centered at BCIT DTC -->
-        <gmp-map center="49.2835,-123.1153" zoom="19.3" map-id="dtc-map-id">
-        </gmp-map>
-      </main>
+    <!--Header title and subtitle-->
+    <div class="header-titles">
+      <h2>Parkly</h2>
+      <h6>Downtown Campus</h6>
     </div>
 
-    <!--THE FOOTER SECTION-->
-    <footer>
-      <div class="footer-container">
-        <!-- Logo and address column -->
-        <div class="footer-col">
-          <div class="footer-logo">
-            <img src="assets/bcit-logo.png" alt="BCIT Logo" />
+    <!--Header tabs-->
+    <div class="header-tabs">
+      <a href="/">Find Parking</a>
+      <a href="/permits">Permits & Rates</a>
+      <a href="/reservations">My Reservations</a>
+      <a href="/help">Help & Support</a>
+    </div>
+
+    <!--Sign in button-->
+    <a role="button" href="/login" class="sign-in-btn">
+      <i class="fa-solid fa-user"></i>
+      Sign In
+    </a>
+  </header>
+
+  <!--Breadcrum bar under the header bar-->
+  <section class="breadcrumb-bar">
+    <div class="subheading">
+      <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+      <a href="/">Home</a>
+      <span class="seperator">›</span>
+      <span class="current-pg">Find Parking</span>
+    </div>
+  </section>
+
+  <!-- The Main Body Wrapper (Row) -->
+  <div class="app-container">
+    <!-- THE SIDE BAR AREA -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h3>Parking Lot List</h3>
+
+        <!--Toggle that closes/opens the sidebar-->
+        <button class="sidebar-toggle">
+          <i class="fa-solid fa-caret-left"></i>
+        </button>
+      </div>
+
+      <div class="parking-list">
+
+        <% parkingLots.forEach(lot=> { %>
+          <div class="lot-card">
+
+            <div class="lot-header-btn">
+              <h3><%= lot.name %></h3>
+              <button>
+                Details
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <p>
+              <%= lot.address.street %>
+            </p>
+            <p>
+              <%= lot.address.city %>, <%= lot.address.province %>
+                  <%= lot.address.postalCode %>
+            </p>
+
+            <div class="<%= lot.availability.charAt(0).toLowerCase() + lot.availability.slice(1) %>">
+              <p class="status-pill">
+                <i class="fa-solid fa-circle"></i>
+                 <%= lot.availability %>
+              </p>
+              <p class="open-spots">
+                <%= lot.openSpots %> total spots
+              </p>
+            </div>
+
+            <div class="schedule-table">
+              <div class="schedule-row">
+                <div class="label">Daytime</div>
+                <div class="details">
+                  <p class="time">
+                    <%= lot.schedule.daytimeStartTime %> AM – <%= lot.schedule.daytimeEndTime %> PM
+                  </p>
+                  <p class="price">
+                    $<%= lot.schedule.daytimePrice.toFixed(2) %> / <%= lot.schedule.daytimeRate %>
+                        <%= lot.schedule.rateUnit %> –
+                          Max $<%= lot.schedule.daytimeMaxPrice %>
+                  </p>
+                </div>
+              </div>
+
+              <div class="schedule-row">
+                <div class="label">Evenings</div>
+                <div class="details">
+                  <p class="time">
+                    <%= lot.schedule.eveningStartTime %> AM – <%= lot.schedule.eveningEndTime %> PM
+                  </p>
+                  <p class="price">
+                    $<%= lot.schedule.eveningPrice.toFixed(2) %> / <%= lot.schedule.eveningRate %>
+                        <%= lot.schedule.rateUnit %> –
+                          Max $<%= lot.schedule.eveningMaxPrice %>
+                  </p>
+                </div>
+              </div>
+
+              <div class="schedule-row">
+                <div class="label">Weekends</div>
+                <div class="details">
+                  <p class="time">
+                    <%= lot.schedule.weekendStartTime %> AM – <%= lot.schedule.weekendEndTime %> PM
+                  </p>
+                  <p class="price">
+                    $<%= lot.schedule.weekendPrice.toFixed(2) %> / <%= lot.schedule.weekendRate %>
+                        <%= lot.schedule.rateUnit %> –
+                          Max $<%= lot.schedule.weekendMaxPrice %>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="valid-permits">
+              <h4>Valid Permits</h4>
+              <ul>
+                <% lot.validPermits.forEach(permit=> { %>
+                  <li>
+                    <%= permit.charAt(0).toUpperCase() + permit.slice(1) %>
+                  </li>
+                  <% }) %>
+              </ul>
+            </div>
+
           </div>
-          <p>
-            3700 Willingdon Ave.
-            <br />
-            Burnaby, British Columbia
-            <br />
-            Canada V5G 3H2
-          </p>
-          <p>
-            604-434-5734
-            <br />
-            1-866-434-1610
-          </p>
+          <% }) %>
+      </div>
+    </aside>
+
+    <!-- THE MAP AREA -->
+    <main style="flex: 1; position: relative">
+      <div class="map-controls">
+        <!--Search bar-->
+        <div class="map-search-bar">
+          <input type="text" placeholder="Search for a spot at DTC" />
         </div>
 
-        <!-- Quick links column -->
-        <div class="footer-col">
-          <h4>QUICK LINKS</h4>
-          <ul>
-            <li><a href="#">Visit</a></li>
-            <li><a href="#">Apply Now</a></li>
-            <li><a href="#">Give</a></li>
-            <li><a href="#">News</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">Careers</a></li>
-          </ul>
-        </div>
+        <!--Reset & filter buttons next to the search bar-->
+        <button class="reset-btn">
+          Reset
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
 
-        <!-- Campuses column -->
-        <div class="footer-col">
-          <h4>BCIT CAMPUSES</h4>
-          <ul>
-            <li><a href="#">Burnaby Campus</a></li>
-            <li><a href="#">Downtown Campus</a></li>
-            <li><a href="#">Marine Campus</a></li>
-            <li><a href="#">Aerospace Technology Campus</a></li>
-            <li><a href="#">Annacis Island Campus</a></li>
-          </ul>
-        </div>
+        <button class="filter-btn">
+          Filter
+          <i class="fa-solid fa-sliders"></i>
+        </button>
       </div>
 
-      <!-- Bottom legal Bar -->
-      <div class="footer-bottom">
-        <div class="footer-bottom-links">
-          <a href="#">Copyright</a>
-          <a href="#">Privacy</a>
-          <a href="#">Terms of Use</a>
-          <a href="#">Accessibility</a>
+      <!-- The map -->
+      <gmp-map map-id="dtc-map-id">
+      </gmp-map>
+    </main>
+  </div>
+
+  <!--THE FOOTER SECTION-->
+  <footer>
+    <div class="footer-container">
+      <!-- Logo and address column -->
+      <div class="footer-col">
+        <div class="footer-logo">
+          <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
         </div>
+        <p>
+          3700 Willingdon Ave.
+          <br />
+          Burnaby, British Columbia
+          <br />
+          Canada V5G 3H2
+        </p>
+        <p>
+          604-434-5734
+          <br />
+          1-866-434-1610
+        </p>
       </div>
-    </footer>
-  </body>
+
+      <!-- Quick links column -->
+      <div class="footer-col">
+        <h4>QUICK LINKS</h4>
+        <ul>
+          <li><a href="#">Visit</a></li>
+          <li><a href="#">Apply Now</a></li>
+          <li><a href="#">Give</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+
+      <!-- Campuses column -->
+      <div class="footer-col">
+        <h4>BCIT CAMPUSES</h4>
+        <ul>
+          <li><a href="#">Burnaby Campus</a></li>
+          <li><a href="#">Downtown Campus</a></li>
+          <li><a href="#">Marine Campus</a></li>
+          <li><a href="#">Aerospace Technology Campus</a></li>
+          <li><a href="#">Annacis Island Campus</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom legal Bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <a href="#">Copyright</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+  </footer>
+</body>
+
 </html>
