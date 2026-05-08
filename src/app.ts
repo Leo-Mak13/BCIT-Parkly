@@ -8,7 +8,7 @@ import reserveRoute from "../src/routes/reserveRoute.js";
 import { EOL } from "os";
 import session from "express-session";
 
-const PORT: number = 3000;
+const PORT: number = 5000;
 const app = express();
 
 import lotRoutes from "./routes/lotRoutes";
@@ -27,5 +27,5 @@ app.use("/reservations", reserveRoute);
 app.use("/", signupRoute);
 
 app.listen(PORT, () => {
-  console.log(`Running Express server${EOL}http://localhost:3000`);
+  console.log(`Running Express server${EOL}http://localhost:5000`);
 });
