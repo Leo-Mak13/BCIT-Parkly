@@ -4,7 +4,7 @@ import {
   create_session,
   get_session,
   delete_session,
-} from "../../database/database";
+} from "../models/authModel.js";
 
 function generateSecureRandomString(): string {
   /*

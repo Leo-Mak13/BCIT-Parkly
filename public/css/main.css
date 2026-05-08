@@ -622,4 +622,5 @@ footer {
 }
 
 .page-display {
+  display: flex;
 }
