@@ -5,7 +5,6 @@ import {
   create_customer,
 } from "../database/database.ts";
 import { EOL } from "os";
-import session from "express-session";
 
 const PORT: number = 5000;
 const app = express();
