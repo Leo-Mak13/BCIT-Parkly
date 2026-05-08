@@ -65,7 +65,7 @@ CREATE TABLE `parking_lot_schedules` (
     weekend_start_time TIME,
     weekend_end_time TIME,
     weekendMaxPrice DECIMAL(10, 2),
-    rate_unit VARCHAR(20) NOT NULL CHECK (rate_unit IN ('30 min', 'hour')),
+    rate_unit VARCHAR(20) NOT NULL CHECK (rate_unit IN ('30 min', 'hr')),
     lot_id INT NOT NULL,
     FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -194,10 +194,10 @@ INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) 
     ('1200 Hornby St', 'Vancouver', 'BC', 'V6Z 2E2', 4);
 
 INSERT INTO `parking_lot_schedules` (daytimePrice, daytimeRate, daytime_start_time, daytime_end_time, daytimeMaxPrice, eveningPrice, eveningRate, evening_start_time, evening_end_time, eveningMaxPrice, weekendPrice, weekendRate, weekend_start_time, weekend_end_time, weekendMaxPrice, rate_unit, lot_id) VALUES
-    (5.00, 1.00, '08:00:00', '18:00:00', 25.00, 3.00, 1.00, '18:00:00', '00:00:00', 12.00, 2.50, 1.00, '06:00:00', '18:00:00', 10.00, 'hour', 1),
-    (5.50, 1.00, '08:00:00', '18:00:00', 27.50, 3.25, 1.00, '18:00:00', '00:00:00', 13.00, 2.75, 1.00, '06:00:00', '18:00:00', 11.00, 'hour', 2),
-    (4.75, 1.00, '07:00:00', '19:00:00', 24.00, 2.75, 1.00, '19:00:00', '07:00:00', 11.00, 2.25, 1.00, '06:00:00', '19:00:00', 9.00, 'hour', 3),
-    (6.00, 1.00, '08:00:00', '20:00:00', 30.00, 3.50, 1.00, '20:00:00', '08:00:00', 14.00, 3.00, 1.00, '06:00:00', '20:00:00', 12.00, 'hour', 4);
+    (5.00, 1.00, '08:00:00', '18:00:00', 25.00, 3.00, 1.00, '18:00:00', '00:00:00', 12.00, 2.50, 1.00, '06:00:00', '18:00:00', 10.00, 'hr', 1),
+    (5.50, 1.00, '08:00:00', '18:00:00', 27.50, 3.25, 1.00, '18:00:00', '00:00:00', 13.00, 2.75, 1.00, '06:00:00', '18:00:00', 11.00, 'hr', 2),
+    (4.75, 1.00, '07:00:00', '19:00:00', 24.00, 2.75, 1.00, '19:00:00', '07:00:00', 11.00, 2.25, 1.00, '06:00:00', '19:00:00', 9.00, 'hr', 3),
+    (6.00, 1.00, '08:00:00', '20:00:00', 30.00, 3.50, 1.00, '20:00:00', '08:00:00', 14.00, 3.00, 1.00, '06:00:00', '20:00:00', 12.00, 'hr', 4);
 
 INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
     (1, 'staff'),
