@@ -120,8 +120,5 @@ export {
   get_reservations,
   get_reservation,
   create_customer,
-  create_session,
-  get_session,
-  delete_session,
   create_reservation,
 };

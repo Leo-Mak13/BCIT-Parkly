@@ -1,6 +1,6 @@
 import { describe, it, after } from "node:test";
 import assert from "node:assert/strict";
-import { pool, get_customers, get_customer, create_customer, create_session, get_session, delete_session, create_reservation } from "../../database/database.js"
+import { pool, create_session, get_session, delete_session } from "../../src/models/authModel.js"
 
 describe('create_session and delete session', () => {
     
