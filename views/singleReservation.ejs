@@ -4,8 +4,123 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/css/singleReservation.css" />
   </head>
-  <main>
-    <h1>BCIT Parkly</h1>
-  </main>
+  <body>
+    <header>
+      <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/permits">Permits & Rates</a>
+        <a href="/reservations">My Reservations</a>
+        <a href="/help">Help & Support</a>
+      </div>
+
+      <!--Sign in button-->
+      <button class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign In
+      </button>
+    </header>
+    </section>
+    <!--Breadcrum bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">myReservations</span>
+      </div>
+    </section>
+    <!-- reservation heading under breadcrumb bar -->
+    <h1>Your Reservation</h1>
+    
+    <div class="entire-reservation"> 
+      <% reservation.forEach(info => { %>
+        <div class="lot-name">
+          <h3>Lot <%= info.lot_name %> - Stall <%= info.stall_location %> - floor <%= info.lot_floor %></h3>
+        </div>
+        <div class="info-reservation">
+          <div class="column-name">
+              <p>Address: </p>
+              <p>Purchase date: </p>
+              <p>Parking type: </p>
+              <p>Total cost: </p>
+          </div>
+          <div class="column-info">
+            <p><%= info.street %>, <%= info.city %>, <%= info.province %></p>
+            <p><%= info.purchase_date %></p>
+            <p><%= info.parking_type %></p>
+            <p>$<%= info.total_cost %></p>
+          </div>
+        </div>
+        <div class="links-reservation">
+          <a href="/reservations/<%= info.customer_id %>">Back to reservations</a>
+          <a href="/">Back to main page</a>
+        </div>
+      <% }) %>
+    </div>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom legal Bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>

@@ -64,9 +64,9 @@
             <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
           </div>
           <div class="reservation-btn">
-            <a class="view" href="/view/<%= reservation.reservation_id %>">View</a>
-            <a class="edit" href="/edit/<%= reservation.reservation_id %>">Edit</a>
-            <a class="cancel" href="/delete/<%= reservation.reservation_id %>">Cancel</a>
+            <a class="view" href="/reservations/view/<%= reservation.reservation_id %>">View</a>
+            <a class="edit" href="/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
+            <a class="cancel" href="/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
           </div>
         </div>
         <% }) %> 
