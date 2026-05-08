@@ -4,7 +4,7 @@ import {
   get_customer,
   create_customer,
 } from "../database/database.ts";
-import reserveRoute from "../routes/reserveRoute.js";
+import reserveRoute from "../src/routes/reserveRoute.js";
 import { EOL } from "os";
 import session from "express-session";
 
@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", lotRoutes);
 app.use(authRoute);
+app.use("/reservations", reserveRoute);
 
 app.listen(PORT, () => {
   console.log(`Running Express server${EOL}http://localhost:5000`);
