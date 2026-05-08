@@ -6,7 +6,6 @@ import {
 } from "../database/database.ts";
 import reserveRoute from "../src/routes/reserveRoute.js";
 import { EOL } from "os";
-import session from "express-session";
 
 const PORT: number = 5000;
 const app = express();
