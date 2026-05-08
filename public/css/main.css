@@ -620,3 +620,7 @@ footer {
     min-width: 100%;
   }
 }
+
+.page-display {
+  display: flex;
+}
