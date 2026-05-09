@@ -12,30 +12,29 @@
     ></script>
   </head>
   <body>
-      <!-- THE TOP HEADER AREA -->
-      <header>
-        <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
-        <!--Header title and subtitle-->
-        <div class="header-titles">
-          <h2>Parkly</h2>
-          <h6>Downtown Campus</h6>
-        </div>
-        <!--Header tabs-->
-        <div class="header-tabs">
-          <a href="/">Find Parking</a>
-          <a href="/permits">Permits & Rates</a>
-          <a href="/reservations">My Reservations</a>
-          <a href="/help">Help & Support</a>
-        </div>
-        <!--Sign in button-->
-        <button class="sign-in-btn">
-          <i class="fa-solid fa-user"></i>
-          Sign In
-        </button>
-      </header>
-    
+    <!-- THE TOP HEADER AREA -->
+    <header>
+      <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/permits">Permits & Rates</a>
+        <a href="/reservations">My Reservations</a>
+        <a href="/help">Help & Support</a>
+      </div>
+      <!--Sign in button-->
+      <button class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign In
+      </button>
+    </header>
 
-      <!--Breadcrum bar under the header bar-->
+    <!--Breadcrum bar under the header bar-->
     <section class="breadcrumb-bar">
       <div class="subheading">
         <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
@@ -44,40 +43,51 @@
         <span class="current-pg">Login</span>
       </div>
     </section>
-  
-    <!-- buttons to see different versions -->
+
     <div class="login-container">
       <div class="login-box">
-          <div class="message-box">
-            <div class="message-success">Success Message</div>
-            <div class="message-error">Error Message</div>
+        <div class="message-box">
+          <div class="message-success">Success Message</div>
+          <div class="message-error">Error Message</div>
+        </div>
+        <div class="auth-box">
+          <div class="auth-header">
+            <h2>Sign In</h2>
           </div>
-          <div class="auth-box">
-            <div class="auth-header">
-              <h2>Sign In</h2>
+          <p class="auth-sub">Sign in to your BCIT Parking account</p>
+          <form action="" method="post">
+            <div class="form-group">
+              <label for="signinEmail">Email Address</label>
+              <input
+                type="email"
+                id="signinEmail"
+                placeholder="student@bcit.ca"
+                required
+              />
             </div>
-            <p class="auth-sub">Sign in to your BCIT Parking account</p>
-            <form action="" method="post">
-              <div class="form-group">
-                <label for="signinEmail">Email Address</label>
-                <input type="email" id="signinEmail" placeholder="student@bcit.ca" required />
-              </div>
-              <div class="form-group">
-                <label for="signinPassword">Password</label>
-                <input type="password" id="signinPassword" placeholder="Enter your password" required />
-              </div>
-              <div class="form-row">
-                <label class="checkbox-label"><input type="checkbox" /> Remember me</label>
-                <a href="#" class="forgot-link">Forgot password?</a>
-              </div>
-              <button type="submit" class="auth-submit-btn">Sign In</button>
-            </form>
-            <div class="auth-divider"><span>or</span></div>
-            <p class="auth-switch">Don't have an account? <a href="/signup">Register here</a></p>
-          </div>
+            <div class="form-group">
+              <label for="signinPassword">Password</label>
+              <input
+                type="password"
+                id="signinPassword"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label class="checkbox-label"
+                ><input type="checkbox" /> Remember me</label
+              >
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+            <button type="submit" class="auth-submit-btn">Sign In</button>
+          </form>
+          <div class="auth-divider"><span>or</span></div>
+          <p class="auth-switch">
+            Don't have an account? <a href="/signup">Register here</a>
+          </p>
+        </div>
       </div>
-    </div>
-
 
       <footer>
         <div class="footer-container">
