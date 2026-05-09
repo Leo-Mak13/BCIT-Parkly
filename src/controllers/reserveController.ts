@@ -1,4 +1,4 @@
-import * as db from "../database/database.js";
+import * as db from "../../database/database.js";
 
 function get_reservations(id: string) {
   return db.get_reservations(id);

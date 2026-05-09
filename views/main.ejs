@@ -3,9 +3,18 @@
 <head>
   <title>BCIT Parkly</title>
 
-  <link rel="stylesheet" type="text/css" href="/css/main.css" />
-  <script type="module" src="/js/map.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css" />
+
+  <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
+  <script>
+    const parkingLotsData = <%- JSON.stringify(parkingLots) %>;
+  </script>
+  <script type="module" src="js/map.js"></script>
+
+  <!-- Icons kit -->
   <script src="https://kit.fontawesome.com/39589cb536.js" crossorigin="anonymous"></script>
+
+  <!-- Map -->
   <script>
     ((g) => {
       var h,
@@ -205,8 +214,8 @@
         </button>
       </div>
 
-      <!-- The map, centered at BCIT DTC -->
-      <gmp-map center="49.2835,-123.1153" zoom="19.3" map-id="dtc-map-id">
+      <!-- The map -->
+      <gmp-map map-id="dtc-map-id">
       </gmp-map>
     </main>
   </div>
