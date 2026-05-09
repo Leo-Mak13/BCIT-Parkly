@@ -77,6 +77,9 @@ async function initMap(): Promise<void> {
   // Set map options
   innerMap.setOptions({
     mapTypeControl: false,
+    tilt: 45,
+    heading: 0,
+    mapId: "8278b06836e5e0a728cb592b",
   });
 }
 

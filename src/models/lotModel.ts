@@ -100,20 +100,19 @@ export async function mapRowToParkingLot(): Promise<Map<number, ParkingLot>> {
  * @params An array of all the parking lots.
  * @returns A promise with a dictionary with the count of occupied stalls per lot.
  */
-export async function getNumberOfOccupiedStalls(
-  lots: ParkingLot[],
-): Promise<any> {
-  let rows;
-
-  for (const lot of lots) {
-    try {
-      [rows] = await pool.query(
-        `SELECT COUNT(*) as count FROM parking_stalls 
-       WHERE occupied = TRUE AND lot_id = ${lot.lotId}`,
-      );
-    } catch (err) {
-      throw new Error(`An error occurred: ${err}`);
-    }
+export async function getNumberOfOccupiedStalls(): Promise<any> {
+  try {
+    const [rows] = await pool.query(
+      `SELECT ps.lot_id, pl.lot_capacity, COUNT(*) as occupied
+       FROM parking_stalls as ps
+       JOIN parking_lots as pl
+       ON ps.lot_id = pl.lot_id
+       WHERE occupied = TRUE
+       GROUP BY lot_id`,
+    );
+    return rows;
+  } catch (err) {
+    throw new Error(`An error occurred: ${err}`);
   }
-  return rows;
 }
+getNumberOfOccupiedStalls();
