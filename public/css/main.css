@@ -94,6 +94,7 @@ header h6 {
 .sign-in-btn {
   color: white;
   background-color: #315887;
+  text-decoration: none;
   border-radius: 5px;
   border: rgb(171, 171, 171) 1px solid;
   align-self: center;
