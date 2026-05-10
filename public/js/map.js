@@ -1,6 +1,6 @@
 /**
  * @file This file handles the initialization and logic for the Google Map,
- * including dynamic marker placement, automated camera bounds, and custom UI padding.
+ * including dynamic marker and info window placement.
  */
 // Request the needed libraries
 const [{ Map, InfoWindow }, { AdvancedMarkerElement, PinElement }] = await Promise.all([
@@ -98,7 +98,11 @@ function addInfoWindow(lot) {
       }
 
       .iw-details-btn:hover { 
-        background-color: #0a549e;
+        color: #0a549e;
+        background-color: white;
+        border: 1.5px #0a549e solid;
+        width: 99%;
+        transition: 0.4s ease;
       }
 
       .iw-status p {
