@@ -38,11 +38,6 @@ function addMarker(markerClass, map, lot, type) {
     });
     if (type !== "DTC") {
         const infoWindow = addInfoWindow(lot);
-        // Open the info window when the map loads
-        infoWindow.open({
-            anchor: marker,
-            map: map,
-        });
         // Open the info window when the marker is clicked
         marker.addEventListener("click", () => {
             infoWindow.open({
@@ -59,23 +54,98 @@ function addMarker(markerClass, map, lot, type) {
  */
 function addInfoWindow(lot) {
     // Create the info window content
-    const lotTitle = document.createElement("h5");
-    lotTitle.textContent = lot.name;
-    const content = document.createElement("div");
-    const infoParagraph = document.createElement("p");
-    infoParagraph.textContent = lot.description;
-    content.appendChild(infoParagraph);
-    const lotLink = document.createElement("a");
-    lotLink.href = "/lots";
-    lotLink.textContent = "Details";
-    lotLink.target = "_blank";
-    content.appendChild(lotLink);
+    const contentString = `
+    <style>
+      .info-window { 
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+      }
+
+      .iw-title {
+        color: #0e6ac5;
+        margin: 0 0 4px 0;
+        font-size: 13px;
+        font-weight: bold;
+        line-height: 1.2;
+      }
+
+      .iw-address, .iw-description {
+        margin: 0;
+        font-size: 12px;
+        color: #333;
+        line-height: 1.3;
+      }
+
+      .iw-description {
+        margin: 2px 0;
+      }
+
+      .iw-details-btn { 
+        background-color: #0e6ac5; 
+        color: white; 
+        padding: 10px 0;
+        border-radius: 4px; 
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 500;
+        margin-top: 5px;
+      }
+
+      .iw-details-btn:hover { 
+        background-color: #0a549e;
+      }
+
+      .iw-status p {
+        display: flex;
+        flex-direction: row;
+        padding: 0.5rem 0 0.6rem 0;
+        gap: 0.5rem;
+        align-items: center;
+        font-size: 0.7rem;
+        border-radius: 4px;
+        padding: 8px 7px;
+        font-weight: bold;
+      }
+
+      .iw-available {
+        color: rgb(1, 78, 1);
+        background-color: rgb(188, 246, 188);
+        border: 1px rgb(19, 186, 19) solid;
+      }
+
+      .iw-limited {
+        color: rgb(133, 100, 4);
+        background-color: rgb(255, 243, 205);
+        border: 1px rgb(255, 193, 7) solid;
+      }
+
+      .iw-full {
+        color: rgb(132, 32, 41);
+        background-color: rgb(248, 215, 218);
+        border: 1px rgb(220, 53, 69) solid;
+      }
+    </style>
+
+    <div class="info-window">
+      <h4 class="iw-title">${lot.name}</h4>
+      <p class="iw-address">${lot.address.street}, ${lot.address.city}</p>
+      <p class="iw-address">${lot.address.province} ${lot.address.postalCode}</p>
+      <div class="iw-status">
+        <p class="iw-${lot.availability.toLowerCase()}">${lot.availability}</p>
+      </div>
+      <p class="iw-description">${lot.description}</p>
+      <a href="/lots/${lot.lotId}" class="iw-details-btn">Details →</a>
+    </div>
+  `;
     // Create the info window
     const newInfoWindow = new InfoWindow({
-        headerContent: lotTitle,
-        content,
-        ariaLabel: "Uluru",
-        maxWidth: 500,
+        content: contentString,
     });
     return newInfoWindow;
 }
