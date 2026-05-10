@@ -3,7 +3,7 @@
 <head>
   <title>BCIT Parkly</title>
 
-  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
   <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
   <script>
@@ -83,7 +83,6 @@
   <!--Breadcrum bar under the header bar-->
   <section class="breadcrumb-bar">
     <div class="subheading">
-      <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
       <a href="/">Home</a>
       <span class="seperator">›</span>
       <span class="current-pg">Find Parking</span>
@@ -95,7 +94,7 @@
     <!-- THE SIDE BAR AREA -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h3>Parking Lot List</h3>
+        <h3>Parking Lots List</h3>
 
         <!--Toggle that closes/opens the sidebar-->
         <button class="sidebar-toggle">
@@ -214,8 +213,8 @@
         </button>
       </div>
 
-      <!-- The map -->
-      <gmp-map map-id="dtc-map-id">
+      <!-- The map, centered at BCIT DTC -->
+      <gmp-map center="49.2835,-123.1152" zoom="16" map-id="8278b06836e5e0a728cb592b">
       </gmp-map>
     </main>
   </div>
