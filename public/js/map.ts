@@ -6,10 +6,11 @@
 declare const parkingLotsData: any[];
 
 // Request the needed libraries
-const [{ Map }, { AdvancedMarkerElement, PinElement }] = await Promise.all([
-  google.maps.importLibrary("maps") as Promise<google.maps.MapsLibrary>,
-  google.maps.importLibrary("marker") as Promise<google.maps.MarkerLibrary>,
-]);
+const [{ Map, InfoWindow }, { AdvancedMarkerElement, PinElement }] =
+  await Promise.all([
+    google.maps.importLibrary("maps") as Promise<google.maps.MapsLibrary>,
+    google.maps.importLibrary("marker") as Promise<google.maps.MarkerLibrary>,
+  ]);
 
 /**
  * @func Creates and places a single customized marker on the provided map instance based on lot availability
@@ -33,12 +34,65 @@ function addMarker(markerClass: any, map: any, lot: any, type: string): void {
   markerImg.style.width = "85px";
   markerImg.style.height = "auto";
 
-  new markerClass({
+  const marker = new markerClass({
     map: map,
     position: { lat: lot.latitude, lng: lot.longitude },
     title: lot.name,
     content: markerImg,
+    gmpClickable: true,
   });
+
+  if (type !== "DTC") {
+    const infoWindow = addInfoWindow(lot);
+
+    // Open the info window when the map loads
+    infoWindow.open({
+      anchor: marker,
+      map: map,
+    });
+
+    // Open the info window when the marker is clicked
+    marker.addEventListener("click", () => {
+      infoWindow.open({
+        anchor: marker,
+        map: map,
+      });
+    });
+  }
+}
+
+/**
+ * @func Creates and places a single customized info window on each parking lot marker
+ * @params lot
+ * @returns An InfoWindow object
+ */
+function addInfoWindow(lot: any) {
+  // Create the info window content
+  const lotTitle = document.createElement("h5");
+  lotTitle.textContent = lot.name;
+
+  const content = document.createElement("div");
+
+  const infoParagraph = document.createElement("p");
+  infoParagraph.textContent = lot.description;
+
+  content.appendChild(infoParagraph);
+
+  const lotLink = document.createElement("a");
+  lotLink.href = "/lots";
+  lotLink.textContent = "Details";
+  lotLink.target = "_blank";
+  content.appendChild(lotLink);
+
+  // Create the info window
+  const newInfoWindow = new InfoWindow({
+    headerContent: lotTitle,
+    content,
+    ariaLabel: "Uluru",
+    maxWidth: 500,
+  });
+
+  return newInfoWindow;
 }
 
 /**
@@ -84,5 +138,3 @@ async function initMap(): Promise<void> {
 }
 
 initMap();
-
-export {};
