@@ -6,6 +6,9 @@ import {
   delete_session,
 } from "../models/authModel.js";
 
+/*
+
+*/
 function generateSecureRandomString(): string {
   /*
     For generating session IDs and secrets
