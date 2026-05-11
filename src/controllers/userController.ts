@@ -9,10 +9,18 @@ export function goLoginPage(req: Request, res: Response) {
 }
 
 export function goSignupPage(req: Request, res: Response) {
-  res.render("signup", { message: null, devMode });
+  res.render("signup", {
+    message: null,
+    devMode,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    role: "",
+  });
 }
 
-export function createNewUserHandler(req: Request, res: Response) {
+export async function createNewUserHandler(req: Request, res: Response) {
   const {
     firstName,
     lastName,
@@ -32,7 +40,7 @@ export function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    const customer = createCustomer(
+    const customer = await createCustomer(
       firstName,
       lastName,
       email,
@@ -44,7 +52,15 @@ export function createNewUserHandler(req: Request, res: Response) {
     res.render("signup", { customer, devMode });
   } catch (error: any) {
     if (error instanceof PasswordMismatchError) {
-      return res.render("signup", { error: "Passwords must match!", devMode });
+      return res.render("signup", {
+        message: "Passwords must match!",
+        devMode,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        role,
+      });
     }
     res.status(500).render("signup", {
       message: "Server error - please try again",
@@ -52,3 +68,4 @@ export function createNewUserHandler(req: Request, res: Response) {
     });
   }
 }
+// IMPLEMENT UX MODE AFTER DEV MODE DISABLED
