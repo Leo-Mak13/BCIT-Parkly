@@ -1,6 +1,7 @@
 import express from "express";
 import { Request, Response } from "express";
 import { PasswordMismatchError } from "../middleware/errorTypes";
+import { createCustomer } from "../services/userService";
 const devMode = process.env.MODE == "dev";
 
 export function goLoginPage(req: Request, res: Response) {
@@ -11,7 +12,7 @@ export function goSignupPage(req: Request, res: Response) {
   res.render("signup", { message: null, devMode });
 }
 
-export function createUser(req: Request, res: Response) {
+export function createNewUserHandler(req: Request, res: Response) {
   const {
     firstName,
     lastName,
@@ -19,6 +20,7 @@ export function createUser(req: Request, res: Response) {
     phoneNumber,
     firstGoPassword,
     secondGoPassword,
+    role,
   } = req.body;
   try {
     console.log(
@@ -28,14 +30,25 @@ export function createUser(req: Request, res: Response) {
       phoneNumber,
       firstGoPassword,
       secondGoPassword,
+      role,
     );
-    res.render("signup");
+    const result = createCustomer(
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      firstGoPassword,
+      secondGoPassword,
+      role,
+    );
+    res.render("signup", { result, devMode });
   } catch (error: any) {
     if (error instanceof PasswordMismatchError) {
-      return res.render("signup", { error: "Passwords must match!" });
+      return res.render("signup", { error: "Passwords must match!", devMode });
     }
-    res
-      .status(500)
-      .render("signup", { message: "Server error - please try again" });
+    res.status(500).render("signup", {
+      message: "Server error - please try again",
+      devMode,
+    });
   }
 }
