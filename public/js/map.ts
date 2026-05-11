@@ -1,6 +1,6 @@
 /**
  * @file This file handles the initialization and logic for the Google Map,
- * including dynamic marker and info window placement.
+ * including dynamic marker and pop-up info window placement.
  */
 
 declare const parkingLotsData: any[];
@@ -240,12 +240,16 @@ async function initMap(): Promise<void> {
   // Add a marker positioned at the map center (DTC)
   addMarkerAndInfoWindow(AdvancedMarkerElement, innerMap, DTCLot, "DTC");
 
+  // Get map ID from .env file
+  const mapIdElement = document.querySelector("gmp-map");
+  const mapIdFromEnv = mapIdElement?.getAttribute("map-id");
+
   // Set map options
   innerMap.setOptions({
     mapTypeControl: false,
     tilt: 45,
     heading: 0,
-    mapId: "8278b06836e5e0a728cb592b",
+    mapId: mapIdFromEnv as string,
   });
 }
 

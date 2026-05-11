@@ -2,7 +2,7 @@
 
 <head>
   <title>BCIT Parkly</title>
-
+  <link rel="stylesheet" type="img/png" href="/assets/bcit-logo.png" />
   <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
   <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
@@ -50,7 +50,7 @@
       d[l]
         ? console.warn(p + " only loads once. Ignoring:", g)
         : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-    })({ key: "AIzaSyAAxoG1moijgPbs_BwZYDSlvGzQHzC_Ino", v: "weekly" });
+    })({ key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
   </script>
 </head>
 
@@ -214,7 +214,7 @@
       </div>
 
       <!-- The map, centered at BCIT DTC -->
-      <gmp-map center="49.2835,-123.1152" zoom="16" map-id="8278b06836e5e0a728cb592b">
+      <gmp-map center="49.2835,-123.1152" zoom="16" map-id="<%= GOOGLE_MAP_ID %>">
       </gmp-map>
     </main>
   </div>
