@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <script
+      src="https://kit.fontawesome.com/39589cb536.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- THE TOP HEADER AREA -->
+    <header>
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/permits">Permits & Rates</a>
+        <a href="/reservations">My Reservations</a>
+        <a href="/help">Help & Support</a>
+      </div>
+      <button class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign Up
+      </button>
+    </header>
+
+    <!--Breadcrumb bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">SignUp</span>
+      </div>
+    </section>
+
+    <div class="confirmation-container">
+      <p>Registration Complete!</p>
+      <a
+        title="Emoji One, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons"
+        href="https://commons.wikimedia.org/wiki/File:Eo_circle_green_checkmark.svg"
+        ><img
+          width="250"
+          alt="Eo circle green checkmark"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/250px-Eo_circle_green_checkmark.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail"
+      /></a>
+      <p>Your Parkly account has been created using:</p>
+      <p><%= locals.confirmedEmail %></p>
+      <a href="/login">
+        <button class="login-page-redirect">Login to Parkly</button>
+      </a>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
