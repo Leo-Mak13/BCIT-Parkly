@@ -49,7 +49,7 @@ export async function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    res.render("signup", { customer, devMode });
+    res.render("confirmationSignUp", { confirmedEmail: email, devMode });
   } catch (error: any) {
     if (error instanceof PasswordMismatchError) {
       return res.render("signup", {
