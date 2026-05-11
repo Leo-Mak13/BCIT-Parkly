@@ -247,7 +247,10 @@ header h6 {
 
 /*When hovering over the lot header button*/
 .lot-header-btn button:hover {
-  background-color: #0a549e;
+  color: #0a549e;
+  background-color: white;
+  border: 1.5px #0a549e solid;
+  transition: 0.4s ease;
 }
 
 .lot-card h3,

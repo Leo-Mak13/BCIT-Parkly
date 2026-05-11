@@ -1,9 +1,10 @@
 /**
  * @file This file handles the initialization and logic for the Google Map,
- * including dynamic marker placement, automated camera bounds, and custom UI padding.
+ * including dynamic marker and info window placement.
  */
 
 declare const parkingLotsData: any[];
+let timer: any; //global timer for info window pop-ups
 
 // Request the needed libraries
 const [{ Map, InfoWindow }, { AdvancedMarkerElement, PinElement }] =
@@ -12,57 +13,17 @@ const [{ Map, InfoWindow }, { AdvancedMarkerElement, PinElement }] =
     google.maps.importLibrary("marker") as Promise<google.maps.MarkerLibrary>,
   ]);
 
-/**
- * @func Creates and places a single customized marker on the provided map instance based on lot availability
- * @params markerClass, map, lot, type
- * @returns void
- */
-function addMarker(markerClass: any, map: any, lot: any, type: string): void {
-  const markerImg = document.createElement("img"); // img element for markers
-
-  // Pick markr color based on availability (special marker for DTC)
-  if (type === "DTC") {
-    markerImg.src = "../assets/marker-dtc.png";
-  } else if (type.toLowerCase() === "available") {
-    markerImg.src = "../assets/marker-green.png";
-  } else if (type.toLowerCase() === "limited") {
-    markerImg.src = "../assets/marker-orange.png";
-  } else if (type.toLowerCase() === "full") {
-    markerImg.src = "../assets/marker-red.png";
-  }
-
-  markerImg.style.width = "85px";
-  markerImg.style.height = "auto";
-
-  const marker = new markerClass({
-    map: map,
-    position: { lat: lot.latitude, lng: lot.longitude },
-    title: lot.name,
-    content: markerImg,
-    gmpClickable: true,
-  });
-
-  if (type !== "DTC") {
-    const infoWindow = addInfoWindow(lot);
-
-    // Open the info window when the marker is clicked
-    marker.addEventListener("click", () => {
-      infoWindow.open({
-        anchor: marker,
-        map: map,
-      });
-    });
-  }
-}
+let newInfoWindow = new InfoWindow(); // create a shared info window object for all markers on the map
 
 /**
- * @func Creates and places a single customized info window on each parking lot marker
+ * @func Creates HTML element for the parking lot info windows
  * @params lot
- * @returns An InfoWindow object
+ * @returns HTML element
  */
-function addInfoWindow(lot: any) {
+function generateHTMLElement(lot: any): HTMLElement {
   // Create the info window content
-  const contentString = `
+  const wrapper = document.createElement("div");
+  wrapper.innerHTML = `
     <style>
       .info-window { 
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
@@ -70,6 +31,7 @@ function addInfoWindow(lot: any) {
         display: flex;
         flex-direction: column;
         width: 150px;
+        pointer-events: auto;
       }
 
       .iw-title {
@@ -106,7 +68,11 @@ function addInfoWindow(lot: any) {
       }
 
       .iw-details-btn:hover { 
-        background-color: #0a549e;
+        color: #0a549e;
+        background-color: white;
+        border: 1.5px #0a549e solid;
+        width: 99%;
+        transition: 0.4s ease;
       }
 
       .iw-status p {
@@ -152,12 +118,77 @@ function addInfoWindow(lot: any) {
     </div>
   `;
 
-  // Create the info window
-  const newInfoWindow = new InfoWindow({
-    content: contentString,
+  return wrapper as HTMLElement;
+}
+
+/**
+ * @func Creates and places a single customized marker with a pop-up info window on the provided map instance based on lot availability
+ * @params markerClass, map, lot, type
+ * @returns void
+ */
+function addMarkerAndInfoWindow(
+  markerClass: any,
+  map: any,
+  lot: any,
+  type: string,
+): void {
+  const markerImg = document.createElement("img"); // img element for markers
+
+  // Pick markr color based on availability (special marker for DTC)
+  if (type === "DTC") {
+    markerImg.src = "/assets/marker-dtc.png";
+  } else if (type.toLowerCase() === "available") {
+    markerImg.src = "/assets/marker-green.png";
+  } else if (type.toLowerCase() === "limited") {
+    markerImg.src = "/assets/marker-orange.png";
+  } else if (type.toLowerCase() === "full") {
+    markerImg.src = "/assets/marker-red.png";
+  }
+
+  markerImg.style.width = "85px";
+  markerImg.style.height = "auto";
+
+  const marker = new markerClass({
+    map: map,
+    position: { lat: lot.latitude, lng: lot.longitude },
+    title: lot.name,
+    content: markerImg,
+    gmpClickable: true,
   });
 
-  return newInfoWindow;
+  if (type !== "DTC") {
+    // Open the info window when user hovers over the marker
+    marker.addEventListener("pointerenter", () => {
+      const lotContent = generateHTMLElement(lot);
+
+      lotContent.addEventListener("pointerenter", () => {
+        console.log("Timer cleared.");
+        clearTimeout(timer);
+      });
+
+      // If the user leaves the info window, wait 300ms then close it
+      lotContent.addEventListener("pointerleave", () => {
+        timer = setTimeout(() => {
+          console.log("Starting timer.");
+          newInfoWindow.close();
+        }, 300);
+      });
+
+      newInfoWindow.setContent(lotContent);
+      newInfoWindow.open({
+        anchor: marker,
+        map: map,
+        shouldFocus: false,
+      });
+    });
+
+    // Wait 300ms then close the info window when user leaves the marker
+    marker.addEventListener("pointerleave", () => {
+      timer = setTimeout(() => {
+        newInfoWindow.close();
+      }, 300);
+    });
+  }
 }
 
 /**
@@ -175,23 +206,22 @@ async function initMap(): Promise<void> {
 
   // Add marker for each parking lot
   parkingLotsData.forEach((lot: any) => {
-    addMarker(AdvancedMarkerElement, innerMap, lot, lot.availability);
+    addMarkerAndInfoWindow(
+      AdvancedMarkerElement,
+      innerMap,
+      lot,
+      lot.availability,
+    );
   });
-
-  const DTCmarkerImg = document.createElement("img"); // create img element for custom marker
-  DTCmarkerImg.src = "../assets/map-marker-orange.png";
-  DTCmarkerImg.style.width = "85px";
-  DTCmarkerImg.style.height = "auto";
 
   const DTCLot = {
     latitude: 49.2835,
     longitude: -123.1153,
     title: "BCIT DTC",
-    content: DTCmarkerImg,
   };
 
   // Add a marker positioned at the map center (DTC)
-  addMarker(AdvancedMarkerElement, innerMap, DTCLot, "DTC");
+  addMarkerAndInfoWindow(AdvancedMarkerElement, innerMap, DTCLot, "DTC");
 
   // Set map options
   innerMap.setOptions({
