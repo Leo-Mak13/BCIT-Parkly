@@ -41,21 +41,43 @@
     </section>
 
     <div class="confirmation-container">
-      <p>Registration Complete!</p>
-      <a
-        title="Emoji One, CC BY-SA 4.0 &lt;https://creativecommons.org/licenses/by-sa/4.0&gt;, via Wikimedia Commons"
-        href="https://commons.wikimedia.org/wiki/File:Eo_circle_green_checkmark.svg"
-        ><img
-          width="250"
-          alt="Eo circle green checkmark"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eo_circle_green_checkmark.svg/250px-Eo_circle_green_checkmark.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail"
-      /></a>
-      <p>Your Parkly account has been created using:</p>
-      <p><%= locals.confirmedEmail %></p>
-      <a href="/login">
-        <button class="login-page-redirect">Login to Parkly</button>
-      </a>
+      <div class="confirmation-card">
+
+        <div class="confirmation-icon">
+          <img src="/assets/Eo_circle_green_checkmark.svg.png" alt="Registration successful">
+        </div>
+
+        <h1 class="confirmation-title">Registration Complete!</h1>
+        <p class="confirmation-subtitle">Your Parkly account has been successfully created.</p>
+
+        <div class="confirmation-email-wrapper">
+          <p class="confirmation-email-label">Registered with</p>
+          <span class="confirmation-email-pill">
+            <i class="fa-solid fa-envelope"></i>
+            <%= locals.confirmedEmail %>
+          </span>
+        </div>
+
+        <hr class="confirmation-divider">
+
+        <div class="next-steps">
+          <p class="next-steps-title">What's next?</p>
+          <ul class="next-steps-list">
+            <li><span class="step-badge">1</span> Log in to your new account using the button below.</li>
+            <li><span class="step-badge">2</span> Browse available parking lots and reserve a spot.</li>
+            <li><span class="step-badge">3</span> Manage your reservations anytime from your dashboard.</li>
+          </ul>
+        </div>
+
+        <a href="/login" class="confirmation-cta">Log In to Parkly</a>
+
+        <p class="confirmation-help">
+          Need help? <a href="/help">Visit our Help &amp; Support page</a>
+        </p>
+
+      </div>
     </div>
+
 
     <footer>
       <div class="footer-container">
