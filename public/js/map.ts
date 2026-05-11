@@ -13,7 +13,10 @@ const [{ Map, InfoWindow }, { AdvancedMarkerElement, PinElement }] =
     google.maps.importLibrary("marker") as Promise<google.maps.MarkerLibrary>,
   ]);
 
-let newInfoWindow = new InfoWindow(); // create a shared info window object for all markers on the map
+// Create a shared pop-up object for all markers on the map
+let popupMarker = new AdvancedMarkerElement({
+  map: null,
+});
 
 /**
  * @func Creates HTML element for the parking lot info windows
@@ -32,6 +35,24 @@ function generateHTMLElement(lot: any): HTMLElement {
         flex-direction: column;
         width: 150px;
         pointer-events: auto;
+        margin-bottom: 100px; 
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      }
+
+      .info-window::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 10px;
+        border-style: solid;
+        border-color: white transparent transparent transparent;
+        filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
       }
 
       .iw-title {
@@ -55,12 +76,13 @@ function generateHTMLElement(lot: any): HTMLElement {
 
       .iw-details-btn { 
         background-color: #0e6ac5; 
-        color: white; 
+        color: white;
         padding: 10px 0;
+        border: 1.5px #0a549e solid;
         border-radius: 4px; 
         text-decoration: none;
         display: block;
-        width: 100%;
+        width: 99%;
         text-align: center;
         font-size: 12px;
         font-weight: 500;
@@ -159,33 +181,28 @@ function addMarkerAndInfoWindow(
   if (type !== "DTC") {
     // Open the info window when user hovers over the marker
     marker.addEventListener("pointerenter", () => {
-      const lotContent = generateHTMLElement(lot);
-
-      lotContent.addEventListener("pointerenter", () => {
+      popupMarker.addEventListener("pointerenter", () => {
         console.log("Timer cleared.");
         clearTimeout(timer);
       });
 
       // If the user leaves the info window, wait 300ms then close it
-      lotContent.addEventListener("pointerleave", () => {
+      popupMarker.addEventListener("pointerleave", () => {
         timer = setTimeout(() => {
           console.log("Starting timer.");
-          newInfoWindow.close();
+          popupMarker.map = null;
         }, 300);
       });
 
-      newInfoWindow.setContent(lotContent);
-      newInfoWindow.open({
-        anchor: marker,
-        map: map,
-        shouldFocus: false,
-      });
+      popupMarker.position = { lat: lot.latitude, lng: lot.longitude };
+      popupMarker.content = generateHTMLElement(lot);
+      popupMarker.map = map;
     });
 
     // Wait 300ms then close the info window when user leaves the marker
     marker.addEventListener("pointerleave", () => {
       timer = setTimeout(() => {
-        newInfoWindow.close();
+        popupMarker.map = null;
       }, 300);
     });
   }
