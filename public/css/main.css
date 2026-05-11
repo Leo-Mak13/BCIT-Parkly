@@ -237,7 +237,7 @@ header h6 {
   min-width: 6rem;
   background-color: #0e6ac5;
   color: white;
-  border: none;
+  border: 1.5px #0e6ac5 solid;
   border-radius: 4px;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
