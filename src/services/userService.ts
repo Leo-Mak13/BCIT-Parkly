@@ -23,7 +23,8 @@ export async function createCustomer(
   secondGoPassword: string,
   valid_permits: string,
 ): Promise<Customer | void> {
-  if (firstGoPassword !== secondGoPassword) throw PasswordMismatchError;
+  if (firstGoPassword !== secondGoPassword)
+    throw new PasswordMismatchError("Passwords must match!");
   const firstname = firstName.trim().toLowerCase();
   const lastname = lastName.trim().toLowerCase();
   const permit = normalizePermit(valid_permits);
