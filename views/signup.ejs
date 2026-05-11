@@ -12,152 +12,198 @@
     ></script>
   </head>
   <body>
-      <!-- THE TOP HEADER AREA -->
-      <header>
-        <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
-        <!--Header title and subtitle-->
-        <div class="header-titles">
+    <!-- THE TOP HEADER AREA -->
+    <header>
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+      <div class="header-titles">
           <h2>Parkly</h2>
           <h6>Downtown Campus</h6>
-        </div>
-        <!--Header tabs-->
-        <div class="header-tabs">
-          <a href="/">Find Parking</a>
-          <a href="/permits">Permits & Rates</a>
-          <a href="/reservations">My Reservations</a>
-          <a href="/help">Help & Support</a>
-        </div>
-        <!--Sign in button-->
-        <button class="sign-in-btn">
-          <i class="fa-solid fa-user"></i>
-          Sign Up
-        </button>
-      </header>
-    
+      </div>
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/permits">Permits & Rates</a>
+        <a href="/reservations">My Reservations</a>
+        <a href="/help">Help & Support</a>
+      </div>
+      <button class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign Up
+      </button>
+    </header>
 
-      <!--Breadcrum bar under the header bar-->
+    <!--Breadcrumb bar under the header bar-->
     <section class="breadcrumb-bar">
       <div class="subheading">
-        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
         <a href="/">Home</a>
         <span class="seperator">›</span>
         <span class="current-pg">Login</span>
       </div>
     </section>
-  
-    <!-- buttons to see different versions -->
+
+    <!-- Registration Container -->
     <div class="login-container">
       <div class="login-box">
-          <div class="message-box">
-            <div class="message-success">Success Message</div>
-            <div class="message-error">Error Message</div>
+        <div class="message-box">
+          <div class="message-success">Success Message</div>
+          <% if (locals.message) { %>
+          <div class="message-error"> <%= message %> </div>
+          <% } %>
+        </div>
+        <% if (devMode) { %>
+        <p style="color: rgb(165, 36, 36)">
+          RUNNING IN DEV MODE!!!!!!!
+          Please turn me <strong>OFF</strong> before deployment!
+        </p>
+        <% } %>
+        <div class="auth-box">
+          <div class="auth-header">
+            <h2>Create Account</h2>
           </div>
-          <div class="auth-box">
-            <div class="auth-header">
-              <h2>Create Account</h2>
+          <p class="auth-sub">Register for a BCIT Parking account</p>
+          <form action="/signup" method="POST">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="regFirstName">First Name</label>
+                <input
+                  type="text"
+                  id="regFirstName"
+                  placeholder="John"
+                  name="firstName"
+                  value="<%= devMode ? 'john' : '' %>" 
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="regLastName">Last Name</label>
+                <input
+                  type="text"
+                  id="regLastName"
+                  placeholder="Doe"
+                  name="lastName"
+                  value="<%= devMode ? 'pork' : '' %>" 
+                  required
+                />
+              </div>
             </div>
-            <p class="auth-sub">Register for a BCIT Parking account</p>
-            <form onsubmit="handleRegister(event)">
-                <div class="form-row-2">
-                <div class="form-group">
-                    <label for="regFirstName">First Name</label>
-                    <input type="text" id="regFirstName" placeholder="John" required />
-                </div>
-                <div class="form-group">
-                    <label for="regLastName">Last Name</label>
-                    <input type="text" id="regLastName" placeholder="Doe" required />
-                </div>
-                </div>
-                <div class="form-group">
-                <label for="regEmail">Email Address</label>
-                <input type="email" id="regEmail" placeholder="student@bcit.ca" required />
-                </div>
-                <div class="form-group">
-                <label for="regStudent">Student / Employee ID</label>
-                <input type="text" id="regStudent" placeholder="A00123456" required />
-                </div>
-                <div class="form-group">
-                <label for="regRole">Role</label>
-                <select id="regRole">
-                    <option value="">-- Select role --</option>
-                    <option value="student">Student</option>
-                    <option value="staff">Staff</option>
-                </select>
-                </div>
-                <div class="form-group">
-                <label for="regPassword">Password</label>
-                <input type="password" id="regPassword" placeholder="Create a password" required />
-                </div>
-                <div class="form-group">
-                <label for="regConfirm">Confirm Password</label>
-                <input type="password" id="regConfirm" placeholder="Repeat your password" required />
-                </div>
-                <div class="form-group">
-                <label class="checkbox-label"><input type="checkbox" required /> I agree to the <a href="#">Terms &amp; Conditions</a></label>
-                </div>
-                <button type="submit" class="auth-submit-btn">Create Account</button>
-            </form>
-            <div class="auth-divider"><span>or</span></div>
-            <p class="auth-switch">Already have an account? <a href="/login">Sign in here</a></p>
-          </div>
+            <div class="form-group">
+              <label for="regEmail">Email Address</label>
+              <input
+                type="email"
+                id="regEmail"
+                placeholder="student@bcit.ca"
+                name="email"
+                value="<%= devMode ? 'johnpork@bcit.ca' : '' %>" 
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber">Phone Number</label>
+              <input
+                type="text"
+                id="phoneNumber"
+                placeholder="7781231234"
+                name="phoneNumber"
+                value="<%= devMode ? '77777777' : '' %>" 
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="regRole">Role</label>
+              <select id="regRole" name="role">
+                <option value="">-- Select role --</option>
+                <option value="student" <%= devMode ? "selected" : '' %>>Student</option>
+                <option value="staff">Staff</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="regPassword">Password</label>
+              <input
+                type="password"
+                id="regPassword"
+                placeholder="Create a password"
+                name="firstGoPassword"
+                value="<%= devMode ? '123' : '' %>" 
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="regConfirm">Confirm Password</label>
+              <input
+                type="password"
+                id="regConfirm"
+                placeholder="Repeat your password"
+                name="secondGoPassword"
+                value="<%= devMode ? '123' : '' %>" 
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label class="checkbox-label"
+                ><input type="checkbox" required /> I agree to the
+                <a href="#">Terms &amp; Conditions</a></label
+              >
+            </div>
+            <button type="submit" class="auth-submit-btn">
+              Create Account
+            </button>
+          </form>
+          <div class="auth-divider"><span>or</span></div>
+          <p class="auth-switch">
+            Already have an account? <a href="/login">Sign in here</a>
+          </p>
+        </div>
       </div>
     </div>
 
-
-      <footer>
-        <div class="footer-container">
-          <!-- Logo and address column -->
-          <div class="footer-col">
-            <div class="footer-logo">
-              <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
-            </div>
-            <p>
-              3700 Willingdon Ave.
-              <br />
-              Burnaby, British Columbia
-              <br />
-              Canada V5G 3H2
-            </p>
-            <p>
-              604-434-5734
-              <br />
-              1-866-434-1610
-            </p>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
           </div>
-          <!-- Quick links column -->
-          <div class="footer-col">
-            <h4>QUICK LINKS</h4>
-            <ul>
-              <li><a href="#">Visit</a></li>
-              <li><a href="#">Apply Now</a></li>
-              <li><a href="#">Give</a></li>
-              <li><a href="#">News</a></li>
-              <li><a href="#">Events</a></li>
-              <li><a href="#">Careers</a></li>
-            </ul>
-          </div>
-          <!-- Campuses column -->
-          <div class="footer-col">
-            <h4>BCIT CAMPUSES</h4>
-            <ul>
-              <li><a href="#">Burnaby Campus</a></li>
-              <li><a href="#">Downtown Campus</a></li>
-              <li><a href="#">Marine Campus</a></li>
-              <li><a href="#">Aerospace Technology Campus</a></li>
-              <li><a href="#">Annacis Island Campus</a></li>
-            </ul>
-          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
         </div>
-        <!-- Bottom legal Bar -->
-        <div class="footer-bottom">
-          <div class="footer-bottom-links">
-            <a href="#">Copyright</a>
-            <a href="#">Privacy</a>
-            <a href="#">Terms of Use</a>
-            <a href="#">Accessibility</a>
-          </div>
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
         </div>
-      </footer>
-    </div>
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
