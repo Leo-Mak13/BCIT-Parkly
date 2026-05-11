@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Leo-Mak13/ACIT-2911-Agile-Project#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
     "express": "^5.2.1",

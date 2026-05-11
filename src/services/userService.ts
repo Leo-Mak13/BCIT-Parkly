@@ -8,6 +8,7 @@ import {
 } from "../models/userModel";
 import { PasswordMismatchError } from "../middleware/errorTypes";
 import { Customer, User } from "../types/core";
+import bcrypt from "bcrypt";
 
 /*
  * @func calls database create_customer function with updated parameters, send to
@@ -60,7 +61,19 @@ async function createUser(
   password: string,
 ): Promise<User | void> {
   const trimmedEmail = email.trim();
-  const hashedPassword = password + "lolol";
+  const hashedPassword = await createHashPassword(password);
   const result = await create_user(trimmedEmail, hashedPassword);
   return result;
+}
+
+const saltRounds = 10;
+
+/*
+ * @func calls bcrypt's hasher with a salt
+ * @params none
+ * @returns a hashed password as a string
+ */
+async function createHashPassword(rawPassword: string): Promise<string> {
+  const hashPassword = await bcrypt.hash(rawPassword, saltRounds);
+  return hashPassword;
 }
