@@ -32,7 +32,7 @@ export function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    const result = createCustomer(
+    const customer = createCustomer(
       firstName,
       lastName,
       email,
@@ -41,7 +41,7 @@ export function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    res.render("signup", { result, devMode });
+    res.render("signup", { customer, devMode });
   } catch (error: any) {
     if (error instanceof PasswordMismatchError) {
       return res.render("signup", { error: "Passwords must match!", devMode });

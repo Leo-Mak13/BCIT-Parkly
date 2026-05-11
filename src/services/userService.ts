@@ -10,7 +10,7 @@ import { PasswordMismatchError } from "../middleware/errorTypes";
 import { Customer, User } from "../types/core";
 
 /*
- * @func calls database create_user function with updated parameters, send to
+ * @func calls database create_customer function with updated parameters, send to
  * @params firstname, lastname, email, phonenumber, password1 and 2 for password validation, valid_permit
  * @returns query object or void
  */
@@ -35,6 +35,7 @@ export async function createCustomer(
     lastname,
   );
   const newUser = await createUser(email, secondGoPassword);
+  // we do not ever return this created user to the client for security reasons
   return result;
 }
 
@@ -48,6 +49,11 @@ function normalizePermit(permit: string): string {
   }
 }
 
+/*
+ * @func calls database create_user function with updated parameters, send to
+ * @params email, hash_password
+ * @returns query object or void
+ */
 async function createUser(
   email: string,
   password: string,
