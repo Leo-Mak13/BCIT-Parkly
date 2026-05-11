@@ -9,7 +9,11 @@ import { Request, Response } from "express";
 export async function getHomePage(req: Request, res: Response): Promise<void> {
   try {
     const allLots = await getLotAvailability();
-    res.render("main", { parkingLots: allLots });
+    res.render("main", {
+      parkingLots: allLots,
+      GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+      GOOGLE_MAP_ID: process.env.GOOGLE_MAP_ID,
+    });
   } catch (err) {
     res
       .status(500)
