@@ -4,7 +4,8 @@
   "description": "ACIT-2911-Agile-Project",
   "main": "index.js",
   "scripts": {
-    "start": "tsx --watch --env-file .env src/app.ts"
+    "start": "tsx --watch --env-file .env src/app.ts",
+    "test": "tsx --test"
   },
   "repository": {
     "type": "git",
