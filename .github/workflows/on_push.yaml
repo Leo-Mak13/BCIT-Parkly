@@ -17,7 +17,7 @@ jobs:
           npm install
       - name: Test with pytest
         run: |
-          tsx --test
+          npx tsx --test
   create-pull-request:
     needs: build
     runs-on: ubuntu-latest
