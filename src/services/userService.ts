@@ -5,6 +5,7 @@ import {
   get_customer,
   get_customers,
   create_user,
+  get_user,
 } from "../models/userModel";
 import { PasswordMismatchError } from "../middleware/errorTypes";
 import { Customer, User } from "../types/core";
@@ -73,7 +74,18 @@ const saltRounds = 10;
  * @params none
  * @returns a hashed password as a string
  */
-async function createHashPassword(rawPassword: string): Promise<string> {
+export async function createHashPassword(rawPassword: string): Promise<string> {
   const hashPassword = await bcrypt.hash(rawPassword, saltRounds);
   return hashPassword;
+}
+
+export async function validateUser(
+  email: string,
+  password: string,
+): Promise<boolean | void> {
+  const user = await get_user(email);
+  const userEmail = user.email;
+  const hashPassword = user.password_hash;
+  const validPassword = await bcrypt.compare(password, hashPassword);
+  return validPassword;
 }

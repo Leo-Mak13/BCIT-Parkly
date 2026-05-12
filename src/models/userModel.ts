@@ -38,4 +38,11 @@ async function create_user(email: string, password: string) {
   );
 }
 
-export { create_customer, get_customer, get_customers, create_user };
+async function get_user(email: string) {
+  const [stmt] = await pool.query(`SELECT * FROM users WHERE email = ?`, [
+    email,
+  ]);
+  return stmt[0];
+}
+
+export { create_customer, get_customer, get_customers, create_user, get_user };

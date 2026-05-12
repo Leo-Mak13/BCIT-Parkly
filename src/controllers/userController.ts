@@ -1,11 +1,12 @@
 import express from "express";
 import { Request, Response } from "express";
 import { PasswordMismatchError } from "../middleware/errorTypes";
-import { createCustomer } from "../services/userService";
+import { createCustomer, validateUser } from "../services/userService";
+import { EOL } from "os";
 const devMode = process.env.MODE == "dev";
 
 export function goLoginPage(req: Request, res: Response) {
-  res.render("login");
+  res.render("login", { devMode, error: null });
 }
 
 export function goSignupPage(req: Request, res: Response) {
@@ -69,3 +70,10 @@ export async function createNewUserHandler(req: Request, res: Response) {
   }
 }
 // IMPLEMENT UX MODE AFTER DEV MODE DISABLED
+
+export async function loginUser(req: Request, res: Response) {
+  const email = req.body.email;
+  const plainTextPassword = req.body.password;
+  const result = await validateUser(email, plainTextPassword);
+  res.render("login", { devMode, error: null });
+}
