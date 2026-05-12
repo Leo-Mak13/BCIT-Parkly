@@ -11,7 +11,7 @@ import { createSession } from "../services/authService";
 const devMode = process.env.MODE == "dev";
 
 export function goLoginPage(req: Request, res: Response) {
-  res.render("login", { devMode, error: null });
+  res.render("login", { devMode, error: null, user: req.user });
 }
 
 export function goSignupPage(req: Request, res: Response) {
@@ -23,6 +23,7 @@ export function goSignupPage(req: Request, res: Response) {
     email: "",
     phoneNumber: "",
     role: "",
+    user: req.user,
   });
 }
 
@@ -55,7 +56,11 @@ export async function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    res.render("confirmationSignUp", { confirmedEmail: email, devMode });
+    res.render("confirmationSignUp", {
+      confirmedEmail: email,
+      devMode,
+      user: req.user,
+    });
   } catch (error: any) {
     if (error instanceof PasswordMismatchError) {
       return res.render("signup", {
@@ -66,11 +71,13 @@ export async function createNewUserHandler(req: Request, res: Response) {
         email,
         phoneNumber,
         role,
+        user: req.user,
       });
     }
     res.status(500).render("signup", {
       message: "Server error - please try again",
       devMode,
+      user: req.user,
     });
   }
 }
@@ -91,6 +98,7 @@ export async function loginUser(req: Request, res: Response) {
       res.render("login", {
         devMode,
         error: "Incorrect email and/or password",
+        user: req.user,
       });
     } else {
       const user_id = await getUserIdByEmail(email);
@@ -107,6 +115,11 @@ export async function loginUser(req: Request, res: Response) {
     res.status(500).render("login", {
       error: "Server error - please try again",
       devMode,
+      user: req.user,
     });
   }
+}
+
+export async function testRender(req: Request, res: Response) {
+  res.render("test", { user: req.user });
 }
