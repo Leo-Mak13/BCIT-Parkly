@@ -27,8 +27,8 @@ async function updateTables(email: string, password: string) {
 //   await updateTables("christopher.lee@example.com", "league");
 // }
 
-const user = await getUserIdByEmail("jordan.patel@example.com");
+// const user = await getUserIdByEmail("jordan.patel@example.com");
 
 // console.log(user.email, user.password_hash);
 
-console.log(user);
+// console.log(user);
