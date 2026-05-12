@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `customers` (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
     customer_name VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(10),
     valid_permits VARCHAR(20) NOT NULL
 );
@@ -121,11 +121,11 @@ CREATE TABLE `sessions` (
 );
 
 INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot_name) VALUES
-    ('1', 56, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
-    ('2', 30, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
-    ('3', 95, 49.28541860364103, -123.11753337849295, 'Lot 4116', 'Diamond Parking'),
-    ('B1', 75, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
-    ('B2', 60, 49.28045903416459, -123.11897398685132, 'Lot 055 - H&Y Mart', 'Parking Indigo Vancouver');
+    ('1', 58, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
+    ('2', 28, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
+    ('3', 67, 49.28541860364103, -123.11753337849295, 'Lot 4116', 'Diamond Parking'),
+    ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
+    ('B2', 57, 49.28045903416459, -123.11897398685132, 'Lot 055 - H&Y Mart', 'Parking Indigo Vancouver');
 
 INSERT INTO customers (customer_name, email, phone, valid_permits) VALUES
     ('Jordan Patel', 'jordan.patel@example.com', '6045550107', 'student'),
@@ -302,9 +302,9 @@ INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (FALSE, 'small', 3),
     (FALSE, 'handicap', 3),
     (TRUE, 'regular', 4),
-    (FALSE, 'regular', 4),
+    (TRUE, 'regular', 4),
     (TRUE, 'electric', 4),
-    (FALSE, 'electric', 4),
+    (TRUE, 'electric', 4),
     (TRUE, 'handicap', 4),
     (FALSE, 'handicap', 4),
     (TRUE, 'regular', 4),
