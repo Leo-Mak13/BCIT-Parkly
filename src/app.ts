@@ -6,9 +6,12 @@ import {
 } from "../database/database.ts";
 import reserveRoute from "../src/routes/reserveRoute.js";
 import { EOL } from "os";
+import cookieParser from "cookie-parser";
 
 const PORT: number = 5000;
 const app = express();
+
+app.use(cookieParser());
 
 import lotRoutes from "./routes/lotRoutes";
 import userRoute from "./routes/userRoute.ts";

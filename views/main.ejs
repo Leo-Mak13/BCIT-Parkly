@@ -73,11 +73,18 @@
       <a href="/help">Help & Support</a>
     </div>
 
-    <!--Sign in button-->
+    <!--Sign in button or Logout if (user)-->
+    <% if (locals.user === null) { %>
     <a role="button" href="/login" class="sign-in-btn">
       <i class="fa-solid fa-user"></i>
       Sign In
     </a>
+    <% } else { %>
+    <a role="button" href="/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
   </header>
 
   <!--Breadcrum bar under the header bar-->

@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Leo-Mak13/ACIT-2911-Agile-Project#readme",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
@@ -30,6 +31,7 @@
     "typescript": "^6.0.3"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",

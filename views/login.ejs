@@ -47,8 +47,9 @@
     <div class="login-container">
       <div class="login-box">
         <div class="message-box">
-          <div class="message-success">Success Message</div>
-          <div class="message-error">Error Message</div>
+          <% if (locals.error) { %>
+          <div class="message-error"><%= locals.error %></div>
+          <% } %>
         </div>
         <div class="auth-box">
           <div class="auth-header">
@@ -62,6 +63,8 @@
                 type="email"
                 id="signinEmail"
                 placeholder="student@bcit.ca"
+                value="<%= devMode ? 'sarah.johnson@example.com' : '' %>"
+                name="email"
                 required
               />
             </div>
@@ -71,6 +74,8 @@
                 type="password"
                 id="signinPassword"
                 placeholder="Enter your password"
+                value="<%= devMode ? 'crab' : '' %>"
+                name="password"
                 required
               />
             </div>
@@ -87,6 +92,7 @@
             Don't have an account? <a href="/signup">Register here</a>
           </p>
         </div>
+      </div>
       </div>
 
       <footer>
@@ -143,6 +149,5 @@
           </div>
         </div>
       </footer>
-    </div>
   </body>
 </html>

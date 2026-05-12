@@ -25,10 +25,17 @@
         <a href="/reservations">My Reservations</a>
         <a href="/help">Help & Support</a>
       </div>
-      <button class="sign-in-btn">
-        <i class="fa-solid fa-user"></i>
-        Sign Up
-      </button>
+    <% if (locals.user === null) { %>
+    <a role="button" href="/login" class="sign-in-btn">
+      <i class="fa-solid fa-user"></i>
+      Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
     </header>
 
     <!--Breadcrumb bar under the header bar-->

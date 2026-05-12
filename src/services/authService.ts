@@ -31,19 +31,27 @@ function generateSecureRandomString(): string {
   return id;
 }
 
-export async function createSession(): Promise<SessionWithToken> {
+/*
+ * @func creates a session, with necessary hashing
+ * @params a user id
+ * @returns a token - technically the generated session id + . + rawSecret
+ */
+export async function createSession(
+  user_id: number,
+): Promise<SessionWithToken> {
   const now = new Date();
   const id = generateSecureRandomString(); // session id - used for lookup
-  const secret = generateSecureRandomString(); // secret - stored as SHA-256 hash
-  const secretHash = await hashSecret(secret);
+  const rawSecret = generateSecureRandomString(); // secret - stored as SHA-256 hash
+  const secretHash = await hashSecret(rawSecret);
 
-  const token = id + "." + secret;
+  const token = id + "." + rawSecret;
   // This is the session token given to the cookie, used for signin and reauthentication
 
   const session: SessionWithToken = {
     id,
     secretHash,
     createdAt: now,
+    user_id,
     token,
   };
 
@@ -51,12 +59,16 @@ export async function createSession(): Promise<SessionWithToken> {
     session.id,
     Buffer.from(session.secretHash),
     session.createdAt,
+    user_id,
   );
   // Insert into sessions: session id, hashed secret, and session creation date - creation date used for verifying expiry
 
   return session;
 }
 
+/*
+ Hasher using SHA-256 to hash the rawSecret
+*/
 async function hashSecret(secret: string): Promise<Uint8Array> {
   const secretBytes = new TextEncoder().encode(secret);
   const secretHashBuffer = await crypto.subtle.digest("SHA-256", secretBytes);
@@ -114,6 +126,7 @@ async function getSession(sessionId: string): Promise<Session | null> {
     id: row.id,
     secretHash: new Uint8Array(row.secret_hash),
     createdAt: row.created_at,
+    user_id: row.user_id,
   };
 
   if (
