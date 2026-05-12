@@ -1,6 +1,10 @@
 import express from "express";
 import * as database from "../controllers/reserveController.js";
+import { authValidation } from "../middleware/authMiddleware";
+
 const router = express.Router();
+
+router.use(authValidation);
 
 router.get("/:customer_id", async (req, res) => {
   const reservations = await database.get_reservations(req.params.customer_id);
