@@ -22,4 +22,16 @@ async function delete_session(id: string) {
   const [stmt] = await pool.query(`DELETE FROM sessions WHERE id = ?`, [id]);
 }
 
-export { create_session, get_session, delete_session, pool };
+async function delete_session_by_user_id(user_id: number) {
+  const [stmt] = await pool.query(`DELETE FROM sessions WHERE user_id = ?`, [
+    user_id,
+  ]);
+}
+
+export {
+  create_session,
+  get_session,
+  delete_session,
+  pool,
+  delete_session_by_user_id,
+};

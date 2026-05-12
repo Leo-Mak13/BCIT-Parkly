@@ -4,11 +4,16 @@ import { PasswordMismatchError } from "../middleware/errorTypes";
 import {
   createCustomer,
   getUserIdByEmail,
+  logOutDeleteSession,
   validateUser,
 } from "../services/userService";
 import { EOL } from "os";
 import { createSession } from "../services/authService";
 const devMode = process.env.MODE == "dev";
+
+export function homePage(req: Request, res: Response) {
+  res.render("/", { devMode, error: null, user: req.user });
+}
 
 export function goLoginPage(req: Request, res: Response) {
   res.render("login", { devMode, error: null, user: req.user });
@@ -109,7 +114,7 @@ export async function loginUser(req: Request, res: Response) {
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      res.redirect("myReservations");
+      res.redirect("");
     }
   } catch (err) {
     res.status(500).render("login", {
@@ -122,4 +127,25 @@ export async function loginUser(req: Request, res: Response) {
 
 export async function testRender(req: Request, res: Response) {
   res.render("test", { user: req.user });
+}
+
+export async function logOutUser(req: Request, res: Response) {
+  try {
+    if (req.user === null) {
+      res.redirect("/login");
+    } else {
+      const userId = req.user.id;
+      await logOutDeleteSession(userId);
+      console.log("before resetting req.user", req.user);
+      req.user = null;
+      console.log("after resetting req.user", req.user);
+      res.render("main", { devMode, error: null, user: req.user });
+    }
+  } catch (err) {
+    res.status(500).render("login", {
+      error: "Server error - please try again",
+      devMode,
+      user: req.user,
+    });
+  }
 }
