@@ -18,9 +18,10 @@ describe("create_session and delete session", () => {
     const id = crypto.randomUUID();
     const secret_hash = Buffer.from("test-secret");
     const created_at = new Date();
+    const fakeId = 1;
     // create session
     try {
-      await create_session(id, secret_hash, created_at);
+      await create_session(id, secret_hash, created_at, fakeId);
       // retrieve session
       const rows = await get_session(id);
       // check result exists
@@ -35,8 +36,9 @@ describe("create_session and delete session", () => {
     const id = crypto.randomUUID();
     const secret_hash = Buffer.from("delete-test");
     const created_at = new Date();
+    const fakeId = 1;
     // create first
-    await create_session(id, secret_hash, created_at);
+    await create_session(id, secret_hash, created_at, fakeId);
     // delete session
     await delete_session(id);
     // try retrieve again
