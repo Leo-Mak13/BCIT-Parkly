@@ -628,3 +628,13 @@ footer {
 .page-display {
   display: flex;
 }
+
+/*--- DETAILS (HIDDEN) SIDE PANEL ---*/
+.details-side-panel {
+  position: fixed;
+  left: -500px;
+}
+
+.details-side-panel.active {
+  left: 0;
+}

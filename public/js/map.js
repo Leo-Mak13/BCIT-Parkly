@@ -130,7 +130,7 @@ function generateHTMLElement(lot) {
         <p class="iw-${lot.availability.toLowerCase()}">${lot.availability}</p>
       </div>
       <p class="iw-description">${lot.description}</p>
-      <a href="/lots/${lot.lotId}" class="iw-details-btn">Details →</a>
+      <a class="iw-details-btn">Details →</a>
     </div>
   `;
     return wrapper;
