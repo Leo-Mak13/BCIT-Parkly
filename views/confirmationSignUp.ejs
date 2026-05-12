@@ -3,70 +3,82 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BCIT Parkly</title>
-    <link rel="stylesheet" type="text/css" href="/css/singleReservation.css" />
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <script
+      src="https://kit.fontawesome.com/39589cb536.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <!-- THE TOP HEADER AREA -->
     <header>
       <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
-
-      <!--Header title and subtitle-->
       <div class="header-titles">
         <h2>Parkly</h2>
         <h6>Downtown Campus</h6>
       </div>
-
-      <!--Header tabs-->
       <div class="header-tabs">
         <a href="/">Find Parking</a>
         <a href="/permits">Permits & Rates</a>
         <a href="/reservations">My Reservations</a>
         <a href="/help">Help & Support</a>
       </div>
-
-      <!--Sign in button-->
       <button class="sign-in-btn">
         <i class="fa-solid fa-user"></i>
-        Sign In
+        Sign Up
       </button>
     </header>
-    </section>
-    <!--Breadcrum bar under the header bar-->
+
+    <!--Breadcrumb bar under the header bar-->
     <section class="breadcrumb-bar">
       <div class="subheading">
-        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
         <a href="/">Home</a>
         <span class="seperator">›</span>
-        <span class="current-pg">myReservations</span>
+        <span class="current-pg">SignUp</span>
       </div>
     </section>
-    <!-- reservation heading under breadcrumb bar -->
-     <div>
-     <h1>Your Reservation</h1>
-     </div>
-        <div class="induvidual-reservation">
-        <% reservation.forEach(info => { %>
-          <div class="info-reservation">
-            <div class="column-name">
-            <p>Lot floor: </p>
-            <p>Lot name: </p>
-            <p>Stall location: </p>
-            <p>Type: </p>
-            <p>Purchase date: </p>
-            <p>Cost: </p>
-            </div>
-            <div class="column-info">
-              <p><%= info.lot_floor %></p>
-              <p><%= info.lot_name %></p>
-              <p><%= info.stall_location %></p>
-              <p><%= info.parking_type %></p>
-              <p><%= info.purchase_date %></p>
-              <p>$<%= info.total_cost %></p>
 
-            </div>
-          </div>
-        <% }) %>
+    <div class="confirmation-container">
+      <div class="confirmation-card">
+
+        <div class="confirmation-icon">
+          <img src="/assets/Eo_circle_green_checkmark.svg.png" alt="Registration successful">
         </div>
+
+        <h1 class="confirmation-title">Registration Complete!</h1>
+        <p class="confirmation-subtitle">Your Parkly account has been successfully created.</p>
+
+        <div class="confirmation-email-wrapper">
+          <p class="confirmation-email-label">Registered with</p>
+          <span class="confirmation-email-pill">
+            <i class="fa-solid fa-envelope"></i>
+            <%= locals.confirmedEmail %>
+          </span>
+        </div>
+
+        <hr class="confirmation-divider">
+
+        <div class="next-steps">
+          <p class="next-steps-title">What's next?</p>
+          <ul class="next-steps-list">
+            <li><span class="step-badge">1</span> Log in to your new account using the button below.</li>
+            <li><span class="step-badge">2</span> Browse available parking lots and reserve a spot.</li>
+            <li><span class="step-badge">3</span> Manage your reservations anytime from your dashboard.</li>
+          </ul>
+        </div>
+
+        <a href="/login" class="confirmation-cta">Log In to Parkly</a>
+
+        <p class="confirmation-help">
+          Need help? <a href="/help">Visit our Help &amp; Support page</a>
+        </p>
+
+      </div>
+    </div>
+
+
     <footer>
       <div class="footer-container">
         <div class="footer-col">
@@ -86,7 +98,6 @@
             1-866-434-1610
           </p>
         </div>
-
         <div class="footer-col">
           <h4>QUICK LINKS</h4>
           <ul>
@@ -98,7 +109,6 @@
             <li><a href="#">Careers</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>BCIT CAMPUSES</h4>
           <ul>
@@ -110,7 +120,6 @@
           </ul>
         </div>
       </div>
-      <!-- Bottom legal Bar -->
       <div class="footer-bottom">
         <div class="footer-bottom-links">
           <a href="#">Copyright</a>

@@ -7,7 +7,7 @@ interface Session {
 interface SessionRow {
   id: string;
   secret_hash: Buffer;
-  created_at: number;
+  created_at: Date;
 }
 
 export type { Session, SessionRow };

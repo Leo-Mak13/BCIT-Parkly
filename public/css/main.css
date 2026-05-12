@@ -94,6 +94,7 @@ header h6 {
 .sign-in-btn {
   color: white;
   background-color: #315887;
+  text-decoration: none;
   border-radius: 5px;
   border: rgb(171, 171, 171) 1px solid;
   align-self: center;
@@ -236,7 +237,7 @@ header h6 {
   min-width: 6rem;
   background-color: #0e6ac5;
   color: white;
-  border: none;
+  border: 1.5px #0e6ac5 solid;
   border-radius: 4px;
   padding: 0.4rem 0.8rem;
   cursor: pointer;
@@ -246,7 +247,10 @@ header h6 {
 
 /*When hovering over the lot header button*/
 .lot-header-btn button:hover {
-  background-color: #0a549e;
+  color: #0a549e;
+  background-color: white;
+  border: 1.5px #0a549e solid;
+  transition: 0.4s ease;
 }
 
 .lot-card h3,
