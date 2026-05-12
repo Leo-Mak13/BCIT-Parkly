@@ -107,10 +107,10 @@ export async function getUserIdByEmail(email: string) {
 }
 
 export async function getUserById(id: number) {
-  const user = get_user_by_id(id);
+  const user = await get_user_by_id(id);
   return user;
 }
 
 export async function logOutDeleteSession(user_id: number) {
-  const result = delete_session_by_user_id(user_id);
+  const result = await delete_session_by_user_id(user_id);
 }

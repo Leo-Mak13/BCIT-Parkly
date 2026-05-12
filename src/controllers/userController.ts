@@ -132,14 +132,16 @@ export async function testRender(req: Request, res: Response) {
 export async function logOutUser(req: Request, res: Response) {
   try {
     if (req.user === null) {
-      res.redirect("/login");
+      res.render("login", {
+        devMode,
+        error: "User not found - please login again",
+        user: req.user,
+      });
     } else {
       const userId = req.user.id;
       await logOutDeleteSession(userId);
-      console.log("before resetting req.user", req.user);
       req.user = null;
-      console.log("after resetting req.user", req.user);
-      res.render("main", { devMode, error: null, user: req.user });
+      res.render("login", { devMode, error: null, user: req.user });
     }
   } catch (err) {
     res.status(500).render("login", {
