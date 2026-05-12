@@ -21,17 +21,17 @@
       </div>
       <div class="header-tabs">
         <a href="/">Find Parking</a>
-        <a href="/permits">Permits & Rates</a>
-        <a href="/reservations">My Reservations</a>
-        <a href="/help">Help & Support</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
       </div>
     <% if (locals.user === null) { %>
-    <a role="button" href="/login" class="sign-in-btn">
-      <i class="fa-solid fa-user"></i>
-      Sign In
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
     </a>
     <% } else { %>
-    <a role="button" href="/logout" class="sign-in-btn">
+    <a role="button" href="/users/logout" class="sign-in-btn">
     <i class="fa-solid fa-user"></i>
     Sign Out
     </a>
