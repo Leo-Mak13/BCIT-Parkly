@@ -12,7 +12,7 @@ import { createSession } from "../services/authService";
 const devMode = process.env.MODE == "dev";
 
 export function homePage(req: Request, res: Response) {
-  res.render("/", { devMode, error: null, user: req.user });
+  res.render("main", { devMode, error: null, user: req.user });
 }
 
 export function goLoginPage(req: Request, res: Response) {
