@@ -1,8 +1,13 @@
 import express from "express";
 import { Request, Response } from "express";
 import { PasswordMismatchError } from "../middleware/errorTypes";
-import { createCustomer, validateUser } from "../services/userService";
+import {
+  createCustomer,
+  getUserIdByEmail,
+  validateUser,
+} from "../services/userService";
 import { EOL } from "os";
+import { createSession } from "../services/authService";
 const devMode = process.env.MODE == "dev";
 
 export function goLoginPage(req: Request, res: Response) {
@@ -71,9 +76,37 @@ export async function createNewUserHandler(req: Request, res: Response) {
 }
 // IMPLEMENT UX MODE AFTER DEV MODE DISABLED
 
+/*
+ * @func login the user
+ * @params request or response
+ * @ returns nothing
+ * login the user via incoming req.body.email | password - if successful, create a cookie named "auth_session" that contains the string tokenOnly (the token needed to lookup session in database)
+ */
 export async function loginUser(req: Request, res: Response) {
-  const email = req.body.email;
-  const plainTextPassword = req.body.password;
-  const result = await validateUser(email, plainTextPassword);
-  res.render("login", { devMode, error: null });
+  try {
+    const email = req.body.email;
+    const plainTextPassword = req.body.password;
+    const result = await validateUser(email, plainTextPassword);
+    if (!result) {
+      res.render("login", {
+        devMode,
+        error: "Incorrect email and/or password",
+      });
+    } else {
+      const user_id = await getUserIdByEmail(email);
+      const sessionToken = await createSession(user_id);
+      const tokenOnly = sessionToken.token;
+      res.cookie("auth_session", tokenOnly, {
+        httpOnly: false,
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      res.redirect("myReservations");
+    }
+  } catch (err) {
+    res.status(500).render("login", {
+      error: "Server error - please try again",
+      devMode,
+    });
+  }
 }

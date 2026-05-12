@@ -48,7 +48,7 @@
       <div class="login-box">
         <div class="message-box">
           <% if (locals.error) { %>
-          <div class="message-error">Error Message</div>
+          <div class="message-error"><%= locals.error %></div>
           <% } %>
         </div>
         <div class="auth-box">
@@ -92,6 +92,7 @@
             Don't have an account? <a href="/signup">Register here</a>
           </p>
         </div>
+      </div>
       </div>
 
       <footer>
@@ -148,6 +149,5 @@
           </div>
         </div>
       </footer>
-    </div>
   </body>
 </html>

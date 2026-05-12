@@ -45,4 +45,16 @@ async function get_user(email: string) {
   return stmt[0];
 }
 
-export { create_customer, get_customer, get_customers, create_user, get_user };
+async function get_user_by_id(id: number) {
+  const [stmt] = await pool.query(`SELECT * FROM users WHERE id = ?`, [id]);
+  return stmt[0];
+}
+
+export {
+  create_customer,
+  get_customer,
+  get_customers,
+  create_user,
+  get_user,
+  get_user_by_id,
+};
