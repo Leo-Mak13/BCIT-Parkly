@@ -57,4 +57,24 @@ BEGIN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Customer does not have valid permit for lot.';
     END IF;
 END //
+DELIMITER ;
 
+-- update lot_capaccity when a new stall is inserted
+CREATE TRIGGER `update_lot_capacity_on_stall_insert`
+AFTER INSERT ON parking_stalls
+FOR EACH ROW
+BEGIN
+    UPDATE parking_lots
+    SET lot_capacity = lot_capacity +1
+    WHERE lot_id = NEW.lot_id;
+END;
+
+-- update lot_capacity when a stall is deleted
+CREATE TRIGGER `update_lot_capacity_on_stall_delete`
+AFTER DELETE ON parking_stalls
+FOR EACH ROW
+BEGIN
+    UPDATE parking_lots
+    SET lot_capacity = lot_capacity -1
+    WHERE lot_id = OLD.lot_id;
+END;
