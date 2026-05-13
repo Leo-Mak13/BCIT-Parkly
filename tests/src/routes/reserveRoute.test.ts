@@ -6,15 +6,6 @@ import request from "supertest";
 import { pool } from "../../../database/database.js";
 import reserveRoute from "../../../src/routes/reserveRoute.js";
 
-async function getTestReservation() {
-  const [rows]: any = await pool.query(
-    "SELECT reservation_id, customer_id FROM reservations LIMIT 1",
-  );
-
-  assert.ok(rows.length > 0);
-  return rows[0];
-}
-
 function makeApp() {
   const app = express();
 
@@ -29,13 +20,29 @@ function makeApp() {
   return app;
 }
 
+async function getRouteReservation(app: express.Express) {
+  for (let customerId = 1; customerId <= 20; customerId++) {
+    const response = await request(app).get(`/reserve/${customerId}`);
+    const body = JSON.parse(response.text);
+
+    if (body.reservations.length > 0) {
+      return {
+        customerId: String(customerId),
+        reservationId: String(body.reservations[0].reservation_id),
+        reservations: body.reservations,
+      };
+    }
+  }
+
+  throw new Error("No test reservations were found.");
+}
+
 describe("reserveRoute database integration tests", () => {
   it("GET /reserve/:customer_id renders a customer's reservations", async () => {
-    const testReservation = await getTestReservation();
+    const app = makeApp();
+    const testReservation = await getRouteReservation(app);
 
-    const response = await request(makeApp()).get(
-      `/reserve/${testReservation.customer_id}`,
-    );
+    const response = await request(app).get(`/reserve/${testReservation.customerId}`);
     const body = JSON.parse(response.text);
 
     assert.equal(response.status, 200);
@@ -45,10 +52,11 @@ describe("reserveRoute database integration tests", () => {
   });
 
   it("GET /reserve/view/:reservation_id renders one reservation", async () => {
-    const testReservation = await getTestReservation();
+    const app = makeApp();
+    const testReservation = await getRouteReservation(app);
 
-    const response = await request(makeApp()).get(
-      `/reserve/view/${testReservation.reservation_id}`,
+    const response = await request(app).get(
+      `/reserve/view/${testReservation.reservationId}`,
     );
     const body = JSON.parse(response.text);
 
