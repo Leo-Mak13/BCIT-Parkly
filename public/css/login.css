@@ -1,0 +1,371 @@
+* {
+  box-sizing: border-box;
+}
+
+.login-container {
+    margin: auto;
+
+}
+
+.login-box {
+    border-radius: 8px;
+    border: 2px solid #003366;
+    width: 400px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.message-box {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.auth-box {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+.auth-header h2 {
+    font-size: 18px;
+    color: #003C71;
+}
+
+.auth-sub {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 18px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #f9f9f9;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.form-row-2 {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row-2 .form-group {
+  flex: 1;
+}
+
+.checkbox-label {
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #003C71;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.forgot-link {
+  font-size: 12px;
+  color: #0069FF;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  background: #003C71;
+  color: white;
+  border: none;
+  padding: 11px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.auth-submit-btn:hover {
+  background: #002D56;
+}
+
+.auth-divider {
+  text-align: center;
+  margin: 16px 0;
+  position: relative;
+}
+
+.auth-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ddd;
+}
+
+.auth-divider span {
+  background: white;
+  padding: 0 10px;
+  position: relative;
+  font-size: 12px;
+  color: #999;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+}
+
+.auth-switch a {
+  color: #0069FF;
+  font-weight: bold;
+}
+
+.message-success {
+    font-size: 14px;
+    border: 1px solid green;
+    background-color: #e5ffbc;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.message-error {
+    font-size: 14px;
+    border: 1px solid rgb(135, 0, 0);
+    background-color: #ff9d8e;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+/* Page background wrapper */
+.confirmation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 95px);   /* fills space between breadcrumb and footer */
+  background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 100%);
+  padding: 48px 20px;
+}
+
+/* White card */
+.confirmation-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 51, 102, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 480px;
+  padding: 48px 40px 40px;
+  text-align: center;
+  animation: confirmSlideUp 0.45s ease both;
+}
+
+@keyframes confirmSlideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* Checkmark icon */
+.confirmation-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.confirmation-icon img {
+  width: 88px;
+  height: 88px;
+  animation: confirmPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s both;
+}
+
+@keyframes confirmPopIn {
+  from { opacity: 0; transform: scale(0.6); }
+  to   { opacity: 1; transform: scale(1);   }
+}
+
+/* Heading */
+.confirmation-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #003366;
+  margin: 0 0 8px;
+  letter-spacing: -0.3px;
+}
+
+/* Subtitle */
+.confirmation-subtitle {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+/* Email section */
+.confirmation-email-wrapper {
+  margin: 0 0 32px;
+}
+
+.confirmation-email-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #888;
+  margin: 0 0 8px;
+}
+
+.confirmation-email-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #eef4fb;
+  border: 1px solid #c2d8ef;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #003366;
+  word-break: break-all;
+}
+
+/* Divider */
+.confirmation-divider {
+  border: none;
+  border-top: 1px solid #e8ecf0;
+  margin: 0 0 28px;
+}
+
+/* Next steps */
+.next-steps {
+  text-align: left;
+  margin-bottom: 32px;
+}
+
+.next-steps-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #888;
+  margin: 0 0 14px;
+}
+
+.next-steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.next-steps-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: #444;
+  line-height: 1.45;
+}
+
+.step-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 50%;
+  background: #003366;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+/* CTA button */
+.confirmation-cta {
+  display: block;
+  width: 100%;
+  background: #003366;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 14px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 10px rgba(0, 51, 102, 0.25);
+  letter-spacing: 0.2px;
+}
+
+.confirmation-cta:hover {
+  background: #002244;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(0, 51, 102, 0.32);
+}
+
+.confirmation-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 51, 102, 0.2);
+}
+
+/* Help link */
+.confirmation-help {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.confirmation-help a {
+  color: #0069cc;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.confirmation-help a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 540px) {
+  .confirmation-card {
+    padding: 36px 24px 32px;
+  }
+  .confirmation-title {
+    font-size: 1.35rem;
+  }
+}

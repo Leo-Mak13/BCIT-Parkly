@@ -2,8 +2,8 @@
 
 <head>
   <title>BCIT Parkly</title>
-
-  <link rel="stylesheet" type="text/css" href="css/main.css" />
+  <link rel="stylesheet" type="img/png" href="/assets/bcit-logo.png" />
+  <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
   <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
   <script>
@@ -50,14 +50,14 @@
       d[l]
         ? console.warn(p + " only loads once. Ignoring:", g)
         : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-    })({ key: "AIzaSyAAxoG1moijgPbs_BwZYDSlvGzQHzC_Ino", v: "weekly" });
+    })({ key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
   </script>
 </head>
 
 <body>
   <!-- THE TOP HEADER AREA -->
   <header>
-    <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+    <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
 
     <!--Header title and subtitle-->
     <div class="header-titles">
@@ -68,22 +68,28 @@
     <!--Header tabs-->
     <div class="header-tabs">
       <a href="/">Find Parking</a>
-      <a href="/permits">Permits & Rates</a>
-      <a href="/reservations">My Reservations</a>
-      <a href="/help">Help & Support</a>
+      <a href="/info/permits">Permits & Rates</a>
+      <a href="/reserve/reservations">My Reservations</a>
+      <a href="/info/help">Help & Support</a>
     </div>
 
-    <!--Sign in button-->
-    <a role="button" href="/login" class="sign-in-btn">
-      <i class="fa-solid fa-user"></i>
-      Sign In
+    <!--Sign in button or Logout if (user)-->
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
     </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
   </header>
 
   <!--Breadcrum bar under the header bar-->
   <section class="breadcrumb-bar">
     <div class="subheading">
-      <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
       <a href="/">Home</a>
       <span class="seperator">›</span>
       <span class="current-pg">Find Parking</span>
@@ -95,7 +101,7 @@
     <!-- THE SIDE BAR AREA -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <h3>Parking Lot List</h3>
+        <h3>Parking Lots List</h3>
 
         <!--Toggle that closes/opens the sidebar-->
         <button class="sidebar-toggle">
@@ -214,8 +220,8 @@
         </button>
       </div>
 
-      <!-- The map -->
-      <gmp-map map-id="dtc-map-id">
+      <!-- The map, centered at BCIT DTC -->
+      <gmp-map center="49.2835,-123.1152" zoom="16" map-id="<%= GOOGLE_MAP_ID %>">
       </gmp-map>
     </main>
   </div>

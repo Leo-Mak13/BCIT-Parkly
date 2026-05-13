@@ -1,0 +1,344 @@
+/* ── Hero banner ── */
+.hs-hero {
+  background: linear-gradient(135deg, #003366 0%, #00509e 100%);
+  color: #fff;
+  padding: 48px 40px 44px;
+  text-align: center;
+}
+
+.hs-hero h1 {
+  margin: 0 0 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+.hs-hero p {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.82;
+}
+
+/* ── Content container ── */
+.hs-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+/* ── Section headings ── */
+.hs-content h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #003366;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #d0dae6;
+}
+
+/* ── Contact cards row ── */
+.hs-contact-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.hs-contact-card {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #dde6f0;
+  border-radius: 10px;
+  padding: 20px 18px;
+  box-shadow: 0 2px 10px rgba(0, 51, 102, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.hs-contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 51, 102, 0.12);
+}
+
+.hs-contact-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #eef4fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #003366;
+}
+
+.hs-contact-card h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #003366;
+}
+
+.hs-contact-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #555;
+  line-height: 1.55;
+}
+
+.hs-contact-card a {
+  color: #0069cc;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hs-contact-card a:hover {
+  text-decoration: underline;
+}
+
+/* ── Contact form section ── */
+
+/* Two-column name row */
+.hs-form-section .form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 0;
+}
+
+/* Each field group: stacked label + input */
+.hs-form-section .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 16px;
+}
+
+.hs-form-section .form-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #003366;
+  letter-spacing: 0.2px;
+}
+
+/* Inputs and select — full width, consistent height */
+.hs-form-section .form-group input,
+.hs-form-section .form-group select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #c8d6e5;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: #222;
+  background: #f7fafd;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+/* Custom chevron for select */
+.hs-form-section .form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23003366' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  cursor: pointer;
+}
+
+.hs-form-section .form-group input:focus,
+.hs-form-section .form-group select:focus {
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+  background: #fff;
+}
+
+.hs-form-section .form-group input::placeholder {
+  color: #aab4c0;
+}
+
+/* Textarea */
+.hs-form-section .form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #c8d6e5;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: #222;
+  background: #f7fafd;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-height: 120px;
+}
+
+.hs-form-section .form-group textarea:focus {
+  outline: none;
+  border-color: #003366;
+  box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+  background: #fff;
+}
+
+.hs-form-section .form-group textarea::placeholder {
+  color: #aab4c0;
+}
+
+.hs-form-section {
+  background: #fff;
+  border: 1px solid #dde6f0;
+  border-radius: 10px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 2px 10px rgba(0, 51, 102, 0.07);
+  margin-bottom: 40px;
+}
+
+.hs-form-section > p {
+  font-size: 0.875rem;
+  color: #555;
+  margin: -8px 0 20px;
+  line-height: 1.5;
+}
+
+.hs-submit-btn {
+  background: #003366;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 11px 28px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 10px rgba(0, 51, 102, 0.22);
+  margin-top: 4px;
+}
+
+.hs-submit-btn:hover {
+  background: #002244;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 51, 102, 0.3);
+}
+
+.hs-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* ── FAQ section ── */
+.hs-faq-section {
+  margin-bottom: 40px;
+}
+
+.hs-faq-item {
+  background: #fff;
+  border: 1px solid #dde6f0;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 51, 102, 0.05);
+  transition: box-shadow 0.2s;
+}
+
+.hs-faq-item.open {
+  box-shadow: 0 4px 14px rgba(0, 51, 102, 0.1);
+}
+
+.hs-faq-question {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 16px 20px;
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #003366;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: background 0.15s;
+}
+
+.hs-faq-question:hover {
+  background: #f5f8fc;
+}
+
+.hs-faq-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  border-radius: 50%;
+  background: #eef4fb;
+  color: #003366;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 0.25s ease, background 0.2s;
+}
+
+.hs-faq-item.open .hs-faq-icon {
+  transform: rotate(45deg);
+  background: #003366;
+  color: #fff;
+}
+
+.hs-faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  font-size: 0.875rem;
+  color: #444;
+  line-height: 1.6;
+  padding: 0 20px;
+}
+
+.hs-faq-item.open .hs-faq-answer {
+  max-height: 400px;
+  padding: 0 20px 18px;
+}
+
+.hs-faq-answer a {
+  color: #0069cc;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.hs-faq-answer a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .hs-form-section .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .hs-hero {
+    padding: 32px 20px;
+  }
+
+  .hs-hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hs-content {
+    padding: 24px 16px 40px;
+  }
+
+  .hs-form-section {
+    padding: 20px 16px 18px;
+  }
+
+  .hs-contact-card {
+    min-width: 100%;
+  }
+}

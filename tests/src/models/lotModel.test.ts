@@ -1,37 +1,43 @@
-import { describe, it, after } from "node:test";
+import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { mapRowToParkingLot, getNumberOfOccupiedStalls } from "../../../src/models/lotModel.js"
-import { pool } from "../../../database/database.js"
+import { pool } from "../../../database/database.js";
+import {
+  getNumberOfOccupiedStalls,
+  mapRowToParkingLot,
+} from "../../../src/models/lotModel.js";
 
+describe("lotModel database tests", () => {
+  it("mapRowToParkingLot returns a Map of parking lots", async () => {
+    const lots = await mapRowToParkingLot();
 
-describe("mapRowToParkingLot", () => {
-    it("should return a Map", async () => {
-        const lots = await mapRowToParkingLot();
-        assert.ok(lots instanceof Map);
-    });
+    assert.ok(lots instanceof Map);
+    assert.ok(lots.size > 0);
+  });
 
-    it("should contain parking lot data", async () => {
-        const lots = await mapRowToParkingLot();
-        assert.ok(lots.size > 0);
-        const firstLot = lots.values().next().value;
-        assert.ok(firstLot.lotId);
-        assert.ok(firstLot.name);
-        assert.ok(firstLot.address);
-        assert.ok(firstLot.schedule);
-        assert.ok(Array.isArray(firstLot.validPermits));
-    });
-});
+  it("mapRowToParkingLot returns parking lot details", async () => {
+    const lots = await mapRowToParkingLot();
+    const firstLot = lots.values().next().value;
 
-describe("getNumberOfOccupiedStalls", () => {
-    it("should return numbers back", async () => {
-        const lotsMap = await mapRowToParkingLot();
-        const lots = Array.from(lotsMap.values());
-        const occupiedStalls =
-        await getNumberOfOccupiedStalls(lots);
-        assert.ok(occupiedStalls[0].count >= 0);
-    });
+    assert.ok(firstLot.lotId);
+    assert.ok(firstLot.name);
+    assert.ok(firstLot.capacity >= 0);
+    assert.ok(firstLot.address);
+    assert.ok(firstLot.schedule);
+    assert.ok(Array.isArray(firstLot.validPermits));
+  });
+
+  it("getNumberOfOccupiedStalls returns occupied stall rows", async () => {
+    const occupiedStalls = await getNumberOfOccupiedStalls();
+
+    assert.ok(Array.isArray(occupiedStalls));
+
+    if (occupiedStalls.length > 0) {
+      assert.ok(occupiedStalls[0].lot_id);
+      assert.ok(occupiedStalls[0].occupied >= 0);
+    }
+  });
 });
 
 after(async () => {
-    await pool.end(); 
+  await pool.end();
 });
