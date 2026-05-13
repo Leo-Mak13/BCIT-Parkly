@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - feature/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Node.js v25.9.0
+        uses: actions/setup-node@v6
+        with:
+          node-version: "25"
+      - name: Install dependencies
+        run: |
+          npm install
+      - name: Test with pytest
+        run: |
+          npx tsx --test
+  create-pull-request:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Create Pull request
+        run: gh pr create -B development -H ${{ github.ref_name }} --title "Merge ${{ github.ref_name }} into development" --body "Automatic PR from Github Actions"

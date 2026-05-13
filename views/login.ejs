@@ -5,34 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
     <script
       src="https://kit.fontawesome.com/39589cb536.js"
       crossorigin="anonymous"
     ></script>
   </head>
   <body>
-    <div class="page-display">
-      <!-- THE TOP HEADER AREA -->
-      <header>
-        <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
-        <!--Header title and subtitle-->
-        <div class="header-titles">
-          <h2>Parkly</h2>
-          <h6>Downtown Campus</h6>
+    <!-- THE TOP HEADER AREA -->
+    <header>
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
+      </div>
+      <!--Sign in button-->
+      <button class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign In
+      </button>
+    </header>
+
+    <!--Breadcrum bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">Login</span>
+      </div>
+    </section>
+
+    <div class="login-container">
+      <div class="login-box">
+        <div class="message-box">
+          <% if (locals.error) { %>
+          <div class="message-error"><%= locals.error %></div>
+          <% } %>
         </div>
-        <!--Header tabs-->
-        <div class="header-tabs">
-          <a href="/">Find Parking</a>
-          <a href="/permits">Permits & Rates</a>
-          <a href="/reservations">My Reservations</a>
-          <a href="/help">Help & Support</a>
+        <div class="auth-box">
+          <div class="auth-header">
+            <h2>Sign In</h2>
+          </div>
+          <p class="auth-sub">Sign in to your BCIT Parking account</p>
+          <form action="" method="post">
+            <div class="form-group">
+              <label for="signinEmail">Email Address</label>
+              <input
+                type="email"
+                id="signinEmail"
+                placeholder="student@bcit.ca"
+                value="<%= devMode ? 'sarah.johnson@example.com' : '' %>"
+                name="email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="signinPassword">Password</label>
+              <input
+                type="password"
+                id="signinPassword"
+                placeholder="Enter your password"
+                value="<%= devMode ? 'crab' : '' %>"
+                name="password"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <label class="checkbox-label"
+                ><input type="checkbox" /> Remember me</label
+              >
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+            <button type="submit" class="auth-submit-btn">Sign In</button>
+          </form>
+          <div class="auth-divider"><span>or</span></div>
+          <p class="auth-switch">
+            Don't have an account? <a href="/signup">Register here</a>
+          </p>
         </div>
-        <!--Sign in button-->
-        <button class="sign-in-btn">
-          <i class="fa-solid fa-user"></i>
-          Sign In
-        </button>
-      </header>
+      </div>
+      </div>
+
       <footer>
         <div class="footer-container">
           <!-- Logo and address column -->
@@ -87,6 +149,5 @@
           </div>
         </div>
       </footer>
-    </div>
   </body>
 </html>

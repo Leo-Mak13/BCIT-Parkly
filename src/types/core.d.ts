@@ -51,3 +51,16 @@ export interface Stall {
   parkingType: "regular" | "electric" | "small" | "handicap";
   occupied: boolean;
 }
+
+export interface Customer {
+  firstName: string;
+  email: string;
+  phone: string;
+  validPermits: "staff" | "student";
+  lastName: string;
+}
+
+export interface User {
+  email: string;
+  password: string;
+}
