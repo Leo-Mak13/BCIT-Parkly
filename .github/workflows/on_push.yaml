@@ -14,10 +14,10 @@ jobs:
           node-version: "25"
       - name: Install dependencies
         run: |
-          npm Install
+          npm install
       - name: Test with pytest
         run: |
-          tsx --test
+          npx tsx --test
   create-pull-request:
     needs: build
     runs-on: ubuntu-latest

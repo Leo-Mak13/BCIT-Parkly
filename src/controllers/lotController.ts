@@ -13,6 +13,7 @@ export async function getHomePage(req: Request, res: Response): Promise<void> {
       parkingLots: allLots,
       GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
       GOOGLE_MAP_ID: process.env.GOOGLE_MAP_ID,
+      user: req.user,
     });
   } catch (err) {
     res
