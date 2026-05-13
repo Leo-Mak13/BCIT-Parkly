@@ -12,10 +12,8 @@ function checkDetailsBtnClick(event: Event): void {
   const target = event?.target as HTMLElement;
   const hiddenSidePanel = document.querySelector(".details-side-panel");
 
-  if (
-    target.classList.contains(".sp-details-btn") ||
-    target.classList.contains(".iw-details-btn")
-  ) {
+  // Only slide the hidden panel in IF it's a "Detials" button
+  if (target.closest(".sp-details-btn") || target.closest(".iw-details-btn")) {
     console.log("Details button clicked!");
     hiddenSidePanel?.classList.add("active");
   }
@@ -32,13 +30,8 @@ function toggleDetailsHiddenSidePanel(): void {
   const mainSidePanel = document.querySelector(".parking-list");
   const markerInfoWindow = document.querySelector(".info-window");
 
-  // Listen for clicks on "Detials" button on the main side panel
-  mainSidePanel?.addEventListener("click", (event) => {
-    checkDetailsBtnClick(event);
-  });
-
-  // Listen for clicks on "Detials" button on the marker pop-up cards
-  markerInfoWindow?.addEventListener("click", (event) => {
+  // Listen for clicks on the page
+  document?.addEventListener("click", (event) => {
     checkDetailsBtnClick(event);
   });
 }
