@@ -7,6 +7,13 @@ export const pool: any = mysql.createPool({
   user: process.env.MYSQL_USER || "root",
   password: process.env.MYSQL_PASSWORD || "",
   database: process.env.MYSQL_DATABASE || "bcit_parkly",
+
+  // udpated settings for stric memory limits
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+    maxIdle: 10,
+    idleTimeout: 60000
 });
 
 // get ALL customers (returns an array of customer objects)
