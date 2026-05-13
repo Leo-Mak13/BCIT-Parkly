@@ -8,7 +8,7 @@
   </head>
   <body>
     <header>
-      <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
 
       <!--Header title and subtitle-->
       <div class="header-titles">
@@ -19,16 +19,23 @@
       <!--Header tabs-->
       <div class="header-tabs">
         <a href="/">Find Parking</a>
-        <a href="/permits">Permits & Rates</a>
-        <a href="/reservations">My Reservations</a>
-        <a href="/help">Help & Support</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
       </div>
 
       <!--Sign in button-->
-      <button class="sign-in-btn">
-        <i class="fa-solid fa-user"></i>
-        Sign In
-      </button>
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
     </header>
     </section>
     <!--Breadcrum bar under the header bar-->
@@ -41,33 +48,32 @@
       </div>
     </section>
     <!-- reservation heading under breadcrumb bar -->
-    <h1>Your Reservation</h1>
-    
-    <div class="entire-reservation"> 
-      <% reservation.forEach(info => { %>
-        <div class="lot-name">
-          <h3>Lot <%= info.lot_name %> - Stall <%= info.stall_location %> - floor <%= info.lot_floor %></h3>
-        </div>
-        <div class="info-reservation">
-          <div class="column-name">
-              <p>Address: </p>
-              <p>Purchase date: </p>
-              <p>Parking type: </p>
-              <p>Total cost: </p>
+     <div>
+     <h1>Your Reservation</h1>
+     </div>
+        <div class="induvidual-reservation">
+        <% reservation.forEach(info => { %>
+          <div class="info-reservation">
+            <div class="column-name">
+            <p>Lot floor: </p>
+            <p>Lot name: </p>
+            <p>Stall location: </p>
+            <p>Type: </p>
+            <p>Purchase date: </p>
+            <p>Cost: </p>
+            </div>
+            <div class="column-info">
+              <p><%= info.lot_floor %></p>
+              <p><%= info.lot_name %></p>
+              <p><%= info.stall_location %></p>
+              <p><%= info.parking_type %></p>
+              <p><%= info.purchase_date %></p>
+              <p>$<%= info.total_cost %></p>
+
+            </div>
           </div>
-          <div class="column-info">
-            <p><%= info.street %>, <%= info.city %>, <%= info.province %></p>
-            <p><%= info.purchase_date %></p>
-            <p><%= info.parking_type %></p>
-            <p>$<%= info.total_cost %></p>
-          </div>
+        <% }) %>
         </div>
-        <div class="links-reservation">
-          <a href="/reservations/<%= info.customer_id %>">Back to reservations</a>
-          <a href="/">Back to main page</a>
-        </div>
-      <% }) %>
-    </div>
     <footer>
       <div class="footer-container">
         <div class="footer-col">
@@ -111,7 +117,6 @@
           </ul>
         </div>
       </div>
-
       <!-- Bottom legal Bar -->
       <div class="footer-bottom">
         <div class="footer-bottom-links">
