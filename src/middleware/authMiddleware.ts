@@ -40,3 +40,11 @@ export async function authValidation(
   }
   next();
 }
+
+export async function ensureValidated(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const token = req.cookies.auth_session;
+}
