@@ -1,11 +1,13 @@
-import * as db from "../models/reserveModel";
+import * as db from "../models/reserveModel.js";
 
-async function get_reservations(id: number) {
-  return await db.get_reservations(id);
+async function get_reservations(id: string) {
+  const getAll = await db.get_reservations(id);
+  return getAll;
 }
 
-async function get_reservation(id: number) {
-  return await db.get_reservation(id);
+async function get_reservation(id: string) {
+  const getReserve = await db.get_reservation(id);
+  return getReserve;
 }
 
 async function create_reservation(
@@ -16,7 +18,7 @@ async function create_reservation(
   stall_id: number,
   customer_id: number,
 ) {
-  return await db.create_reservation(
+  const result = await db.create_reservation(
     license_plate,
     total_cost,
     stall_location,
@@ -24,6 +26,7 @@ async function create_reservation(
     stall_id,
     customer_id,
   );
+  return result;
 }
 
 async function edit_reservation(
@@ -34,7 +37,7 @@ async function edit_reservation(
   stall_id: number,
   reservation_id: string,
 ) {
-  return await db.edit_reservation(
+  const result = await db.edit_reservation(
     license_plate,
     total_cost,
     stall_location,
@@ -42,6 +45,7 @@ async function edit_reservation(
     stall_id,
     reservation_id,
   );
+  return result;
 }
 
 export {

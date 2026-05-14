@@ -1,9 +1,8 @@
 import { pool } from "../../database/database.js";
 
-async function get_reservations(id: number) {
+async function get_reservations(id: string) {
   const [output] = await pool.query(
     `
-        SELECT reservation_id, stall_location, purchase_date, total_cost, license_plate FROM reservations
         SELECT reservation_id, stall_location, purchase_date, total_cost, license_plate FROM reservations
         WHERE customer_id = ?
     `,
@@ -11,7 +10,7 @@ async function get_reservations(id: number) {
   );
   return output;
 }
-async function get_reservation(id: number) {
+async function get_reservation(id: string) {
   const [output] = await pool.query(
     `
         select customer_id, stall_location, total_cost, purchase_date, parking_lots.lot_name, parking_lots.lot_floor, parking_stalls.parking_type, parking_lot_address.street, parking_lot_address.city, parking_lot_address.province FROM reservations
@@ -38,9 +37,9 @@ async function edit_reservation(
         SET license_plate = ?,
         total_cost = ?,
         stall_location = ?,
-        lot_id = (SELECT lot_id FROM parking_lots WHERE lot_name = ?)
+        lot_id = (SELECT lot_id FROM parking_lots WHERE lot_name = ?),
         stall_id = ?
-      WHERE reservation_id = ?
+        WHERE reservation_id = ?
         `,
     [
       license_plate,

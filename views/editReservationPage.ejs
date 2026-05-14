@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/css/editPage.css" />
+  </head>
+  <body>
+    <header>
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
+      </div>
+
+      <!--Sign in button-->
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
+    </header>
+    </section>
+    <!--Breadcrum bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">myReservations</span>
+      </div>
+    </section>
+    <!-- reservation heading under breadcrumb bar -->
+    <div>
+        <div class="entire-forms">
+            <div class="form-content">
+\               
+            </div>
+        </div>
+    </div>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom legal Bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
