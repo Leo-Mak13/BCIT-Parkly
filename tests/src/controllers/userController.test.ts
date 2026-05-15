@@ -1,4 +1,4 @@
-import { after, afterEach, describe, it, mock } from "node:test";
+import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import bcrypt from "bcrypt";
 import { pool } from "../../../database/database.js";
@@ -6,11 +6,11 @@ import {
   createNewUserHandler,
   loginUser,
 } from "../../../src/controllers/userController.js";
-import { createNewCustomerUser } from "../../../src/services/userService.js";
 
 const signupEmail = `controller-signup-${Date.now()}@example.com`;
 const loginEmail = `controller-login-${Date.now()}@example.com`;
 const password = "Password123!";
+const customerId = 42;
 
 function makeSignupBody(email: string) {
   return {
@@ -31,6 +31,7 @@ function makeResponse() {
     viewData: null as any,
     cookieName: "",
     cookieValue: "",
+    redirectPath: "",
     render(viewName: string, viewData: any) {
       this.viewName = viewName;
       this.viewData = viewData;
@@ -45,6 +46,10 @@ function makeResponse() {
       this.cookieValue = value;
       return this;
     },
+    redirect(path: string) {
+      this.redirectPath = path;
+      return this;
+    },
   };
 }
 
@@ -57,29 +62,36 @@ describe("userController create new user (signup) tests", () => {
     mock.method(console, "log", () => {});
     mock.method(pool, "query", async (sql: string) => {
       if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: 1 }]];
+        return [[{ customer_id: customerId }]];
       }
 
-      return [{ affectedRows: 1 }];
+      return [{ affectedRows: 1, insertId: customerId }];
     });
     const req = { body: makeSignupBody(signupEmail), user: null } as any;
     const res = makeResponse() as any;
 
     await createNewUserHandler(req, res);
 
-    assert.equal(res.viewName, "confirmationSignUp");
-    assert.equal(res.viewData.confirmedEmail, signupEmail);
+    assert.equal(res.redirectPath, "confirmationSignUp");
   });
 
-  it("uses the real database to create a user with proper signup input", async () => {
+  it("mock data only, then test signup handler creates customer and user with the same customer id", async () => {
     mock.method(console, "log", () => {});
+    const queryMock = mock.method(pool, "query", async (sql: string) => {
+      if (sql.includes("SELECT customer_id")) {
+        return [[{ customer_id: customerId }]];
+      }
+
+      return [{ affectedRows: 1, insertId: customerId }];
+    });
     const req = { body: makeSignupBody(signupEmail), user: null } as any;
     const res = makeResponse() as any;
 
     await createNewUserHandler(req, res);
 
-    assert.equal(res.viewName, "confirmationSignUp");
-    assert.equal(res.viewData.confirmedEmail, signupEmail);
+    assert.equal(res.redirectPath, "confirmationSignUp");
+    assert.deepEqual(queryMock.mock.calls[1].arguments[1], [signupEmail]);
+    assert.equal(queryMock.mock.calls[2].arguments[1][2], customerId);
   });
 });
 
@@ -105,47 +117,33 @@ describe("userController login (signin) tests", () => {
 
     await loginUser(req, res);
 
-    assert.equal(res.viewName, "test");
+    assert.equal(res.redirectPath, "/reserve/reservations");
     assert.equal(res.cookieName, "auth_session");
     assert.ok(res.cookieValue.includes("."));
   });
 
-  it("uses the real database to sign in with proper email and password", async () => {
-    await createNewCustomerUser(
-      "Jane",
-      "Doe",
-      loginEmail,
-      "6045551234",
-      password,
-      password,
-      "Student",
-    );
+  it("mock data only, then test login handler rejects wrong password", async () => {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    mock.method(pool, "query", async (sql: string) => {
+      if (sql.includes("SELECT")) {
+        return [[{
+          id: customerId,
+          email: loginEmail,
+          password_hash: hashedPassword,
+        }]];
+      }
+
+      return [{ affectedRows: 1 }];
+    });
     const req = {
-      body: { email: loginEmail, password },
+      body: { email: loginEmail, password: "WrongPassword123!" },
       user: null,
     } as any;
     const res = makeResponse() as any;
 
     await loginUser(req, res);
 
-    assert.equal(res.viewName, "test");
-    assert.equal(res.cookieName, "auth_session");
-    assert.ok(res.cookieValue.includes("."));
+    assert.equal(res.viewName, "login");
+    assert.equal(res.viewData.error, "Incorrect email and/or password");
   });
-});
-
-after(async () => {
-  await pool.query(
-    "DELETE FROM sessions WHERE user_id IN (SELECT id FROM users WHERE email IN (?, ?))",
-    [signupEmail, loginEmail],
-  );
-  await pool.query("DELETE FROM users WHERE email IN (?, ?)", [
-    signupEmail,
-    loginEmail,
-  ]);
-  await pool.query("DELETE FROM customers WHERE email IN (?, ?)", [
-    signupEmail,
-    loginEmail,
-  ]);
-  await pool.end();
 });
