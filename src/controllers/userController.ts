@@ -67,11 +67,7 @@ export async function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    res.render("confirmationSignUp", {
-      confirmedEmail: email,
-      devMode,
-      user: req.user,
-    });
+    res.redirect("confirmationSignUp");
   } catch (error: any) {
     if (error instanceof PasswordMismatchError) {
       return res.render("signup", {
@@ -120,11 +116,7 @@ export async function loginUser(req: Request, res: Response) {
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      res.render("test", {
-        devMode,
-        error: null,
-        user: req.user,
-      });
+      res.redirect("/reserve/reservations");
     }
   } catch (err) {
     res.status(500).render("login", {
@@ -136,7 +128,7 @@ export async function loginUser(req: Request, res: Response) {
 }
 
 export async function testRender(req: Request, res: Response) {
-  res.render("test", { user: req.user });
+  res.redirect("test");
 }
 
 export async function logOutUser(req: Request, res: Response) {
@@ -151,7 +143,7 @@ export async function logOutUser(req: Request, res: Response) {
       const userId = req.user.id;
       await logOutDeleteSession(userId);
       req.user = null;
-      res.render("login", { devMode, error: null, user: req.user });
+      res.redirect("/");
     }
   } catch (err) {
     res.status(500).render("login", {
