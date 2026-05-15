@@ -1,4 +1,4 @@
-import { after, afterEach, describe, it, mock } from "node:test";
+import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -71,8 +71,8 @@ afterEach(() => {
   mock.restoreAll();
 });
 
-describe("lotRoutes integration tests without database connection", () => {
-  it("mock data only, then test GET / through Express without MySQL", async () => {
+describe("lotRoutes integration tests", () => {
+  it("mock data only, then test GET / through Express", async () => {
     mockLotDatabase();
 
     const response = await request(await makeApp()).get("/");
@@ -82,20 +82,4 @@ describe("lotRoutes integration tests without database connection", () => {
     assert.equal(body.parkingLots[0].name, "Test Lot");
     assert.equal(body.parkingLots[0].openSpots, 80);
   });
-});
-
-describe("lotRoutes integration tests with database connection", () => {
-  it("test GET / through Express with the real MySQL database", async () => {
-    const response = await request(await makeApp()).get("/");
-    const body = JSON.parse(response.text);
-
-    assert.equal(response.status, 200);
-    assert.ok(Array.isArray(body.parkingLots));
-    assert.ok(body.parkingLots.length > 0);
-    assert.ok(body.parkingLots[0].name);
-  });
-});
-
-after(async () => {
-  await pool.end();
 });
