@@ -6,12 +6,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: bcit_parkly
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     env:
-      MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
-      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
-      MYSQL_USER: ${{ secrets.MYSQL_USER }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: bcit_parkly
       GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
       GOOGLE_MAP_ID: ${{ secrets.GOOGLE_MAP_ID }}
       MODE: ${{ secrets.MODE }}
@@ -24,13 +37,11 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
+      - name: Create test database
+        run: |
+          docker exec -i ${{ job.services.mysql.id }} mysql -uroot -proot < database/bcit_parkly_test_db.sql
       - name: Check required secrets
         run: |
-          test -n "$MYSQL_HOST" || (echo "MYSQL_HOST is missing" && exit 1)
-          test -n "$MYSQL_PORT" || (echo "MYSQL_PORT is missing" && exit 1)
-          test -n "$MYSQL_USER" || (echo "MYSQL_USER is missing" && exit 1)
-          test -n "$MYSQL_PASSWORD" || (echo "MYSQL_PASSWORD is missing" && exit 1)
-          test -n "$MYSQL_DATABASE" || (echo "MYSQL_DATABASE is missing" && exit 1)
           test -n "$GOOGLE_MAPS_API_KEY" || (echo "GOOGLE_MAPS_API_KEY is missing" && exit 1)
           test -n "$GOOGLE_MAP_ID" || (echo "GOOGLE_MAP_ID is missing" && exit 1)
           echo "All required secrets are configured."
