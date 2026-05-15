@@ -2,7 +2,7 @@ import express from "express";
 import { Request, Response } from "express";
 import { PasswordMismatchError } from "../middleware/errorTypes";
 import {
-  createCustomer,
+  createNewCustomerUser,
   getUserIdByEmail,
   logOutDeleteSession,
   validateUser,
@@ -32,6 +32,12 @@ export function goSignupPage(req: Request, res: Response) {
   });
 }
 
+/**
+ * @func createNewUserHandler handler function for signup/registration
+ * @param req
+ * @param res
+ *
+ */
 export async function createNewUserHandler(req: Request, res: Response) {
   const {
     firstName,
@@ -52,7 +58,7 @@ export async function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    const customer = await createCustomer(
+    const customer = await createNewCustomerUser(
       firstName,
       lastName,
       email,
@@ -114,7 +120,11 @@ export async function loginUser(req: Request, res: Response) {
         secure: false,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      res.redirect("");
+      res.render("test", {
+        devMode,
+        error: null,
+        user: req.user,
+      });
     }
   } catch (err) {
     res.status(500).render("login", {
