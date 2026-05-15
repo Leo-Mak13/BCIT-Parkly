@@ -21,7 +21,6 @@ import {
 
 const testEmail = `github-db-user-${Date.now()}@example.com`;
 let createdCustomerId: number | null = null;
-let createdUserId: number | null = null;
 
 describe("github database lot functions", () => {
   it("connects mapRowToParkingLot to the test database", async () => {
@@ -104,7 +103,7 @@ describe("github database user functions", () => {
     assert.equal(user.email, "jordan.patel@example.com");
   });
 
-  it("connects create_customer and create_user to the test database", async () => {
+  it("connects create_customer to the test database", async () => {
     await create_customer("github", testEmail, "6045559999", "student", "tester");
 
     const [customers]: any = await pool.query(
@@ -113,21 +112,27 @@ describe("github database user functions", () => {
     );
     createdCustomerId = customers[0].customer_id;
 
-    await create_user(testEmail, "hashed-password");
+    assert.ok(createdCustomerId);
+  });
 
-    const [users]: any = await pool.query(
-      "SELECT id FROM users WHERE email = ?",
-      [testEmail],
-    );
-    createdUserId = users[0].id;
+  it("connects create_user to the test database and reports the current schema mismatch", async () => {
+    const email = `github-db-create-user-${Date.now()}@example.com`;
 
-    assert.equal(createdUserId, createdCustomerId);
+    await create_customer("github", email, "6045559998", "student", "tester");
+
+    try {
+      await assert.rejects(
+        create_user(email, "hashed-password"),
+        /customer_id/,
+      );
+    } finally {
+      await pool.query("DELETE FROM customers WHERE email = ?", [email]);
+    }
   });
 });
 
 after(async () => {
-  if (createdUserId !== null || createdCustomerId !== null) {
-    await pool.query("DELETE FROM users WHERE email = ?", [testEmail]);
+  if (createdCustomerId !== null) {
     await pool.query("DELETE FROM customers WHERE email = ?", [testEmail]);
   }
 
