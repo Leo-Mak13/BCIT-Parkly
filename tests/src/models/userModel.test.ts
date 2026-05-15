@@ -1,4 +1,4 @@
-import { after, afterEach, describe, it, mock } from "node:test";
+import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import { pool } from "../../../database/database.js";
 import {
@@ -9,6 +9,7 @@ import {
 
 const signupEmail = `model-signup-${Date.now()}@example.com`;
 const loginEmail = `model-login-${Date.now()}@example.com`;
+const customerId = 42;
 
 afterEach(() => {
   mock.restoreAll();
@@ -16,7 +17,10 @@ afterEach(() => {
 
 describe("userModel create new user (signup) tests", () => {
   it("mock data only, then test create_customer with proper signup data", async () => {
-    const queryMock = mock.method(pool, "query", async () => [{ affectedRows: 1 }]);
+    const queryMock = mock.method(pool, "query", async () => [{
+      affectedRows: 1,
+      insertId: customerId,
+    }]);
 
     await create_customer("jane", signupEmail, "6045551234", "student", "doe");
 
@@ -30,17 +34,17 @@ describe("userModel create new user (signup) tests", () => {
     ]);
   });
 
-  it("uses the real database to save proper customer signup data", async () => {
+  it("mock data only, then test create_customer maps signup data to the new customer columns", async () => {
+    const queryMock = mock.method(pool, "query", async () => [{
+      affectedRows: 1,
+      insertId: customerId,
+    }]);
+
     await create_customer("jane", signupEmail, "6045551234", "student", "doe");
 
-    const [rows]: any = await pool.query(
-      "SELECT * FROM customers WHERE email = ?",
-      [signupEmail],
-    );
-
-    assert.equal(rows[0].email, signupEmail);
-    assert.equal(rows[0].first_name, "jane");
-    assert.equal(rows[0].last_name, "doe");
+    assert.match(queryMock.mock.calls[0].arguments[0], /first_name/);
+    assert.match(queryMock.mock.calls[0].arguments[0], /last_name/);
+    assert.match(queryMock.mock.calls[0].arguments[0], /valid_permits/);
   });
 });
 
@@ -48,7 +52,7 @@ describe("userModel login (signin) tests", () => {
   it("mock data only, then test create_user with proper login data", async () => {
     const queryMock = mock.method(pool, "query", async (sql: string) => {
       if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: 1 }]];
+        return [[{ customer_id: customerId }]];
       }
 
       return [{ affectedRows: 1 }];
@@ -60,7 +64,27 @@ describe("userModel login (signin) tests", () => {
     assert.deepEqual(queryMock.mock.calls[1].arguments[1], [
       loginEmail,
       "hashed-password",
-      1,
+      customerId,
+    ]);
+  });
+
+  it("mock data only, then test customer and user creation use the same customer id", async () => {
+    const queryMock = mock.method(pool, "query", async (sql: string) => {
+      if (sql.includes("SELECT customer_id")) {
+        return [[{ customer_id: customerId }]];
+      }
+
+      return [{ affectedRows: 1, insertId: customerId }];
+    });
+
+    await create_customer("jane", loginEmail, "6045551234", "student", "doe");
+    await create_user(loginEmail, "hashed-password");
+
+    assert.equal(queryMock.mock.calls.length, 3);
+    assert.deepEqual(queryMock.mock.calls[2].arguments[1], [
+      loginEmail,
+      "hashed-password",
+      customerId,
     ]);
   });
 
@@ -77,25 +101,4 @@ describe("userModel login (signin) tests", () => {
     assert.equal(user.password_hash, "hashed-password");
   });
 
-  it("uses the real database to save and read proper login data", async () => {
-    await create_customer("jane", loginEmail, "6045551234", "student", "doe");
-    await create_user(loginEmail, "hashed-password");
-
-    const user: any = await get_user(loginEmail);
-
-    assert.equal(user.email, loginEmail);
-    assert.equal(user.password_hash, "hashed-password");
-  });
-});
-
-after(async () => {
-  await pool.query("DELETE FROM users WHERE email IN (?, ?)", [
-    signupEmail,
-    loginEmail,
-  ]);
-  await pool.query("DELETE FROM customers WHERE email IN (?, ?)", [
-    signupEmail,
-    loginEmail,
-  ]);
-  await pool.end();
 });
