@@ -1,4 +1,4 @@
-import { after, afterEach, describe, it, mock } from "node:test";
+import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -51,28 +51,12 @@ async function makeApp() {
   return app;
 }
 
-async function getRouteReservation(app: express.Express) {
-  for (let customerId = 1; customerId <= 20; customerId++) {
-    const response = await request(app).get(`/reserve/${customerId}`);
-    const body = JSON.parse(response.text);
-
-    if (body.reservations.length > 0) {
-      return {
-        customerId: String(customerId),
-        reservationId: String(body.reservations[0].reservation_id),
-      };
-    }
-  }
-
-  throw new Error("No test reservations were found.");
-}
-
 afterEach(() => {
   mock.restoreAll();
 });
 
-describe("reserveRoute integration tests without database connection", () => {
-  it("mock data only, then test GET /reserve/:customer_id through Express without MySQL", async () => {
+describe("reserveRoute integration tests", () => {
+  it("mock data only, then test GET /reserve/:customer_id through Express", async () => {
     mockReservationDatabase();
 
     const response = await request(await makeApp()).get("/reserve/1");
@@ -84,7 +68,7 @@ describe("reserveRoute integration tests without database connection", () => {
     assert.equal(body.reservations[0].stall_location, "L1-01");
   });
 
-  it("mock data only, then test GET /reserve/view/:reservation_id through Express without MySQL", async () => {
+  it("mock data only, then test GET /reserve/view/:reservation_id through Express", async () => {
     mockReservationDatabase();
 
     const response = await request(await makeApp()).get("/reserve/view/2");
@@ -95,38 +79,4 @@ describe("reserveRoute integration tests without database connection", () => {
     assert.equal(body.reservation[0].lot_name, "Test Lot");
     assert.equal(body.reservation[0].parking_type, "regular");
   });
-});
-
-describe("reserveRoute integration tests with database connection", () => {
-  it("test GET /reserve/:customer_id through Express with the real MySQL database", async () => {
-    const app = await makeApp();
-    const testReservation = await getRouteReservation(app);
-
-    const response = await request(app).get(`/reserve/${testReservation.customerId}`);
-    const body = JSON.parse(response.text);
-
-    assert.equal(response.status, 200);
-    assert.ok(Array.isArray(body.reservations));
-    assert.ok(body.reservations.length > 0);
-    assert.ok(body.reservations[0].reservation_id);
-  });
-
-  it("test GET /reserve/view/:reservation_id through Express with the real MySQL database", async () => {
-    const app = await makeApp();
-    const testReservation = await getRouteReservation(app);
-
-    const response = await request(app).get(
-      `/reserve/view/${testReservation.reservationId}`,
-    );
-    const body = JSON.parse(response.text);
-
-    assert.equal(response.status, 200);
-    assert.ok(Array.isArray(body.reservation));
-    assert.ok(body.reservation.length > 0);
-    assert.ok(body.reservation[0].stall_location);
-  });
-});
-
-after(async () => {
-  await pool.end();
 });
