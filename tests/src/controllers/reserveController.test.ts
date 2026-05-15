@@ -1,10 +1,41 @@
-import { after, describe, it } from "node:test";
+import { after, afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import { pool } from "../../../database/database.js";
 import {
   get_reservation,
   get_reservations,
 } from "../../../src/controllers/reserveController.js";
+
+const fakeReservations = [
+  {
+    reservation_id: 1,
+    stall_location: "L1-01",
+    purchase_date: new Date(),
+    total_cost: 5,
+    license_plate: "TEST123",
+  },
+];
+
+const fakeReservationDetails = [
+  {
+    stall_location: "L1-01",
+    total_cost: 5,
+    purchase_date: new Date(),
+    lot_floor: "1",
+    lot_name: "Test Lot",
+    parking_type: "regular",
+  },
+];
+
+function mockReservationDatabase() {
+  mock.method(pool, "query", async (_query: string, params: string[]) => {
+    if (params[0] === "1") {
+      return [fakeReservations];
+    }
+
+    return [fakeReservationDetails];
+  });
+}
 
 async function getCustomerWithReservations() {
   for (let customerId = 1; customerId <= 20; customerId++) {
@@ -21,8 +52,34 @@ async function getCustomerWithReservations() {
   throw new Error("No test reservations were found.");
 }
 
-describe("reserveController database tests", () => {
-  it("get_reservations returns reservations for a customer", async () => {
+afterEach(() => {
+  mock.restoreAll();
+});
+
+describe("reserveController unit tests without database connection", () => {
+  it("mock database query, then test get_reservations without MySQL", async () => {
+    mockReservationDatabase();
+
+    const reservations: any = await get_reservations("1");
+
+    assert.ok(Array.isArray(reservations));
+    assert.equal(reservations[0].reservation_id, 1);
+    assert.equal(reservations[0].stall_location, "L1-01");
+  });
+
+  it("mock database query, then test get_reservation without MySQL", async () => {
+    mockReservationDatabase();
+
+    const reservation: any = await get_reservation("2");
+
+    assert.ok(Array.isArray(reservation));
+    assert.equal(reservation[0].lot_name, "Test Lot");
+    assert.equal(reservation[0].parking_type, "regular");
+  });
+});
+
+describe("reserveController unit tests with database connection", () => {
+  it("call get_reservations with the real MySQL database", async () => {
     const testReservation = await getCustomerWithReservations();
 
     const reservations: any = await get_reservations(testReservation.customerId);
@@ -33,7 +90,7 @@ describe("reserveController database tests", () => {
     assert.ok(reservations[0].stall_location);
   });
 
-  it("get_reservation returns one reservation's details", async () => {
+  it("call get_reservation with the real MySQL database", async () => {
     const testReservation = await getCustomerWithReservations();
 
     const reservation: any = await get_reservation(testReservation.reservationId);
