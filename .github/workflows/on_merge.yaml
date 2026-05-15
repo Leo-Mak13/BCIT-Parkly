@@ -1,0 +1,20 @@
+# Deploy to Render
+name: Deploy Node/Express Application
+
+on:
+  pull_request:
+    branches:
+      - release
+    types:
+      - closed
+
+jobs:
+  on-merge:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Production
+        env:
+          deploy_url: https://bcit-parkly.onrender.com/
+        run: |
+          curl "$deploy_url"
