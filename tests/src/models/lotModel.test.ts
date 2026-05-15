@@ -53,7 +53,7 @@ afterEach(() => {
 });
 
 describe("lotModel unit tests without database connection", () => {
-  it("mock pool.query, then test mapRowToParkingLot without MySQL", async () => {
+  it("mock data only, then test mapRowToParkingLot without MySQL", async () => {
     mockLotDatabase();
     const { mapRowToParkingLot } = await import("../../../src/models/lotModel.js");
 
@@ -66,7 +66,7 @@ describe("lotModel unit tests without database connection", () => {
     assert.deepEqual(lot?.validPermits, ["student"]);
   });
 
-  it("mock pool.query, then test getNumberOfOccupiedStalls without MySQL", async () => {
+  it("mock data only, then test getNumberOfOccupiedStalls without MySQL", async () => {
     mockLotDatabase();
     const { getNumberOfOccupiedStalls } = await import(
       "../../../src/models/lotModel.js"

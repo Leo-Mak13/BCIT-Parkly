@@ -57,7 +57,7 @@ afterEach(() => {
 });
 
 describe("reserveController unit tests without database connection", () => {
-  it("mock database query, then test get_reservations without MySQL", async () => {
+  it("mock data only, then test get_reservations without MySQL", async () => {
     mockReservationDatabase();
 
     const reservations: any = await get_reservations("1");
@@ -67,7 +67,7 @@ describe("reserveController unit tests without database connection", () => {
     assert.equal(reservations[0].stall_location, "L1-01");
   });
 
-  it("mock database query, then test get_reservation without MySQL", async () => {
+  it("mock data only, then test get_reservation without MySQL", async () => {
     mockReservationDatabase();
 
     const reservation: any = await get_reservation("2");
