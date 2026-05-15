@@ -12,6 +12,8 @@ jobs:
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
       MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+      GOOGLE_MAP_ID: ${{ secrets.GOOGLE_MAP_ID }}
     steps:
       - uses: actions/checkout@v6
       - name: Set up Node.js v25.9.0
