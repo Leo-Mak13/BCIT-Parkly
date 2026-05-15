@@ -141,7 +141,7 @@ export async function logOutUser(req: Request, res: Response) {
       const userId = req.user.id;
       await logOutDeleteSession(userId);
       req.user = null;
-      res.render("login", { devMode, error: null, user: req.user });
+      res.redirect("/users/login");
     }
   } catch (err) {
     res.status(500).render("login", {
