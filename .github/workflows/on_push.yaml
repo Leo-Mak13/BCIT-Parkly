@@ -23,6 +23,16 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
+      - name: Check required secrets
+        run: |
+          test -n "$MYSQL_HOST" || (echo "MYSQL_HOST is missing" && exit 1)
+          test -n "$MYSQL_PORT" || (echo "MYSQL_PORT is missing" && exit 1)
+          test -n "$MYSQL_USER" || (echo "MYSQL_USER is missing" && exit 1)
+          test -n "$MYSQL_PASSWORD" || (echo "MYSQL_PASSWORD is missing" && exit 1)
+          test -n "$MYSQL_DATABASE" || (echo "MYSQL_DATABASE is missing" && exit 1)
+          test -n "$GOOGLE_MAPS_API_KEY" || (echo "GOOGLE_MAPS_API_KEY is missing" && exit 1)
+          test -n "$GOOGLE_MAP_ID" || (echo "GOOGLE_MAP_ID is missing" && exit 1)
+          echo "All required secrets are configured."
       - name: Test with npx/tsx
         run: |
           npx tsx --test
