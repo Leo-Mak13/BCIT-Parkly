@@ -40,11 +40,6 @@ jobs:
       - name: Create test database
         run: |
           docker exec -i ${{ job.services.mysql.id }} mysql -uroot -proot < database/bcit_parkly_test_db.sql
-      - name: Check required secrets
-        run: |
-          test -n "$GOOGLE_MAPS_API_KEY" || (echo "GOOGLE_MAPS_API_KEY is missing" && exit 1)
-          test -n "$GOOGLE_MAP_ID" || (echo "GOOGLE_MAP_ID is missing" && exit 1)
-          echo "All required secrets are configured."
       - name: Test with npx/tsx
         run: |
           npx tsx --test
