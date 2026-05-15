@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permits &amp; Rates – Parkly</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/permits-rates.css">
+   <script
+      src="https://kit.fontawesome.com/39589cb536.js"
+      crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <a href="/">
+      <img src="/assets/bcit-logo.png" alt="BCIT Logo">
+    </a>
+    <div class="header-titles">
+      <h2>Parkly</h2>
+      <h6>Downtown Campus</h6>
+    </div>
+    <div class="header-tabs">
+      <a href="/">Find Parking</a>
+      <a href="/info/permits">Permits & Rates</a>
+      <a href="/reserve/reservations">My Reservations</a>
+      <a href="/info/help">Help & Support</a>
+    </div>
+    
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
+  </header>
+
+  <!-- ===== BREADCRUMB ===== -->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">Permits &amp; Rates</span>
+      </div>
+    </section>
+
+  <!-- ===== PAGE ===== -->
+  <div class="pr-page">
+
+    <!-- Hero -->
+    <div class="pr-hero">
+      <h1>Permits &amp; Rates</h1>
+      <p>BCIT Downtown Campus — Parking permits and hourly rates</p>
+    </div>
+
+    <!-- Content -->
+    <div class="pr-content">
+
+      <!-- Tab bar -->
+      <div class="pr-tabs">
+        <button class="pr-tab-btn active" onclick="switchTab('tab-rates', this)">
+          <i class="fa-solid fa-clock"></i>&nbsp; Hourly Rates
+        </button>
+        <button class="pr-tab-btn" onclick="switchTab('tab-permits', this)">
+          <i class="fa-solid fa-id-card"></i>&nbsp; Permits
+        </button>
+        <button class="pr-tab-btn" onclick="switchTab('tab-ev', this)">
+          <i class="fa-solid fa-bolt"></i>&nbsp; EV Charging
+        </button>
+      </div>
+
+      <!-- ── Tab: Hourly Rates ── -->
+      <div class="pr-tab-panel active" id="tab-rates">
+        <h2>Hourly Parking Rates</h2>
+        <p>The following rates apply to all pay parking areas at BCIT Downtown Campus. Rates are subject to change without notice.</p>
+
+        <table class="pr-rates-table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Period</th>
+              <th>Hours</th>
+              <th>Rate</th>
+              <th>Daily Max</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- North Parkade -->
+            <tr>
+              <td rowspan="3"><strong>North Parkade</strong><small>555 Seymour St</small></td>
+              <td>Daytime</td>
+              <td>8:00 AM – 6:00 PM</td>
+              <td><span class="pr-rate-badge">$3.00 / 30 min</span></td>
+              <td>$25.00</td>
+            </tr>
+            <tr>
+              <td>Evenings</td>
+              <td>6:00 PM – 12:00 AM</td>
+              <td><span class="pr-rate-badge">$2.00 / 30 min</span></td>
+              <td>$10.00</td>
+            </tr>
+            <tr>
+              <td>Weekends</td>
+              <td>All day</td>
+              <td><span class="pr-rate-badge">$2.00 / 30 min</span></td>
+              <td>$10.00</td>
+            </tr>
+            <!-- Downtown Surface Lot A -->
+            <tr>
+              <td rowspan="2"><strong>Downtown Surface Lot A</strong><small>270 Dunsmuir St</small></td>
+              <td>Daytime</td>
+              <td>12:00 AM – 11:59 PM</td>
+              <td><span class="pr-rate-badge">$4.50 / hr</span></td>
+              <td>No max</td>
+            </tr>
+            <tr>
+              <td>Evenings &amp; Weekends</td>
+              <td>Same as day</td>
+              <td><span class="pr-rate-badge">$4.50 / hr</span></td>
+              <td>No max</td>
+            </tr>
+            <!-- East Parkade -->
+            <tr>
+              <td rowspan="3"><strong>East Parkade</strong><small>555 W Hastings St</small></td>
+              <td>Daytime</td>
+              <td>6:00 AM – 6:00 PM</td>
+              <td><span class="pr-rate-badge">$2.25 / 30 min</span></td>
+              <td>$22.00</td>
+            </tr>
+            <tr>
+              <td>Evenings</td>
+              <td>6:00 PM – 6:00 AM</td>
+              <td><span class="pr-rate-badge">$2.25 / 30 min</span></td>
+              <td>$11.00</td>
+            </tr>
+            <tr>
+              <td>Weekends</td>
+              <td>All day</td>
+              <td><span class="pr-rate-badge">$2.25 / 30 min</span></td>
+              <td>$11.00</td>
+            </tr>
+            <!-- West Surface Lot B -->
+            <tr>
+              <td rowspan="3"><strong>West Surface Lot B</strong><small>345 Robson St</small></td>
+              <td>Daytime</td>
+              <td>8:00 AM – 5:00 PM</td>
+              <td><span class="pr-rate-badge">$3.00 / hr</span></td>
+              <td>$18.00</td>
+            </tr>
+            <tr>
+              <td>Evenings</td>
+              <td>5:00 PM – 12:00 AM</td>
+              <td><span class="pr-rate-badge">$2.00 / hr</span></td>
+              <td>$8.00</td>
+            </tr>
+            <tr>
+              <td>Weekends</td>
+              <td>All day</td>
+              <td><span class="pr-rate-badge">$2.00 / hr</span></td>
+              <td>$8.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="pr-note">
+          <strong>Note:</strong> All parking fees are subject to applicable taxes. Payment is accepted via credit card, debit card, or the BCIT Parking app.
+        </p>
+      </div>
+
+      <!-- ── Tab: Permits ── -->
+      <div class="pr-tab-panel" id="tab-permits">
+        <h2>Parking Permits</h2>
+        <p>BCIT offers a variety of parking permits for students, faculty, staff, and visitors. Permits allow you to park in designated areas without paying hourly rates.</p>
+
+        <div class="pr-permit-grid">
+
+          <div class="pr-permit-card">
+            <div class="pr-permit-card-icon">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3>Student Permit</h3>
+            <div class="pr-permit-price">$75.00 <span>/ month</span></div>
+            <p>For currently enrolled BCIT students.</p>
+            <ul>
+              <li>Valid in all student-designated lots</li>
+              <li>Requires valid student ID</li>
+              <li>One permit per student</li>
+              <li>Monthly or semester billing available</li>
+            </ul>
+          </div>
+
+          <div class="pr-permit-card">
+            <div class="pr-permit-card-icon">
+              <i class="fa-solid fa-briefcase"></i>
+            </div>
+            <h3>Faculty &amp; Staff Permit</h3>
+            <div class="pr-permit-price">$95.00 <span>/ month</span></div>
+            <p>For BCIT employees with a valid employee ID.</p>
+            <ul>
+              <li>Valid in faculty/staff designated areas</li>
+              <li>Requires valid employee ID</li>
+              <li>Payroll deduction available</li>
+              <li>Reserved spots available (extra fee)</li>
+            </ul>
+          </div>
+
+          <div class="pr-permit-card">
+            <div class="pr-permit-card-icon">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <h3>Visitor Permit</h3>
+            <div class="pr-permit-price">$15.00 <span>/ day</span></div>
+            <p>For guests and visitors to BCIT Downtown Campus.</p>
+            <ul>
+              <li>Valid in visitor-designated areas</li>
+              <li>Available at the parking office</li>
+              <li>No advance booking required</li>
+              <li>Valid for one calendar day</li>
+            </ul>
+          </div>
+
+          <div class="pr-permit-card">
+            <div class="pr-permit-card-icon">
+              <i class="fa-solid fa-wheelchair"></i>
+            </div>
+            <h3>Accessible Permit</h3>
+            <div class="pr-permit-price">Free</div>
+            <p>For individuals with a valid accessible parking placard.</p>
+            <ul>
+              <li>Valid provincial placard required</li>
+              <li>Designated accessible stalls only</li>
+              <li>Register with the parking office</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <h2>How to Get a Permit</h2>
+        <p>Permits can be purchased online through your MyBCIT account or in person at the Parking Office. Follow these steps:</p>
+
+        <ol class="pr-steps-list">
+          <li><span class="pr-step-badge">1</span> Sign in to your BCIT Parking account.</li>
+          <li><span class="pr-step-badge">2</span> Go to <strong>My Reservations → Purchase Permit</strong>.</li>
+          <li><span class="pr-step-badge">3</span> Select your permit type and billing period.</li>
+          <li><span class="pr-step-badge">4</span> Enter your vehicle information.</li>
+          <li><span class="pr-step-badge">5</span> Complete payment.</li>
+          <li><span class="pr-step-badge">6</span> Your permit will be emailed to you within 1 business day.</li>
+        </ol>
+      </div>
+
+      <!-- ── Tab: EV Charging ── -->
+      <div class="pr-tab-panel" id="tab-ev">
+        <h2>EV Charging Stations</h2>
+        <p>BCIT Downtown Campus has electric vehicle charging stations available in the North Parkade and East Parkade. Charging is available on a first-come, first-served basis.</p>
+
+        <table class="pr-rates-table">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Charger Type</th>
+              <th>Stalls</th>
+              <th>Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>North Parkade</strong> – Level 2</td>
+              <td>Level 2 (240V)</td>
+              <td>6 stalls</td>
+              <td><span class="pr-rate-badge">$1.50 / hr</span></td>
+            </tr>
+            <tr>
+              <td><strong>North Parkade</strong> – DC Fast</td>
+              <td>DC Fast Charge (50 kW)</td>
+              <td>2 stalls</td>
+              <td><span class="pr-rate-badge">$0.35 / kWh</span></td>
+            </tr>
+            <tr>
+              <td><strong>East Parkade</strong> – Level 2</td>
+              <td>Level 2 (240V)</td>
+              <td>4 stalls</td>
+              <td><span class="pr-rate-badge">$1.50 / hr</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="pr-note">
+          EV charging stalls are also subject to regular parking rates. Please ensure your vehicle is actively charging — idle vehicles may be ticketed after the charging session ends.
+        </p>
+
+        <div class="pr-contact-box">
+          <h3><i class="fa-solid fa-bolt"></i>&nbsp; EV Charging Support</h3>
+          <p>For issues with EV charging stations, contact our parking office or call the ChargePoint helpline at <strong>1-888-758-4389</strong>.</p>
+        </div>
+      </div>
+
+    </div><!-- end pr-content -->
+  </div><!-- end pr-page -->
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+        <div class="footer-container">
+          <!-- Logo and address column -->
+          <div class="footer-col">
+            <div class="footer-logo">
+              <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+            </div>
+            <p>
+              3700 Willingdon Ave.
+              <br />
+              Burnaby, British Columbia
+              <br />
+              Canada V5G 3H2
+            </p>
+            <p>
+              604-434-5734
+              <br />
+              1-866-434-1610
+            </p>
+          </div>
+          <!-- Quick links column -->
+          <div class="footer-col">
+            <h4>QUICK LINKS</h4>
+            <ul>
+              <li><a href="#">Visit</a></li>
+              <li><a href="#">Apply Now</a></li>
+              <li><a href="#">Give</a></li>
+              <li><a href="#">News</a></li>
+              <li><a href="#">Events</a></li>
+              <li><a href="#">Careers</a></li>
+            </ul>
+          </div>
+          <!-- Campuses column -->
+          <div class="footer-col">
+            <h4>BCIT CAMPUSES</h4>
+            <ul>
+              <li><a href="#">Burnaby Campus</a></li>
+              <li><a href="#">Downtown Campus</a></li>
+              <li><a href="#">Marine Campus</a></li>
+              <li><a href="#">Aerospace Technology Campus</a></li>
+              <li><a href="#">Annacis Island Campus</a></li>
+            </ul>
+          </div>
+        </div>
+        <!-- Bottom legal Bar -->
+        <div class="footer-bottom">
+          <div class="footer-bottom-links">
+            <a href="#">Copyright</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms of Use</a>
+            <a href="#">Accessibility</a>
+          </div>
+        </div>
+      </footer>
+
+  <script>
+    function switchTab(id, btn) {
+      document.querySelectorAll('.pr-tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.pr-tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

@@ -5,16 +5,20 @@ import {
   get_customer,
   get_customers,
   create_user,
+  get_user,
+  get_user_by_id,
 } from "../models/userModel";
+import { delete_session_by_user_id } from "../models/authModel";
 import { PasswordMismatchError } from "../middleware/errorTypes";
 import { Customer, User } from "../types/core";
+import bcrypt from "bcrypt";
 
-/*
- * @func calls database create_user function with updated parameters, send to
+/**
+ * @func calls database create_customer function with updated parameters, send to
  * @params firstname, lastname, email, phonenumber, password1 and 2 for password validation, valid_permit
  * @returns query object or void
  */
-export async function createCustomer(
+export async function createNewCustomerUser(
   firstName: string,
   lastName: string,
   email: string,
@@ -23,7 +27,8 @@ export async function createCustomer(
   secondGoPassword: string,
   valid_permits: string,
 ): Promise<Customer | void> {
-  if (firstGoPassword !== secondGoPassword) throw PasswordMismatchError;
+  if (firstGoPassword !== secondGoPassword)
+    throw new PasswordMismatchError("Passwords must match!");
   const firstname = firstName.trim().toLowerCase();
   const lastname = lastName.trim().toLowerCase();
   const permit = normalizePermit(valid_permits);
@@ -35,9 +40,15 @@ export async function createCustomer(
     lastname,
   );
   const newUser = await createUser(email, secondGoPassword);
+  // we do not ever return this created user to the client for security reasons
   return result;
 }
 
+/**
+ * @func normalizePermit ensure that permit type is all lowercase with no whitespace
+ * @param permit - passed in string
+ * @returns - returns normalized string
+ */
 function normalizePermit(permit: string): string {
   if (permit === "Student") {
     const permit = "student";
@@ -48,12 +59,77 @@ function normalizePermit(permit: string): string {
   }
 }
 
+/**
+ * @func createUser calls database create_user function with updated parameters, send to
+ * @params email, hash_password
+ * @returns query object or void
+ */
 async function createUser(
   email: string,
   password: string,
 ): Promise<User | void> {
   const trimmedEmail = email.trim();
-  const hashedPassword = password + "lolol";
+  const hashedPassword = await createHashPassword(password);
   const result = await create_user(trimmedEmail, hashedPassword);
   return result;
+}
+
+const saltRounds = 10;
+
+/**
+ * @func createHashPassword calls bcrypt's hasher with a salt
+ * @params none
+ * @returns a hashed password as a string
+ */
+export async function createHashPassword(rawPassword: string): Promise<string> {
+  const hashPassword = await bcrypt.hash(rawPassword, saltRounds);
+  return hashPassword;
+}
+
+/**
+ * @func validateUser validates user via lookup in table users, then compares plaintext password to hashed password with bcrypt
+ * @params email and password from html form
+ * @returns boolean true or false if lookup AND validation successful
+ */
+export async function validateUser(
+  email: string,
+  password: string,
+): Promise<boolean | void> {
+  const user = await get_user(email);
+  if (!user) {
+    return false;
+  } else {
+    const hashPassword = user.password_hash;
+    const validPassword = await bcrypt.compare(password, hashPassword);
+    return validPassword;
+  }
+}
+
+/**
+ * @func getUserByEmail - get the customer ID via email from users JOIN customers
+ * @param email
+ * @returns a number
+ */
+export async function getUserIdByEmail(email: string): Promise<number> {
+  let userId = await get_user(email);
+  userId = userId.id;
+  return userId;
+}
+
+/**
+ * @func getUserById get the user via email from users table
+ * @param id
+ * @returns - a user from the database
+ */
+export async function getUserById(id: number): Promise<User> {
+  const user = await get_user_by_id(id);
+  return user;
+}
+
+/**
+ * @func logOutDeleteSession - by logging out, we delete the session
+ * @param user_id
+ */
+export async function logOutDeleteSession(user_id: number) {
+  const result = await delete_session_by_user_id(user_id);
 }

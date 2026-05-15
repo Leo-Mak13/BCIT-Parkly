@@ -3,28 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BCIT Parkly</title>
-    <link rel="stylesheet" type="text/css" href="/css/myReservation.css" />
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <script
+      src="https://kit.fontawesome.com/39589cb536.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <!-- THE TOP HEADER AREA -->
     <header>
       <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
-
-      <!--Header title and subtitle-->
       <div class="header-titles">
         <h2>Parkly</h2>
         <h6>Downtown Campus</h6>
       </div>
-
-      <!--Header tabs-->
       <div class="header-tabs">
         <a href="/">Find Parking</a>
         <a href="/info/permits">Permits & Rates</a>
         <a href="/reserve/reservations">My Reservations</a>
         <a href="/info/help">Help & Support</a>
       </div>
-
-      <!--Sign in button-->
     <% if (locals.user === null) { %>
     <a role="button" href="/users/login" class="sign-in-btn">
     <i class="fa-solid fa-user"></i>
@@ -37,46 +37,55 @@
     </a>
     <% } %>
     </header>
-    </section>
-    <!--Breadcrum bar under the header bar-->
+
+    <!--Breadcrumb bar under the header bar-->
     <section class="breadcrumb-bar">
       <div class="subheading">
-        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
         <a href="/">Home</a>
         <span class="seperator">›</span>
-        <span class="current-pg">myReservations</span>
+        <span class="current-pg">SignUp</span>
       </div>
     </section>
-    <!-- reservation heading under breadcrumb bar -->
-    <div class="reservation-heading">
-      <h1>Your Reservations</h1>
-    </div>
-    <!-- buttons to see different versions -->
-    <div class="status">
-      <!-- ‼️‼️ I will eventually make it dynamic and show differnet reservations on click -->
-      <button class="status-buttons">Today</button>
-      <button class="status-buttons">Upcoming</button>
-      <button class="status-buttons">Cancelled</button>
-    </div>
-    <a class="reservation-create " href="/create"> + Create new reservation</a>
-    <!-- displays all the reservations under a specifc user dynamically -->
-    <div class="all-reservations"> 
-      <% reservations.forEach(reservation => { %>
-        <div class="induvidual-reservation">
-          <div class="info-reservation">
-            <h1 class="stall-location"><%= reservation.stall_location %></h1>
-            <p class="basic-info-reservation"><%= reservation.purchase_date %></p>
-            <p class="basic-info-reservation"><%= reservation.license_plate %></p>
-            <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
-          </div>
-          <div class="reservation-btn">
-            <a class="view" href="/reservations/view/<%= reservation.reservation_id %>">View</a>
-            <a class="edit" href="/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
-            <a class="cancel" href="/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
-          </div>
+
+    <div class="confirmation-container">
+      <div class="confirmation-card">
+
+        <div class="confirmation-icon">
+          <img src="/assets/Eo_circle_green_checkmark.svg.png" alt="Registration successful">
         </div>
-        <% }) %> 
+
+        <h1 class="confirmation-title">Registration Complete!</h1>
+        <p class="confirmation-subtitle">Your Parkly account has been successfully created.</p>
+
+        <div class="confirmation-email-wrapper">
+          <p class="confirmation-email-label">Registered with</p>
+          <span class="confirmation-email-pill">
+            <i class="fa-solid fa-envelope"></i>
+            <%= locals.confirmedEmail %>
+          </span>
+        </div>
+
+        <hr class="confirmation-divider">
+
+        <div class="next-steps">
+          <p class="next-steps-title">What's next?</p>
+          <ul class="next-steps-list">
+            <li><span class="step-badge">1</span> Log in to your new account using the button below.</li>
+            <li><span class="step-badge">2</span> Browse available parking lots and reserve a spot.</li>
+            <li><span class="step-badge">3</span> Manage your reservations anytime from your dashboard.</li>
+          </ul>
+        </div>
+
+        <a href="/login" class="confirmation-cta">Log In to Parkly</a>
+
+        <p class="confirmation-help">
+          Need help? <a href="/help">Visit our Help &amp; Support page</a>
+        </p>
+
+      </div>
     </div>
+
+
     <footer>
       <div class="footer-container">
         <div class="footer-col">
@@ -96,7 +105,6 @@
             1-866-434-1610
           </p>
         </div>
-
         <div class="footer-col">
           <h4>QUICK LINKS</h4>
           <ul>
@@ -108,7 +116,6 @@
             <li><a href="#">Careers</a></li>
           </ul>
         </div>
-
         <div class="footer-col">
           <h4>BCIT CAMPUSES</h4>
           <ul>
@@ -120,8 +127,6 @@
           </ul>
         </div>
       </div>
-
-      <!-- Bottom legal Bar -->
       <div class="footer-bottom">
         <div class="footer-bottom-links">
           <a href="#">Copyright</a>

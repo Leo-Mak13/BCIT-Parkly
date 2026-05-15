@@ -21,14 +21,21 @@
       </div>
       <div class="header-tabs">
         <a href="/">Find Parking</a>
-        <a href="/permits">Permits & Rates</a>
-        <a href="/reservations">My Reservations</a>
-        <a href="/help">Help & Support</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
       </div>
-      <button class="sign-in-btn">
-        <i class="fa-solid fa-user"></i>
-        Sign Up
-      </button>
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
     </header>
 
     <!--Breadcrumb bar under the header bar-->
@@ -36,7 +43,7 @@
       <div class="subheading">
         <a href="/">Home</a>
         <span class="seperator">›</span>
-        <span class="current-pg">Login</span>
+        <span class="current-pg">Registration</span>
       </div>
     </section>
 
@@ -44,7 +51,6 @@
     <div class="login-container">
       <div class="login-box">
         <div class="message-box">
-          <div class="message-success">Success Message</div>
           <% if (locals.message) { %>
           <div class="message-error"> <%= message %> </div>
           <% } %>
