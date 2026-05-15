@@ -51,7 +51,7 @@ afterEach(() => {
 });
 
 describe("lotService unit tests without database connection", () => {
-  it("mock model database queries, then test availability logic without MySQL", async () => {
+  it("mock data only, then test availability logic without MySQL", async () => {
     mockLotDatabase(20);
     const { getLotAvailability } = await import("../../../src/services/lotService.js");
 

@@ -72,7 +72,7 @@ afterEach(() => {
 });
 
 describe("lotRoutes integration tests without database connection", () => {
-  it("mock database queries, then test GET / through Express without MySQL", async () => {
+  it("mock data only, then test GET / through Express without MySQL", async () => {
     mockLotDatabase();
 
     const response = await request(await makeApp()).get("/");

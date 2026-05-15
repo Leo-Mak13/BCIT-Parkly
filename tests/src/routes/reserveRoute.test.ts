@@ -72,7 +72,7 @@ afterEach(() => {
 });
 
 describe("reserveRoute integration tests without database connection", () => {
-  it("mock database query, then test GET /reserve/:customer_id through Express without MySQL", async () => {
+  it("mock data only, then test GET /reserve/:customer_id through Express without MySQL", async () => {
     mockReservationDatabase();
 
     const response = await request(await makeApp()).get("/reserve/1");
@@ -84,7 +84,7 @@ describe("reserveRoute integration tests without database connection", () => {
     assert.equal(body.reservations[0].stall_location, "L1-01");
   });
 
-  it("mock database query, then test GET /reserve/view/:reservation_id through Express without MySQL", async () => {
+  it("mock data only, then test GET /reserve/view/:reservation_id through Express without MySQL", async () => {
     mockReservationDatabase();
 
     const response = await request(await makeApp()).get("/reserve/view/2");

@@ -73,7 +73,7 @@ afterEach(() => {
 });
 
 describe("lotController unit tests without database connection", () => {
-  it("mock database queries, then test getHomePage without MySQL", async () => {
+  it("mock data only, then test getHomePage without MySQL", async () => {
     mockLotDatabase();
     const { getHomePage } = await import("../../../src/controllers/lotController.js");
     const req = { user: null } as any;
