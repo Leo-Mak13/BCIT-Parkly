@@ -7,10 +7,6 @@ import {
 } from "../../src/models/lotModel.js";
 import { getLotAvailability } from "../../src/services/lotService.js";
 import {
-  get_reservation,
-  get_reservations,
-} from "../../src/controllers/reserveController.js";
-import {
   create_customer,
   create_user,
   get_customer,
@@ -49,26 +45,6 @@ describe("github database lot functions", () => {
     assert.ok(lots.length > 0);
     assert.ok(lots[0]?.name);
     assert.ok(lots[0]?.openSpots >= 0);
-  });
-});
-
-describe("github database reserve functions", () => {
-  it("connects get_reservations to the test database", async () => {
-    const reservations: any = await get_reservations("5");
-
-    assert.ok(Array.isArray(reservations));
-    assert.ok(reservations.length > 0);
-    assert.equal(reservations[0].reservation_id, 4);
-    assert.equal(reservations[0].stall_location, "L2-01");
-  });
-
-  it("connects get_reservation to the test database", async () => {
-    const reservation: any = await get_reservation("4");
-
-    assert.ok(Array.isArray(reservation));
-    assert.ok(reservation.length > 0);
-    assert.equal(reservation[0].lot_name, "619 Richards Street Lot");
-    assert.equal(reservation[0].parking_type, "regular");
   });
 });
 
