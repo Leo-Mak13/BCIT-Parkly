@@ -11,9 +11,15 @@ const devMode = process.env.MODE == "dev";
 
 async function viewAll(req: Request, res: Response) {
   try {
-    const UID = req.user.id;
-    const reservations = await get_reservations(UID);
-    res.render("myReservations", { devMode, reservations, user: req.user });
+    if (req.user === null) {
+      res.render("myReservations", {
+        error: "Error Log in to see reservations",
+      });
+    } else {
+      const UID = req.user.id;
+      const reservations = await get_reservations(UID);
+      res.render("myReservations", { devMode, reservations, user: req.user });
+    }
   } catch (err) {
     res.status(500).render("myReservations", {
       error: "server error - unable to find your Reservations",
@@ -26,18 +32,24 @@ async function viewOne(req: Request, res: Response) {
   try {
     const reservationID = req.params.reservation_id;
     const reservation = await get_reservation(reservationID);
-    res.render("singleReservation", { devMode, reservation, user: req.user });
+    res.render("singleReservation", {
+      devMode,
+      reservation,
+      user: req.user,
+      error: "",
+    });
   } catch (err) {
     res.status(500).render("singleReservation", {
       error: "server error - unable to find your Reservation",
       user: req.user,
+      reservation: [],
     });
   }
 }
 
 async function createPage(req: Request, res: Response) {
   try {
-    res.render("newReservation");
+    res.render("newReservation", { devMode });
   } catch (err) {
     res.status(500).render("newReservation", {
       error:
@@ -60,9 +72,9 @@ async function createReservation(req: Request, res: Response) {
       stall_id,
       UID,
     );
-    res.redirect(`/reservations/${UID}`);
+    res.redirect(`/reserve/`);
   } catch (err) {
-    res.status(500).render("myReservation", {
+    res.status(500).render("myReservations", {
       error: "server error - unable to reserve that spot",
       user: req.user,
     });
@@ -71,22 +83,33 @@ async function createReservation(req: Request, res: Response) {
 
 async function editPage(req: Request, res: Response) {
   try {
-    const reserveID = req.params.reservation_id;
+    const reserveID = (await req.params.reservation_id) as string;
+    console.log(reserveID);
     const toEdit = await get_reservation(reserveID);
-    res.render("editReservationPage");
+    console.log(toEdit);
+    res.render("editReservationPage", {
+      devMode,
+      toEdit,
+      user: req.user,
+      error: "",
+    });
   } catch (err) {
+    console.log(err);
     res.status(500).render("editReservationPage", {
       error: "server error - cant edit the current reservation",
       user: req.user,
+      devMode,
+      toEdit: [],
     });
   }
 }
 
 async function editReservation(req: Request, res: Response) {
+  const { license_plate, total_cost, stall_location, lot_id, stall_id } =
+    req.body;
   try {
-    const reservationID = req.params.reservation_id;
-    const { license_plate, total_cost, stall_location, lot_id, stall_id } =
-      req.body;
+    const reservationID = (await req.params.reservation_id) as string;
+    console.log(reservationID);
     const edit = await edit_reservation(
       license_plate,
       total_cost,
@@ -95,11 +118,13 @@ async function editReservation(req: Request, res: Response) {
       stall_id,
       reservationID,
     );
-    res.redirect(`/reservation/${reservationID}`);
+    // res.redirect(`/reserve/views/${reservationID}`);
+    res.redirect(`/reserve/view/${reservationID}`);
   } catch (err) {
     res.status(500).render("editReservationPage", {
-      error: "server error - cant edit the current reservation",
+      error: err,
       user: req.user,
+      toEdit: [],
     });
   }
 }

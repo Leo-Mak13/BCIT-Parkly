@@ -16,7 +16,7 @@ router.use(authValidation);
 
 router.get("/", viewAll);
 
-router.get("/views/:reservation_id", viewOne);
+router.get("/view/:reservation_id", viewOne);
 
 router.get("/create", createPage);
 

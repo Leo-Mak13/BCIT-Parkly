@@ -13,7 +13,7 @@ async function get_reservations(id: string) {
 async function get_reservation(id: string) {
   const [output] = await pool.query(
     `
-        select customer_id, stall_location, total_cost, purchase_date, parking_lots.lot_name, parking_lots.lot_floor, parking_stalls.parking_type, parking_lot_address.street, parking_lot_address.city, parking_lot_address.province FROM reservations
+        select customer_id, reservation_id,stall_location, total_cost, purchase_date, parking_lots.lot_name, parking_lots.lot_floor, parking_stalls.parking_type, parking_lot_address.street, parking_lot_address.city, parking_lot_address.province FROM reservations
         INNER JOIN parking_lots ON reservations.lot_id = parking_lots.lot_id
         INNER JOIN parking_stalls ON reservations.stall_id = parking_stalls.stall_id
         INNER JOIN parking_lot_address ON parking_lots.lot_id = parking_lot_address.lot_id
@@ -21,25 +21,28 @@ async function get_reservation(id: string) {
         `,
     [id],
   );
+  console.log("in get_reservation", output);
   return output;
 }
+
 async function edit_reservation(
   license_plate: string,
   total_cost: number,
   stall_location: string,
-  lot_id: string,
+  lot_id: number,
   stall_id: number,
   reservation_id: string,
 ) {
   const [result] = await pool.query(
     `
       UPDATE reservations
-        SET license_plate = ?,
+      SET 
+        license_plate = ?,
         total_cost = ?,
         stall_location = ?,
         lot_id = (SELECT lot_id FROM parking_lots WHERE lot_name = ?),
         stall_id = ?
-        WHERE reservation_id = ?
+      WHERE reservation_id = ?
         `,
     [
       license_plate,

@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Leo-Mak13/ACIT-2911-Agile-Project#readme",
   "dependencies": {
+    "@types/google.maps": "^3.64.1",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",

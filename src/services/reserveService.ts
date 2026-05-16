@@ -33,7 +33,7 @@ async function edit_reservation(
   license_plate: string,
   total_cost: number,
   stall_location: string,
-  lot_id: string,
+  lot_id: number,
   stall_id: number,
   reservation_id: string,
 ) {

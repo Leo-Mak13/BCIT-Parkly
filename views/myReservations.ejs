@@ -20,7 +20,7 @@
       <div class="header-tabs">
         <a href="/">Find Parking</a>
         <a href="/info/permits">Permits & Rates</a>
-        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/reserve/">My Reservations</a>
         <a href="/info/help">Help & Support</a>
       </div>
 
@@ -75,9 +75,9 @@
             <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
           </div>
           <div class="reservation-btn">
-            <a class="view" href="/reserve/view/<%= reservation.reservation_id %>">View</a>
-            <a class="edit" href="/reserve/edit/<%= reservation.reservation_id %>">Edit</a>
-            <a class="cancel" href="/reserve/delete/<%= reservation.reservation_id %>">Cancel</a>
+            <a class="view" href="/reserve/reservations/view/<%= reservation.reservation_id %>">View</a>
+            <a class="edit" href="/reserve/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
+            <a class="cancel" href="/reserve/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
           </div>
         </div>
         <% }) %> 
