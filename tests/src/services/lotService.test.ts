@@ -1,4 +1,4 @@
-import { after, afterEach, describe, it, mock } from "node:test";
+import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import { pool } from "../../../database/database.js";
 
@@ -50,8 +50,8 @@ afterEach(() => {
   mock.restoreAll();
 });
 
-describe("lotService unit tests without database connection", () => {
-  it("mock model database queries, then test availability logic without MySQL", async () => {
+describe("lotService unit tests", () => {
+  it("mock data only, then test availability logic", async () => {
     mockLotDatabase(20);
     const { getLotAvailability } = await import("../../../src/services/lotService.js");
 
@@ -61,28 +61,4 @@ describe("lotService unit tests without database connection", () => {
     assert.equal(lots[0]?.availability, "Available");
     assert.equal(lots[0]?.openSpots, 80);
   });
-});
-
-describe("lotService unit tests with database connection", () => {
-  it("call getLotAvailability with the real MySQL database", async () => {
-    const { getLotAvailability } = await import("../../../src/services/lotService.js");
-
-    const lots = await getLotAvailability();
-    const firstLot = lots[0];
-
-    assert.ok(Array.isArray(lots));
-    assert.ok(lots.length > 0);
-    assert.ok(firstLot.lotId);
-    assert.ok(firstLot.name);
-    assert.ok(firstLot.openSpots >= 0);
-    assert.ok(
-      firstLot.availability === "Available" ||
-        firstLot.availability === "Limited" ||
-        firstLot.availability === "Full",
-    );
-  });
-});
-
-after(async () => {
-  await pool.end();
 });

@@ -32,9 +32,14 @@ async function get_customer(id: number) {
 }
 
 async function create_user(email: string, password: string) {
+  const [customers]: any = await pool.query(
+    `SELECT customer_id FROM customers WHERE email = ?`,
+    [email],
+  );
+  const customerId = customers[0].customer_id;
   const [stmt] = await pool.query(
-    `INSERT INTO users (email, password_hash) VALUES (?, ?);`,
-    [email, password],
+    `INSERT INTO users (email, password_hash, customer_id) VALUES (?, ?, ?);`,
+    [email, password, customerId],
   );
 }
 
@@ -52,7 +57,7 @@ async function get_user_by_id(id: number) {
   const [stmt] = await pool.query(
     `SELECT * FROM users 
     JOIN customers ON customers.email=users.email
-    WHERE customers.customer_id = ?`,
+    WHERE users.id = ?`,
     [id],
   );
   return stmt[0];

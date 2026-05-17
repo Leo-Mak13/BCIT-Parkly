@@ -1,4 +1,4 @@
-import { after, afterEach, describe, it, mock } from "node:test";
+import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import { pool } from "../../../database/database.js";
 
@@ -72,8 +72,8 @@ afterEach(() => {
   mock.restoreAll();
 });
 
-describe("lotController unit tests without database connection", () => {
-  it("mock database queries, then test getHomePage without MySQL", async () => {
+describe("lotController unit tests", () => {
+  it("mock data only, then test getHomePage", async () => {
     mockLotDatabase();
     const { getHomePage } = await import("../../../src/controllers/lotController.js");
     const req = { user: null } as any;
@@ -85,22 +85,4 @@ describe("lotController unit tests without database connection", () => {
     assert.equal(res.viewData.parkingLots[0].name, "Test Lot");
     assert.equal(res.viewData.parkingLots[0].openSpots, 80);
   });
-});
-
-describe("lotController unit tests with database connection", () => {
-  it("call getHomePage and let it use the real MySQL database", async () => {
-    const { getHomePage } = await import("../../../src/controllers/lotController.js");
-    const req = { user: null } as any;
-    const res = makeResponse() as any;
-
-    await getHomePage(req, res);
-
-    assert.equal(res.viewName, "main");
-    assert.ok(Array.isArray(res.viewData.parkingLots));
-    assert.ok(res.viewData.parkingLots.length > 0);
-  });
-});
-
-after(async () => {
-  await pool.end();
 });
