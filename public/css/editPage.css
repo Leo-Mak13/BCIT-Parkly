@@ -1,3 +1,7 @@
+/*
+reservation styles
+*/
+
 html,
 body {
   height: 100%;
@@ -253,46 +257,13 @@ footer {
   text-decoration: underline;
 }
 
-.entire-reservation {
-  display: flex;
-  flex-direction: column;
-  margin: 30px 20%;
-  justify-content: center;
-}
-
-.info-reservation {
+.entire-forms {
   display: flex;
   flex-direction: row;
-  gap: 100px;
-  border: 1px solid black;
-  border-bottom: none;
-  border-radius: 25px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
-
-.column-name {
-  margin-left: 25px;
-}
-
-.column-info {
-  margin-right: 25px;
-  color: gray;
-}
-
-.links-reservation {
-  display: flex;
-  flex-direction: row;
-  gap: 100px;
-  border: 1px solid black;
-  border-top: 1px solid gray;
-  border-radius: 25px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  height: 50px;
-}
-
-.links-reservation a {
-  margin-left: 25px;
+  margin: 5px 250px;
   margin-top: 15px;
+}
+
+.lot {
+  border: 1px solid black;
 }

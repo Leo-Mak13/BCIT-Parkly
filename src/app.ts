@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", lotRoutes);
-app.use("/reserve", reserveRoute);
+app.use("/reserve/reservations", reserveRoute);
 app.use("/users", userRoute);
 app.use("/info", staticRoute);
 

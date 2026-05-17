@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BCIT Parkly</title>
-    <link rel="stylesheet" type="text/css" href="/css/myReservation.css" />
+    <link rel="stylesheet" type="text/css" href="/css/editPage.css" />
   </head>
   <body>
     <header>
@@ -48,42 +48,37 @@
       </div>
     </section>
     <!-- reservation heading under breadcrumb bar -->
-    <div class="reservation-heading">
-      <h1>Reservations</h1>
-      <p>BCIT Downtown campus</p>
-    </div>
-    <a class="reservation-create " href="/create"> + New reservation</a>
-    <!-- buttons to see different versions -->
+    <div class="entire-page">
+      <div class="header-title">
+        <h1>Edit your reservation</h1>
+
+      </div>
+      <h1 style="color:red;"><%= error %></h1>
     <% if (locals.user === null) { %>  
         <p>Login to setup reservations!</p>
       <% } else { %>
-    <div>
-    <div class="status">
-      <!-- ‼️‼️ I will eventually make it dynamic and show differnet reservations on click -->
-      <button class="status-buttons">Today</button>
-      <button class="status-buttons">Upcoming</button>
-      <button class="status-buttons">Cancelled</button>
-    </div>
-    <!-- displays all the reservations under a specifc user dynamically -->
-    <div class="all-reservations"> 
-      <% reservations.forEach(reservation => { %>
-        <div class="induvidual-reservation">
-          <div class="info-reservation">
-            <h1 class="stall-location"><%= reservation.stall_location %></h1>
-            <p class="basic-info-reservation"><%= reservation.purchase_date %></p>
-            <p class="basic-info-reservation"><%= reservation.license_plate %></p>
-            <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
+      <div class="entire-forms">
+          <div class="form-content">
+            <% toEdit.forEach(edit => { %>
+              <form action="/reserve/reservations/edit/<%= edit.reservation_id %>" method="post">
+              <p class="license-plate">Change license plate:</p>
+              <input type="text" name="license_plate" value="<%= edit.plate %>">
+              <p class="total-cost">Time reserving: </p>
+              <input id="pricing" class="payment" type="number" name="total_cost" value="6">
+              <p>Cost: value here</p>
+              <p class="stall-area">Stall Area: </p>
+              <input type="text" name="stall_location" value="<%= edit.stallArea %>">
+              <p class="lot-location">Change lot:</p>
+              <input type="text" name="lot_id" value="<%= edit.lot %>">
+              <p class="stall-location">Change stall:</p>
+              <input type="number" name="stall_id" value="<%= edit.stall %>">
+              <button type="submit">Submit changes</button>
+              </form>
           </div>
-          <div class="reservation-btn">
-            <a class="view" href="/reserve/reservations/view/<%= reservation.reservation_id %>">View</a>
-            <a class="edit" href="/reserve/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
-            <a class="cancel" href="/reserve/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
-          </div>
-        </div>
-        <% }) %> 
-    </div>
-    </div>
+          <% }) %> 
+      </div>
     <% } %>
+    </div>
     <footer>
       <div class="footer-container">
         <div class="footer-col">

@@ -55,7 +55,7 @@
   </script>
 </head>
 
-<body>
+<body class="page-main">
   <!-- THE TOP HEADER AREA -->
   <header>
     <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
@@ -225,10 +225,85 @@
 
       <!-- The map, centered at BCIT DTC -->
       <gmp-map center="49.2835,-123.1152" zoom="16" map-id="<%= GOOGLE_MAP_ID %>">
-      </gmp-map>
+            </gmp-map>
     </main>
-  </div>
 
+    <!-- DETAILS (HIDDEN) SIDE PANEL — inside app-container so it scrolls with the page -->
+    <div id="lot-details-peek" class="details-side-panel">
+      <div id="peek-backdrop" class="peek-backdrop"></div>
+
+      <aside class="peek-content">
+        <!--Details side panel header-->
+        <div class="peek-header">
+          <div class="title-group">
+            <h2 id="peek-name">Lot Name</h2>
+            <p id="peek-address">123 Street Ave, Vancouver</p>
+          </div>
+
+          <!--Close side panel icon-->
+          <button id="close-peek" class="close-peek-btn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!--Lot street view image-->
+        <div class="peek-hero-img">
+          <img id="peek-img" src="/assets/bcit-logo.png" alt="Lot Street View">
+          <div id="peek-status-badge" class="status-badge">Available</div>
+        </div>
+
+        <!--Lot occupancy-->
+        <div class="peek-scroll-area">
+          <div class="peek-section">
+            <h3>Live Occupancy</h3>
+            <div class="occupancy-container">
+              <div class="progress-bar">
+                <div id="peek-progress-fill" class="progress-fill" style="width: 70%"></div>
+              </div>
+              <p id="peek-spots-text">45 spots open of 100</p>
+            </div>
+          </div>
+
+          <!--Schedule and prices-->
+          <div class="peek-section">
+            <h3>Rate Schedule</h3>
+            <table class="price-table">
+              <tr>
+                <td>Daytime</td>
+                <td id="peek-price-day">$0.00 / hr</td>
+              </tr>
+              <tr>
+                <td>Evenings</td>
+                <td id="peek-price-evening">$0.00 / hr</td>
+              </tr>
+              <tr>
+                <td>Weekends</td>
+                <td id="peek-price-weekend">$0.00 / hr</td>
+              </tr>
+            </table>
+          </div>
+
+          <!--Lot features-->
+          <div class="peek-section">
+            <h3>Features</h3>
+            <div class="amenities-grid">
+              <div class="amenity"><i class="fa-solid fa-bolt"></i> EV Charging</div>
+              <div class="amenity"><i class="fa-solid fa-wheelchair"></i> Accessible</div>
+              <div class="amenity"><i class="fa-solid fa-shield-halved"></i> Well-lit</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Details side panel footer & reservation button-->
+        <div class="peek-footer">
+          <button class="reserve-now-btn">
+            Reserve This Spot <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </aside>
+    </div>
+
+  </div>
   <!--THE FOOTER SECTION-->
   <footer>
     <div class="footer-container">
@@ -288,80 +363,32 @@
     </div>
   </footer>
 
-  <!-- DETAILS (HIDDEN) SIDE PANEL -->
-  <div id="lot-details-peek" class="details-side-panel">
-    <div id="peek-backdrop" class="peek-backdrop"></div>
+  <!-- Measure the actual footer height and expose it as a CSS custom property.
+       This keeps the app-container, sidebar, and details panel heights in sync
+       with the fixed footer on every screen size, preventing the blank-gap issue. -->
+  <script>
+    (function () {
+      function applyFooterHeight() {
+        var footer = document.querySelector('footer');
+        if (!footer) return;
+        // Temporarily make it block (in case display:none) to measure
+        var prev = footer.style.display;
+        footer.style.display = 'block';
+        var h = footer.getBoundingClientRect().height;
+        footer.style.display = prev;
+        document.body.style.setProperty('--footer-h', h + 'px');
+      }
+      // Run once on DOM ready and again after fonts/images load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyFooterHeight);
+      } else {
+        applyFooterHeight();
+      }
+      window.addEventListener('load', applyFooterHeight);
+      window.addEventListener('resize', applyFooterHeight);
+    })();
+  </script>
 
-    <aside class="peek-content">
-      <!--Details side panel header-->
-      <div class="peek-header">
-        <div class="title-group">
-          <h2 id="peek-name">Lot Name</h2>
-          <p id="peek-address">123 Street Ave, Vancouver</p>
-        </div>
-
-        <!--Close side panel icon-->
-        <button id="close-peek" class="close-peek-btn">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <!--Lot street view image-->
-      <div class="peek-hero-img">
-        <img id="peek-img" src="/assets/bcit-logo.png" alt="Lot Street View">
-        <div id="peek-status-badge" class="status-badge">Available</div>
-      </div>
-
-      <!--Lot occupancy-->
-      <div class="peek-scroll-area">
-        <div class="peek-section">
-          <h3>Live Occupancy</h3>
-          <div class="occupancy-container">
-            <div class="progress-bar">
-              <div id="peek-progress-fill" class="progress-fill" style="width: 70%"></div>
-            </div>
-            <p id="peek-spots-text">45 spots open of 100</p>
-          </div>
-        </div>
-
-        <!--Schedule and prices-->
-        <div class="peek-section">
-          <h3>Rate Schedule</h3>
-          <table class="price-table">
-            <tr>
-              <td>Daytime</td>
-              <td id="peek-price-day">$0.00 / hr</td>
-            </tr>
-            <tr>
-              <td>Evenings</td>
-              <td id="peek-price-evening">$0.00 / hr</td>
-            </tr>
-            <tr>
-              <td>Weekends</td>
-              <td id="peek-price-weekend">$0.00 / hr</td>
-            </tr>
-          </table>
-        </div>
-
-        <!--Lot features-->
-        <div class="peek-section">
-          <h3>Features</h3>
-          <div class="amenities-grid">
-            <div class="amenity"><i class="fa-solid fa-bolt"></i> EV Charging</div>
-            <div class="amenity"><i class="fa-solid fa-wheelchair"></i> Accessible</div>
-            <div class="amenity"><i class="fa-solid fa-shield-halved"></i> Well-lit</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Details side panel footer & reservation button-->
-      <div class="peek-footer">
-        <button class="reserve-now-btn">
-          Reserve This Spot <i class="fa-solid fa-arrow-right"></i>
-        </button>
-      </div>
-    </aside>
-  </div>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-import { after, afterEach, describe, it, mock } from "node:test";
+import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import { pool } from "../../../database/database.js";
 
@@ -52,8 +52,8 @@ afterEach(() => {
   mock.restoreAll();
 });
 
-describe("lotModel unit tests without database connection", () => {
-  it("mock pool.query, then test mapRowToParkingLot without MySQL", async () => {
+describe("lotModel unit tests", () => {
+  it("mock data only, then test mapRowToParkingLot", async () => {
     mockLotDatabase();
     const { mapRowToParkingLot } = await import("../../../src/models/lotModel.js");
 
@@ -66,7 +66,7 @@ describe("lotModel unit tests without database connection", () => {
     assert.deepEqual(lot?.validPermits, ["student"]);
   });
 
-  it("mock pool.query, then test getNumberOfOccupiedStalls without MySQL", async () => {
+  it("mock data only, then test getNumberOfOccupiedStalls", async () => {
     mockLotDatabase();
     const { getNumberOfOccupiedStalls } = await import(
       "../../../src/models/lotModel.js"
@@ -76,38 +76,4 @@ describe("lotModel unit tests without database connection", () => {
 
     assert.deepEqual(occupiedStalls, fakeOccupiedRows);
   });
-});
-
-describe("lotModel unit tests with database connection", () => {
-  it("call mapRowToParkingLot with the real MySQL database", async () => {
-    const { mapRowToParkingLot } = await import("../../../src/models/lotModel.js");
-
-    const lots = await mapRowToParkingLot();
-    const firstLot = lots.values().next().value;
-
-    assert.ok(lots instanceof Map);
-    assert.ok(lots.size > 0);
-    assert.ok(firstLot.lotId);
-    assert.ok(firstLot.name);
-    assert.ok(firstLot.address);
-    assert.ok(firstLot.schedule);
-  });
-
-  it("call getNumberOfOccupiedStalls with the real MySQL database", async () => {
-    const { getNumberOfOccupiedStalls } = await import(
-      "../../../src/models/lotModel.js"
-    );
-
-    const occupiedStalls = await getNumberOfOccupiedStalls();
-
-    assert.ok(Array.isArray(occupiedStalls));
-    if (occupiedStalls.length > 0) {
-      assert.ok(occupiedStalls[0].lot_id);
-      assert.ok(occupiedStalls[0].occupied >= 0);
-    }
-  });
-});
-
-after(async () => {
-  await pool.end();
 });

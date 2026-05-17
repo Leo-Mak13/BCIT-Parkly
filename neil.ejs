@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/public/myReservation.css" />
+    <script>
+        // ---- Tabs (used on reservations page) ----
+        function switchTab(tabId, btn) {
+          // hide all panels
+          var panels = document.querySelectorAll('.tab-panel');
+          for (var i = 0; i < panels.length; i++) {
+            panels[i].classList.remove('active');
+          }
+          // deactivate all tab buttons
+          var buttons = document.querySelectorAll('.tab-btn');
+          for (var j = 0; j < buttons.length; j++) {
+            buttons[j].classList.remove('active');
+          }
+          // activate selected
+          document.getElementById(tabId).classList.add('active');
+          btn.classList.add('active');
+        }
+
+    </script>
+  </head>
+  <body>
+    <header>
+      <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/permits">Permits & Rates</a>
+        <a href="/reservations">My Reservations</a>
+        <a href="/help">Help & Support</a>
+      </div>
+
+      <!--Sign in button-->
+      <button class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign In
+      </button>
+    </header>
+    </section>
+    <!--Breadcrum bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">myReservations</span>
+      </div>
+    </section>
+    <!-- reservation heading under breadcrumb bar -->
+    <div class="reservation-heading">
+      <h1>Reservations</h1>
+      <p>BCIT Downtown campus</p>
+    </div>
+
+    <div class="page-content">
+        <!-- Reservations section (shown when logged in — toggle loginNotice/reservationsSection in JS) -->
+        <div id="reservationsSection">
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+            <h2 style="margin:0; border:none; padding:0;">Your Reservations</h2>
+            <a href="/create" class="details-btn" style="text-decoration:none; padding:9px 18px;">+ New Reservation</a>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('tab-active', this)">Active</button>
+            <button class="tab-btn" onclick="switchTab('tab-upcoming', this)">Upcoming</button>
+            <button class="tab-btn" onclick="switchTab('tab-past', this)">Past</button>
+          </div>
+
+          <!-- Active reservations -->
+          <div class="tab-panel active" id="tab-active">
+
+            <% reservations.forEach(reservation => { %>
+            <div class="reservation-card">
+              
+              <div class="res-info">
+                <h3>Location Name &mdash; Spot #<%= reservation.stall_location %></h3>
+                <p><i class="fa fa-map-marker-alt"></i>  License Plate: <%= reservation.license_plate %></p>
+                <p><i class="fa fa-calendar"></i> <%= reservation.purchase_date %></p>
+                <p><i class="fa fa-dollar-sign"></i> Amount: $<%= reservation.total_cost %></p>
+              </div>
+              <div class="res-actions">
+                <button class="btn-view" onclick="location.href='/view/<%= reservation.reservation_id %>';">View</button>
+                <button class="btn-edit" onclick="location.href='/edit/<%= reservation.reservation_id %>';">Edit</button>
+                <button class="btn-cancel" onclick="if(confirm('Are you sure to delete?')) { location.href='/delete/<%= reservation.reservation_id %>'; }">Cancel</button>
+              </div>
+            </div>
+            <% }) %> 
+            
+
+          </div>
+
+          <!-- Template for Upcoming reservations -->
+          <div class="tab-panel" id="tab-upcoming">
+
+            <div class="reservation-card">
+              <div class="res-info">
+                <h3>Location Name &mdash; Spot #B07</h3>
+                <p><i class="fa fa-map-marker-alt"></i> License Plate: BC5J6K</p>
+                <p><i class="fa fa-calendar"></i> Fri May 08 2026 17:38:19 GMT-0700 (Pacific Daylight Time)</p>
+                <p><i class="fa fa-dollar-sign"></i> Amount: $5.00</p>
+              </div>
+              <div class="res-actions">
+                <button class="btn-view" onclick="location.href='/view/';">View</button>
+                <button class="btn-edit" onclick="location.href='/edit/';">Edit</button>
+                <button class="btn-cancel" onclick="if(confirm('Are you sure to delete?')) { location.href='/delete/'; }">Cancel</button>
+              </div>
+            </div>
+            <div class="reservation-card">
+              <div class="res-info">
+                <h3>Location Name &mdash; Spot #B07</h3>
+                <p><i class="fa fa-map-marker-alt"></i> License Plate: BC5J6K</p>
+                <p><i class="fa fa-calendar"></i> Fri May 08 2026 17:38:19 GMT-0700 (Pacific Daylight Time)</p>
+                <p><i class="fa fa-dollar-sign"></i> Amount: $5.00</p>
+              </div>
+              <div class="res-actions">
+                <button class="btn-view" onclick="location.href='/view/';">View</button>
+                <button class="btn-edit" onclick="location.href='/edit/';">Edit</button>
+                <button class="btn-cancel" onclick="if(confirm('Are you sure to delete?')) { location.href='/delete/'; }">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Template for Past reservations -->
+          <div class="tab-panel" id="tab-past">
+
+            <div class="reservation-card">
+              <div class="res-info">
+                <h3>Location Name &mdash; Spot #B07</h3>
+                <p><i class="fa fa-map-marker-alt"></i> License Plate: BC5J6K</p>
+                <p><i class="fa fa-calendar"></i> Fri May 08 2026 17:38:19 GMT-0700 (Pacific Daylight Time)</p>
+                <p><i class="fa fa-dollar-sign"></i> Amount: $5.00</p>
+              </div>
+              <div class="res-actions">
+                <button class="btn-view" onclick="location.href='/receipt/';">Receipt</button>
+              </div>
+            </div>
+
+
+            <div class="reservation-card">
+              <div class="res-info">
+                <h3>Location Name &mdash; Spot #B07</h3>
+                <p><i class="fa fa-map-marker-alt"></i> License Plate: BC5J6K</p>
+                <p><i class="fa fa-calendar"></i> Fri May 08 2026 17:38:19 GMT-0700 (Pacific Daylight Time)</p>
+                <p><i class="fa fa-dollar-sign"></i> Amount: $5.00</p>
+              </div>
+              <div class="res-actions">
+                <button class="btn-view" onclick="location.href='/receipt/';">Receipt</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div><!-- end reservationsSection -->
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom legal Bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
