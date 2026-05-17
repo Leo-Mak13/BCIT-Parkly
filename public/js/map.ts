@@ -219,7 +219,7 @@ async function initMap(): Promise<void> {
     "gmp-map",
   ) as google.maps.MapElement;
 
-  const innerMap = mapElement.innerMap; // get the inner map
+  const innerMap = await mapElement.innerMap; // get the inner map
 
   // Add marker for each parking lot
   parkingLotsData.forEach((lot: any) => {

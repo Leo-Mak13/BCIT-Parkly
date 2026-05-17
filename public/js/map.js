@@ -198,7 +198,7 @@ function addMarkerAndInfoWindow(markerClass, map, lot, type) {
 async function initMap() {
     // Get the gmp-map element
     const mapElement = document.querySelector("gmp-map");
-    const innerMap = mapElement.innerMap; // get the inner map
+    const innerMap = await mapElement.innerMap; // get the inner map
     // Add marker for each parking lot
     parkingLotsData.forEach((lot) => {
         addMarkerAndInfoWindow(AdvancedMarkerElement, innerMap, lot, lot.availability);
