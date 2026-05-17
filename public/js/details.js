@@ -30,4 +30,18 @@ function toggleDetailsHiddenSidePanel() {
     });
 }
 toggleDetailsHiddenSidePanel();
+function getLotData() {
+    const detailsBtn = document.querySelectorAll(".sp-details-btn");
+    let targetLot;
+    // Loop through all "Details" buttons on the screen and assign an event listener to each button
+    for (const dBtn of detailsBtn) {
+        dBtn?.addEventListener("click", (event) => {
+            const target = event?.target;
+            const btnId = target.getAttribute("data-id");
+            targetLot = parkingLotsData.find((lot) => lot.lotId === btnId);
+            // Inject the data into the empty HTML elements
+        });
+    }
+}
+getLotData();
 export {};

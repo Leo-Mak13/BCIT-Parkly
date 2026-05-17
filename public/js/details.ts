@@ -3,6 +3,8 @@
  * Uses event delegation to listen for clicks on dynamically rendered lot cards.
  */
 
+declare const parkingLotsData: any[];
+
 /**
  * @func Helper function that checks if "Details" button was clicked
  * @params event
@@ -35,3 +37,21 @@ function toggleDetailsHiddenSidePanel(): void {
 }
 
 toggleDetailsHiddenSidePanel();
+
+function getLotData(): void {
+  const detailsBtn = document.querySelectorAll(".sp-details-btn");
+  let targetLot: any;
+
+  // Loop through all "Details" buttons on the screen and assign an event listener to each button
+  for (const dBtn of detailsBtn) {
+    dBtn?.addEventListener("click", (event: Event) => {
+      const target = event?.target as HTMLElement;
+      const btnId = target.getAttribute("data-id");
+      targetLot = parkingLotsData.find((lot: any) => lot.lotId === btnId);
+
+      // Inject the data into the empty HTML elements
+    });
+  }
+}
+
+getLotData();
