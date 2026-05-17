@@ -38,6 +38,18 @@ describe("Trigger: validate_stall_in_lot", () => {
     });
 });
 
+describe("Trigger: validate_customer_permit", () => {
+    it("should prevent reservations if customer doesn't have valid permit", async () => {
+        await assert.rejects(
+            testPool.query(
+                `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
+                VALUES (?, ?, ?, ?, ?, ?)`,
+                ["TESTCC", 5.0, "L3-01", 3, 89, 4],
+            ),
+        );
+    });
+});
+
 describe("Trigger: occupy_stall_on_reservation", () => {
     it("should set the stall to occupied after making a reservation", async () => {
         await testPool.query(

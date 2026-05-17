@@ -120,6 +120,8 @@ CREATE TABLE `sessions` (
     created_at DATETIME NOT NULL
 );
 
+ALTER TABLE customers AUTO_INCREMENT=1
+
 INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot_name) VALUES
     ('1', 58, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
     ('2', 28, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
