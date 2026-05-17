@@ -20,7 +20,7 @@
       <div class="header-tabs">
         <a href="/">Find Parking</a>
         <a href="/info/permits">Permits & Rates</a>
-        <a href="/reserve/">My Reservations</a>
+        <a href="/reserve/reservations">My Reservations</a>
         <a href="/info/help">Help & Support</a>
       </div>
 
@@ -47,43 +47,12 @@
         <span class="current-pg">myReservations</span>
       </div>
     </section>
-    <!-- reservation heading under breadcrumb bar -->
-    <div class="reservation-heading">
-      <h1>Reservations</h1>
-      <p>BCIT Downtown campus</p>
-    </div>
-    <a class="reservation-create " href="/create"> + New reservation</a>
-    <!-- buttons to see different versions -->
-    <% if (locals.user === null) { %>  
-        <p>Login to setup reservations!</p>
-      <% } else { %>
-    <div>
-    <div class="status">
-      <!-- ‼️‼️ I will eventually make it dynamic and show differnet reservations on click -->
-      <button class="status-buttons">Today</button>
-      <button class="status-buttons">Upcoming</button>
-      <button class="status-buttons">Cancelled</button>
-    </div>
-    <!-- displays all the reservations under a specifc user dynamically -->
-    <div class="all-reservations"> 
-      <% reservations.forEach(reservation => { %>
-        <div class="induvidual-reservation">
-          <div class="info-reservation">
-            <h1 class="stall-location"><%= reservation.stall_location %></h1>
-            <p class="basic-info-reservation"><%= reservation.purchase_date %></p>
-            <p class="basic-info-reservation"><%= reservation.license_plate %></p>
-            <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
-          </div>
-          <div class="reservation-btn">
-            <a class="view" href="/reserve/reservations/view/<%= reservation.reservation_id %>">View</a>
-            <a class="edit" href="/reserve/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
-            <a class="cancel" href="/reserve/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
-          </div>
+    <div class="entire-page">
+        <div class="heading-title"></div>
+        <div class="entire-form">
+            <form action="/reserve/reservations/edit/<%= toEdit.reservation_id %>" method="post"></form>
         </div>
-        <% }) %> 
     </div>
-    </div>
-    <% } %>
     <footer>
       <div class="footer-container">
         <div class="footer-col">
