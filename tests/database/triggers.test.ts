@@ -40,6 +40,9 @@ describe("Trigger: validate_stall_in_lot", () => {
 
 describe("Trigger: validate_customer_permit", () => {
     it("should prevent reservations if customer doesn't have valid permit", async () => {
+        await testPool.query(
+            `DELETE FROM parking_lot_valid_permits WHERE lot_id = 3 AND valid_permits = 'staff'`,
+        );
         await assert.rejects(
             testPool.query(
                 `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
