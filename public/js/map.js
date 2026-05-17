@@ -130,7 +130,7 @@ function generateHTMLElement(lot) {
         <p class="iw-${lot.availability.toLowerCase()}">${lot.availability}</p>
       </div>
       <p class="iw-description">${lot.description}</p>
-      <a href="/lots/${lot.lotId}" class="iw-details-btn">Details →</a>
+      <a class="iw-details-btn">Details →</a>
     </div>
   `;
     return wrapper;
@@ -198,7 +198,7 @@ function addMarkerAndInfoWindow(markerClass, map, lot, type) {
 async function initMap() {
     // Get the gmp-map element
     const mapElement = document.querySelector("gmp-map");
-    const innerMap = mapElement.innerMap; // get the inner map
+    const innerMap = await mapElement.innerMap; // get the inner map
     // Add marker for each parking lot
     parkingLotsData.forEach((lot) => {
         addMarkerAndInfoWindow(AdvancedMarkerElement, innerMap, lot, lot.availability);
