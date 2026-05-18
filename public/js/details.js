@@ -8,6 +8,18 @@
  * @returns void
  */
 function populateDetailsPanel(lot) {
+    // Set the street view Google Maps image in the panel header
+    const apiKey = window.GOOGLE_MAPS_API_KEY_CONFIG?.key;
+    if (apiKey && lot) {
+        const lotImg = document.getElementById("peek-img");
+        if (lotImg) {
+            lotImg.src = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${lot.latitude},${lot.longitude}&radius=200&source=outdoor&key=${apiKey}`;
+            console.log("Image URL set to:", lotImg.src);
+        }
+    }
+    else {
+        console.error("Google Maps API Key configuration object was not found on window scope.");
+    }
     // Set the lot name and address in the panel header
     document.getElementById("peek-name").textContent = lot.name;
     document.getElementById("peek-address").textContent =
@@ -55,7 +67,7 @@ function populateDetailsPanel(lot) {
             lot.schedule.rateUnit;
     // Wire up the Reserve button to go to the new reservation page for this lot
     const reserveBtn = document.querySelector(".reserve-now-btn");
-    reserveBtn.onclick = function () {
+    reserveBtn.onclick = () => {
         window.location.href = "/reserve/reservations/new?lotId=" + lot.lotId;
     };
 }
@@ -64,7 +76,7 @@ function populateDetailsPanel(lot) {
  * @params lot - the parking lot object to display
  * @returns void
  */
-function openDetailsPanel(lot) {
+export function openDetailsPanel(lot) {
     const hiddenSidePanel = document.querySelector(".details-side-panel");
     populateDetailsPanel(lot);
     hiddenSidePanel?.classList.add("active");
@@ -93,29 +105,22 @@ function checkDetailsBtnClick(event) {
     // Check if a lot card "Details" button was clicked (sidebar)
     const spBtn = target.closest(".sp-details-btn");
     if (spBtn) {
-        // Walk up to the parent .lot-card to find which lot index this is
-        const lotCard = spBtn.closest(".lot-card");
-        const allLotCards = document.querySelectorAll(".lot-card");
-        let lotIndex = -1;
-        allLotCards.forEach(function (card, index) {
-            if (card === lotCard) {
-                lotIndex = index;
-            }
-        });
-        if (lotIndex !== -1 && parkingLotsData[lotIndex]) {
-            console.log("Details button clicked for lot:", parkingLotsData[lotIndex].name);
-            openDetailsPanel(parkingLotsData[lotIndex]);
+        const btnId = Number(spBtn.getAttribute("data-id"));
+        const lot = parkingLotsData.find((l) => l.lotId === btnId);
+        if (lot) {
+            console.log("Details button clicked for lot:", lot.name);
+            openDetailsPanel(lot);
+        }
+        else {
+            console.error("Could not find matching lot data for ID:", btnId);
         }
         return;
     }
     // Check if a map marker info window "Details" button was clicked
     const iwBtn = target.closest(".iw-details-btn");
     if (iwBtn) {
-        // The info window button stores the lot name in a data attribute
         const lotName = iwBtn.getAttribute("data-lot-name");
-        const lot = parkingLotsData.find(function (l) {
-            return l.name === lotName;
-        });
+        const lot = parkingLotsData.find((l) => l.name === lotName);
         if (lot) {
             console.log("Map marker Details button clicked for lot:", lot.name);
             openDetailsPanel(lot);
@@ -130,31 +135,11 @@ function checkDetailsBtnClick(event) {
  */
 function toggleDetailsHiddenSidePanel() {
     // Listen for clicks on the page
-    document?.addEventListener("click", function (event) {
+    document?.addEventListener("click", (event) => {
         checkDetailsBtnClick(event);
     });
 }
 toggleDetailsHiddenSidePanel();
-function getLotData() {
-    const detailsBtn = document.querySelectorAll(".sp-details-btn");
-    let targetLot;
-    // Loop through all "Details" buttons on the screen and assign an event listener to each button
-    for (const dBtn of detailsBtn) {
-        dBtn?.addEventListener("click", (event) => {
-            const target = event?.currentTarget;
-            const btnId = Number(target.getAttribute("data-id"));
-            targetLot = parkingLotsData.find((lot) => lot.lotId === btnId);
-            // Inject the data into the empty HTML elements
-            let lotName = document.getElementById("peek-name");
-            lotName.textContent = targetLot.name;
-            let lotAddress = document.getElementById("peek-address");
-            lotAddress.textContent = `${targetLot.address.street}, ${targetLot.address.city} ${targetLot.address.postalCode}`;
-            let lotImg = document.getElementById("peek-img");
-            lotImg.src = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${targetLot.latitude},${targetLot.longitude}&key=${document.querySelector("gmp-map")?.getAttribute("map-id")}`;
-        });
-    }
-}
-getLotData();
 /**
  * @func Handles the sidebar collapse/expand toggle button
  * @params None
@@ -165,7 +150,7 @@ function setupSidebarToggle() {
     const toggleBtn = document.querySelector(".sidebar-toggle");
     const reopenBtn = document.getElementById("sidebar-reopen-btn");
     // Collapse the sidebar when the toggle button is clicked
-    toggleBtn?.addEventListener("click", function () {
+    toggleBtn?.addEventListener("click", () => {
         sidebar?.classList.add("collapsed");
         // Show the re-open button on the map area
         if (reopenBtn) {
@@ -173,7 +158,7 @@ function setupSidebarToggle() {
         }
     });
     // Expand the sidebar when the re-open button is clicked
-    reopenBtn?.addEventListener("click", function () {
+    reopenBtn?.addEventListener("click", () => {
         sidebar?.classList.remove("collapsed");
         // Hide the re-open button again
         if (reopenBtn) {
@@ -182,4 +167,3 @@ function setupSidebarToggle() {
     });
 }
 setupSidebarToggle();
-export {};
