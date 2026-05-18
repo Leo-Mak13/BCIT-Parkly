@@ -156,6 +156,8 @@ header h6 {
   min-height: calc(100vh - 95px);
   flex-shrink: 0;
   width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 /*--- SIDEBAR ---*/
@@ -166,6 +168,10 @@ header h6 {
   border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
+  /* position:relative makes .sidebar the bounding box for the
+     absolutely-positioned .details-side-panel inside it */
+  position: relative;
+  overflow: hidden;
 }
 
 .sidebar-header {
@@ -190,6 +196,41 @@ header h6 {
 
 .sidebar-toggle:hover {
   background-color: #6889aa;
+  transition: 0.5s ease;
+}
+
+/*Collapsed sidebar — hide the parking list and shrink the width*/
+.sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+/*Keep the toggle button visible even when the sidebar is collapsed*/
+.sidebar.collapsed .sidebar-header {
+  display: none;
+}
+
+/*A small re-open tab that stays on screen when sidebar is collapsed*/
+.sidebar-reopen-btn {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+  color: white;
+  background-color: #003366;
+  border: 1px rgb(168, 160, 160) solid;
+  border-radius: 4px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.sidebar-reopen-btn:hover {
+  background-color: #315887;
   transition: 0.5s ease;
 }
 
@@ -310,7 +351,9 @@ header h6 {
 }
 
 /*Open slots text next to the status pill*/
-.status .open-spots {
+.available .open-spots,
+.limited .open-spots,
+.full .open-spots {
   font-size: 0.75rem;
   color: black;
   opacity: 0.7;
@@ -630,16 +673,15 @@ footer {
 }
 
 /*--- DETAILS (HIDDEN) SIDE PANEL ---*/
+/* Now lives inside .sidebar, so it anchors to the sidebar's bounds */
 .details-side-panel {
-  position: fixed;
-  top: 95px;
+  position: absolute;
+  top: 0;
   left: 0;
-  width: 350px;
-  max-width: 30vw;
-  height: calc(100vh - 95px);
+  width: 100%;
+  height: 100%;
   z-index: 100;
   background: #f8f9fa;
-  border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
   transform: translateX(-100%);
@@ -911,6 +953,7 @@ footer {
   }
 
   .details-side-panel {
+    position: absolute;
     top: auto;
     bottom: 0;
     left: 0;
@@ -925,250 +968,4 @@ footer {
   .details-side-panel.active {
     transform: translateY(0);
   }
-}
-
-/* --- Sidebar collapsed state --- */
-.sidebar.collapsed {
-  width: 48px;
-  min-width: 48px;
-  max-width: 48px;
-  overflow: hidden;
-  transition: width 0.3s ease, min-width 0.3s ease, max-width 0.3s ease;
-}
-
-/* Hide the lot list and title text when collapsed */
-.sidebar.collapsed .parking-list,
-.sidebar.collapsed .sidebar-header h3 {
-  display: none;
-}
-
-/* Centre the toggle button when collapsed */
-.sidebar.collapsed .sidebar-header {
-  justify-content: center;
-}
-
-/* Flip the caret arrow when collapsed */
-.sidebar.collapsed .sidebar-toggle i {
-  transform: rotate(180deg);
-}
-
-/* Animate the caret flip */
-.sidebar-toggle i {
-  transition: transform 0.3s ease;
-}
-
-/* Animate the sidebar width */
-.sidebar {
-  transition: width 0.3s ease, min-width 0.3s ease, max-width 0.3s ease;
-  overflow: hidden;
-}
-
-/* =====================================================
-   Lot card redesign — matches the new card style
-   ===================================================== */
-
-/* Sidebar background becomes light grey so cards stand out */
-.parking-list {
-  background-color: #f0f2f5;
-  padding: 12px;
-  gap: 12px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Each card is a white rounded box with a shadow */
-.lot-card {
-  background-color: white;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  border-bottom: none;
-}
-
-/* Lot name is bigger and bolder */
-.lot-card h3 {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #111;
-}
-
-/* Address lines are grey */
-.lot-card p {
-  font-size: 0.8rem;
-  color: #666;
-  opacity: 1;
-}
-
-/* Open spots text next to the pill */
-.available .open-spots,
-.limited .open-spots,
-.full .open-spots {
-  font-size: 0.8rem;
-  color: #444;
-  opacity: 1;
-}
-
-/* Schedule table gets a border and rounded corners */
-.schedule-table {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-/* Each schedule row has a light background */
-.schedule-row {
-  padding: 8px 12px;
-  background-color: #fafafa;
-}
-
-/* Alternating row colour */
-.schedule-row:nth-child(even) {
-  background-color: #f4f6f8;
-}
-
-/* Schedule label font size */
-.schedule-row .label {
-  font-size: 0.82rem;
-  color: #333;
-  opacity: 1;
-}
-
-/* Time text */
-.schedule-row .details .time {
-  font-size: 0.78rem;
-  color: #555;
-  margin: 0;
-}
-
-/* Price text */
-.schedule-row .details .price {
-  font-size: 0.82rem;
-  color: #003366;
-  font-weight: 700;
-  margin: 0;
-}
-
-/* Valid Permits section */
-.valid-permits {
-  margin-top: 12px;
-}
-
-.valid-permits h4 {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #333;
-  opacity: 1;
-  margin: 0 0 6px 0;
-}
-
-/* Remove the old list style and show permits as inline pills */
-.valid-permits ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.valid-permits ul li {
-  font-size: 0.75rem;
-  color: #003366;
-  background-color: #e8f0fb;
-  border: 1px solid #b3cdf5;
-  border-radius: 20px;
-  padding: 3px 10px;
-  font-weight: 600;
-}
-
-/* Slide sidebar out on desktop when details panel is open */
-.sidebar.shifted-out {
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
-}
-
-/* Fix: keep panel fixed but use sticky sidebar so they both scroll together.
-   overflow-x: hidden on app-container prevents the translateX(-100%) from
-   creating a horizontal scrollbar or causing page jumps. */
-.app-container {
-  position: relative;
-  overflow-x: hidden;
-}
-
-/* Fix: scroll area should only take as much space as its content needs,
-   not grow to fill the entire panel height */
-.peek-scroll-area {
-  flex: 0 1 auto;
-  overflow-y: visible;
-}
-
-/* Fix: footer sticks right below the content, not at the very bottom */
-.peek-footer {
-  margin-top: 0;
-}
-
-/* Make the sidebar sticky so it stays in view when scrolling,
-   matching the fixed details panel behaviour */
-.sidebar {
-  position: sticky;
-  top: 0;
-  height: calc(100vh - 95px);
-  overflow-y: auto;
-}
-
-/* Details panel: restore fixed position, correct top offset */
-.details-side-panel {
-  position: fixed;
-  top: 95px;
-  left: 0;
-  height: calc(100vh - 95px);
-}
-
-/* =====================================================================
-   FIX: Map click scroll issue — footer visible, no scroll jump
-
-   Strategy:
-   1. A CSS custom property --footer-h is set on body.page-main via a tiny
-      inline <style> injected by the server (or falls back to 277px).
-      All height calculations reference this single variable so every
-      element stays in sync regardless of actual footer height.
-   2. The footer is position:fixed so it is taken out of normal flow —
-      body.scrollHeight stays equal to the viewport and the page cannot
-      scroll at all, preventing the Google Maps focus-scroll jump.
-   3. The app-container, sidebar, and details panel all use
-      calc(100vh - 95px - var(--footer-h)) so there is no blank gap.
-   ===================================================================== */
-
-/* Fallback value — overridden by the JS snippet in main.ejs */
-body.page-main {
-  --footer-h: 277px;
-}
-
-/* Footer: fixed to the bottom of the viewport, full width */
-body.page-main footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-}
-
-/* App-container: fill exactly the space between breadcrumb and footer */
-body.page-main .app-container {
-  min-height: calc(100vh - 95px - var(--footer-h));
-  max-height: calc(100vh - 95px - var(--footer-h));
-  height:     calc(100vh - 95px - var(--footer-h));
-}
-
-/* Sidebar: match the new container height */
-body.page-main .sidebar {
-  height: calc(100vh - 95px - var(--footer-h));
-}
-
-/* Details side panel: match the new container height and top offset */
-body.page-main .details-side-panel {
-  height: calc(100vh - 95px - var(--footer-h));
 }
