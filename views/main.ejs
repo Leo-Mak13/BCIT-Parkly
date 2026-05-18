@@ -7,7 +7,7 @@
 
   <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
   <script>
-    const parkingLotsData = <%- JSON.stringify(parkingLots) %>
+    const parkingLotsData = <% - JSON.stringify(parkingLots) %>
   </script>
   <script type="module" src="js/map.js"></script>
   <script type="module" src="js/details.js"></script>
@@ -17,41 +17,41 @@
 
   <!-- Map -->
   <script>
-    ((g) => {
-      var h,
-        a,
-        k,
-        p = "The Google Maps JavaScript API",
-        c = "google",
-        l = "importLibrary",
-        q = "__ib__",
-        m = document,
-        b = window;
-      b = b[c] || (b[c] = {});
-      var d = b.maps || (b.maps = {}),
-        r = new Set(),
-        e = new URLSearchParams(),
-        u = () =>
-          h ||
-          (h = new Promise(async (f, n) => {
-            await (a = m.createElement("script"));
-            e.set("libraries", [...r] + "");
-            for (k in g)
-              e.set(
-                k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
-                g[k],
-              );
-            e.set("callback", c + ".maps." + q);
-            a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
-            d[q] = f;
-            a.onerror = () => (h = n(Error(p + " could not load.")));
-            a.nonce = m.querySelector("script[nonce]")?.nonce || "";
-            m.head.append(a);
-          }));
-      d[l]
-        ? console.warn(p + " only loads once. Ignoring:", g)
-        : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-    })(window.GOOGLE_MAPS_API_KEY_CONFIG = { key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
+      ((g) => {
+        var h,
+          a,
+          k,
+          p = "The Google Maps JavaScript API",
+          c = "google",
+          l = "importLibrary",
+          q = "__ib__",
+          m = document,
+          b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}),
+          r = new Set(),
+          e = new URLSearchParams(),
+          u = () =>
+            h ||
+            (h = new Promise(async (f, n) => {
+              await (a = m.createElement("script"));
+              e.set("libraries", [...r] + "");
+              for (k in g)
+                e.set(
+                  k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+                  g[k],
+                );
+              e.set("callback", c + ".maps." + q);
+              a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+              d[q] = f;
+              a.onerror = () => (h = n(Error(p + " could not load.")));
+              a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+              m.head.append(a);
+            }));
+        d[l]
+          ? console.warn(p + " only loads once. Ignoring:", g)
+          : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
+      })(window.GOOGLE_MAPS_API_KEY_CONFIG = { key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
   </script>
 </head>
 
@@ -75,17 +75,17 @@
     </div>
 
     <!--Sign in button or Logout if (user)-->
-    <% if (locals.user === null) { %>
-    <a role="button" href="/users/login" class="sign-in-btn">
-    <i class="fa-solid fa-user"></i>
-      Sign In
-    </a>
-    <% } else { %>
-    <a role="button" href="/users/logout" class="sign-in-btn">
-    <i class="fa-solid fa-user"></i>
-      Sign Out
-    </a>
-    <% } %>
+    <% if (locals.user===null) { %>
+      <a role="button" href="/users/login" class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign In
+      </a>
+      <% } else { %>
+        <a role="button" href="/users/logout" class="sign-in-btn">
+          <i class="fa-solid fa-user"></i>
+          Sign Out
+        </a>
+        <% } %>
   </header>
 
   <!--Breadcrum bar under the header bar-->
@@ -312,7 +312,6 @@
   <!--THE FOOTER SECTION-->
   <footer>
     <div class="footer-container">
-      <!-- Logo and address column -->
       <div class="footer-col">
         <div class="footer-logo">
           <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
@@ -331,39 +330,37 @@
         </p>
       </div>
 
-      <!-- Quick links column -->
       <div class="footer-col">
         <h4>QUICK LINKS</h4>
         <ul>
-          <li><a href="#">Visit</a></li>
-          <li><a href="#">Apply Now</a></li>
-          <li><a href="#">Give</a></li>
-          <li><a href="#">News</a></li>
-          <li><a href="#">Events</a></li>
-          <li><a href="#">Careers</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/">Visit</a></li>
+          <li><a href="https://www.bcit.ca/admission/apply-now/">Apply Now</a></li>
+          <li><a href="https://www.bcit.ca/foundation/give/">Give</a></li>
+          <li><a href="https://www.bcit.ca/news/">News</a></li>
+          <li><a href="https://www.bcit.ca/events/">Events</a></li>
+          <li><a href="https://www.bcit.ca/about/careers/">Careers</a></li>
         </ul>
       </div>
 
-      <!-- Campuses column -->
       <div class="footer-col">
         <h4>BCIT CAMPUSES</h4>
         <ul>
-          <li><a href="#">Burnaby Campus</a></li>
-          <li><a href="#">Downtown Campus</a></li>
-          <li><a href="#">Marine Campus</a></li>
-          <li><a href="#">Aerospace Technology Campus</a></li>
-          <li><a href="#">Annacis Island Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/burnaby-campus/">Burnaby Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/downtown-campus/">Downtown Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/marine-campus/">Marine Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/aerospace-technology-campus/">Aerospace Technology Campus</a>
+          </li>
+          <li><a href="https://www.bcit.ca/about/visit/annacis-island-campus/">Annacis Island Campus</a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Bottom legal Bar -->
     <div class="footer-bottom">
       <div class="footer-bottom-links">
-        <a href="#">Copyright</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms of Use</a>
-        <a href="#">Accessibility</a>
+        <a href="https://www.bcit.ca/about/copyright/">Copyright</a>
+        <a href="https://www.bcit.ca/about/privacy/">Privacy</a>
+        <a href="https://www.bcit.ca/about/terms-of-use/">Terms of Use</a>
+        <a href="https://www.bcit.ca/about/web-accessibility/">Accessibility</a>
       </div>
     </div>
   </footer>
