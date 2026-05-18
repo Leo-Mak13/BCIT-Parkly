@@ -712,7 +712,7 @@ footer {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 15px; /* Matches sidebar-header padding exactly */
+  padding: 10px 15px;
   background: #003366;
   color: white;
 }
@@ -726,7 +726,7 @@ footer {
 
 #peek-name {
   margin: 0;
-  font-size: 1.1rem; /* Matches your main sidebar header title font size */
+  font-size: 1.1rem;
   font-weight: bold;
   color: white;
 }
@@ -745,7 +745,7 @@ footer {
   background-color: #315887;
   border: 1px solid rgb(168, 160, 160);
   border-radius: 4px;
-  padding: 8px 10px; /* Matches your sidebar layout button actions */
+  padding: 8px 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -804,7 +804,7 @@ footer {
 .peek-scroll-area {
   flex: 1;
   overflow-y: auto;
-  padding: 1.2rem; /* Matches your .lot-card layout padding spacing */
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;

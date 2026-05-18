@@ -51,7 +51,7 @@
       d[l]
         ? console.warn(p + " only loads once. Ignoring:", g)
         : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-    })({ key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
+    })(window.GOOGLE_MAPS_API_KEY_CONFIG = { key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
   </script>
 </head>
 
@@ -194,7 +194,7 @@
               <h3>
                 <%= lot.name %>
               </h3>
-              <button class="sp-details-btn">
+              <button class="sp-details-btn" data-id="<%= lot.lotId %>">
                 Details
                 <i class="fa-solid fa-arrow-right"></i>
               </button>

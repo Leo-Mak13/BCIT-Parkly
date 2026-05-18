@@ -2,6 +2,7 @@
  * @file This file handles the initialization and logic for the Google Map,
  * including dynamic marker and pop-up info window placement.
  */
+import { openDetailsPanel } from "./details.js";
 let timer; //global timer for info window pop-ups
 // Request the needed libraries
 const [{ Map, InfoWindow }, { AdvancedMarkerElement, PinElement }] = await Promise.all([
@@ -133,6 +134,16 @@ function generateHTMLElement(lot) {
       <a class="iw-details-btn">Details →</a>
     </div>
   `;
+    // Find the button element inside the newly generated template wrapper
+    const detailsBtn = wrapper.querySelector(".iw-details-btn");
+    // Attach the click listener directly to the button element
+    if (detailsBtn) {
+        detailsBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            console.log("Map pop-up Details button clicked for lot:", lot.name);
+            openDetailsPanel(lot);
+        });
+    }
     return wrapper;
 }
 /**
@@ -222,4 +233,3 @@ async function initMap() {
     });
 }
 initMap();
-export {};
