@@ -36,10 +36,16 @@ function getLotData() {
     // Loop through all "Details" buttons on the screen and assign an event listener to each button
     for (const dBtn of detailsBtn) {
         dBtn?.addEventListener("click", (event) => {
-            const target = event?.target;
-            const btnId = target.getAttribute("data-id");
+            const target = event?.currentTarget;
+            const btnId = Number(target.getAttribute("data-id"));
             targetLot = parkingLotsData.find((lot) => lot.lotId === btnId);
             // Inject the data into the empty HTML elements
+            let lotName = document.getElementById("peek-name");
+            lotName.textContent = targetLot.name;
+            let lotAddress = document.getElementById("peek-address");
+            lotAddress.textContent = `${targetLot.address.street}, ${targetLot.address.city} ${targetLot.address.postalCode}`;
+            let lotImg = document.getElementById("peek-img");
+            lotImg.src = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${targetLot.latitude},${targetLot.longitude}&key=${document.querySelector("gmp-map")?.getAttribute("map-id")}`;
         });
     }
 }

@@ -45,11 +45,19 @@ function getLotData(): void {
   // Loop through all "Details" buttons on the screen and assign an event listener to each button
   for (const dBtn of detailsBtn) {
     dBtn?.addEventListener("click", (event: Event) => {
-      const target = event?.target as HTMLElement;
-      const btnId = target.getAttribute("data-id");
+      const target = event?.currentTarget as HTMLElement;
+      const btnId = Number(target.getAttribute("data-id"));
       targetLot = parkingLotsData.find((lot: any) => lot.lotId === btnId);
 
       // Inject the data into the empty HTML elements
+      let lotName = document.getElementById("peek-name") as HTMLElement;
+      lotName.textContent = targetLot.name;
+
+      let lotAddress = document.getElementById("peek-address") as HTMLElement;
+      lotAddress.textContent = `${targetLot.address.street}, ${targetLot.address.city} ${targetLot.address.postalCode}`;
+
+      let lotImg = document.getElementById("peek-img") as HTMLImageElement;
+      lotImg.src = `https://maps.googleapis.com/maps/api/streetview?size=600x300&location=${targetLot.latitude},${targetLot.longitude}&key=${document.querySelector("gmp-map")?.getAttribute("map-id")}`;
     });
   }
 }
