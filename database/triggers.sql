@@ -2,6 +2,15 @@ USE `bcit_parkly`;
 
 -- set delimiter to '//' (needed for triggers with multiple/if statements)
 -- prevents inserting reservation for occupied parking stalls
+DROP TRIGGER IF EXISTS `prevent_reserving_occupied`;
+DROP TRIGGER IF EXISTS `occupy_stall_on_reservation`;
+DROP TRIGGER IF EXISTS `unoccupy_stall_on_reservation_delete`;
+DROP TRIGGER IF EXISTS `validate_stall_in_lot`;
+DROP TRIGGER IF EXISTS `validate_customer_permit`;
+DROP TRIGGER IF EXISTS `update_lot_capacity_on_stall_insert`;
+DROP TRIGGER IF EXISTS `update_lot_capacity_on_stall_delete`;
+DROP TRIGGER IF EXISTS `update_stall_occupancy_on_reservation_update`;
+
 DELIMITER //
 CREATE TRIGGER `prevent_reserving_occupied`
 BEFORE INSERT ON reservations
