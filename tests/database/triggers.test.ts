@@ -20,9 +20,9 @@ describe("Trigger: prevent_reserving_occupied", () => {
     it("should prevent reserving occupied parking stalls", async () => {
         await assert.rejects(
             testPool.query(
-                `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id) 
-                VALUES (?, ?, ?, ?, ?, ?)`,
-                ["TESTPLATE", 5.0, "L1-01", 1, 1, 1],
+                `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                ["TESTPLATE", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 1, 1, 1],
             ),
         );
     });
@@ -32,9 +32,9 @@ describe("Trigger: validate_stall_in_lot", () => {
     it("should throw an error if the stall is not it the lot specified in the reservation", async () => {
         await assert.rejects(
             testPool.query(
-                `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
-                VALUES (?, ?, ?, ?, ?, ?)`,
-                ["TESTBB", 5.0, "L2-02", 1, 60, 4],
+                `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                ["TESTBB", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 1, 60, 4],
             ),
         );
     });
@@ -47,9 +47,9 @@ describe("Trigger: validate_customer_permit", () => {
         );
         await assert.rejects(
             testPool.query(
-                `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
-                VALUES (?, ?, ?, ?, ?, ?)`,
-                ["TESTCC", 5.0, "L3-01", 3, 89, 4],
+                `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                ["TESTCC", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 3, 89, 4],
             ),
         );
     });
@@ -58,9 +58,9 @@ describe("Trigger: validate_customer_permit", () => {
 describe("Trigger: occupy_stall_on_reservation", () => {
     it("should set the stall to occupied after making a reservation", async () => {
         await testPool.query(
-            `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
-            VALUES (?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+            `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
         );
 
         const [stall]: any = await testPool.query(
@@ -74,9 +74,9 @@ describe("Trigger: occupy_stall_on_reservation", () => {
 describe("Trigger: unoccupy_stall_on_reservation_delete", () => {
     it("set stall to unoccupied after deleting reservation", async () => {
         await testPool.query(
-            `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
-            VALUES (?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+            `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
         );
         await testPool.query(
             `DELETE FROM reservations WHERE license_plate = ?`,
@@ -95,9 +95,9 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     //reject test
     it("should prevent reserving occupied stall when updating reservation", async () => {
         await testPool.query(
-            `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
-            VALUES (?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+            `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
         );
         await assert.rejects(
             testPool.query(
@@ -109,9 +109,9 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     //success test
     it("should allow reserving free stalls when updating reservation", async () => {
         await testPool.query(
-            `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
-            VALUES (?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+            `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
         );
         await testPool.query(
             `UPDATE reservations SET stall_id = ? WHERE license_plate = ?`,
