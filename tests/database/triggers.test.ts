@@ -130,6 +130,51 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     });
 });
 
+describe("Trigger: update_lot_capacity_on_stall_insert", () => {
+    it("increment lot capacity by 1 when stall inserted", async () => {
+        const [lotOld]: any = await testPool.query(
+            `SELECT lot_capacity FROM parking_lots WHERE lot_id = 3`,
+        );
+        const capacityOld = lotOld[0].lot_capacity;
+
+        await testPool.query(
+            `INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES (?, ?, ?)`,
+            [false, "regular", 3],
+        );
+
+        const [lotNew]: any = await testPool.query(
+            `SELECT lot_capacity FROM parking_lots WHERE lot_id = 3`,
+        );
+        const capacityNew = lotNew[0].lot_capacity;
+        assert.equal(capacityNew, capacityOld + 1);
+    });
+});
+
+describe("Trigger: update_lot_capacity_on_stall_delete", () => {
+    it("decrement capacity by 1 when stall deleted", async () => {
+        await testPool.query(
+            `INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES (?, ?, ?)`,
+            [false, "regular", 3],
+        );
+
+        const [lotOld]: any = await testPool.query(
+            `SELECT lot_capacity FROM parking_lots WHERE lot_id = 3`,
+        );
+        const capacityOld = lotOld[0].lot_capacity;
+
+        await testPool.query(
+            `DELETE FROM parking_stalls WHERE stall_id = LAST_INSERT_ID()`,
+        );
+
+        const [lotNew]: any = await testPool.query(
+            `SELECT lot_capacity FROM parking_lots WHERE lot_id = 3`,
+        );
+        const capacityNew = lotNew[0].lot_capacity;
+
+        assert.equal(capacityNew, capacityOld - 1);
+    });
+});
+
 after(async () => {
     await pool.end();
 });
