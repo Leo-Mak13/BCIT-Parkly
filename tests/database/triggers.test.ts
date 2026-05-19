@@ -71,6 +71,26 @@ describe("Trigger: occupy_stall_on_reservation", () => {
     });
 });
 
+describe("Trigger: unoccupy_stall_on_reservation_delete", () => {
+    it("set stall to unoccupied after deleting reservation", async () => {
+        await testPool.query(
+            `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+        );
+        await testPool.query(
+            `DELETE FROM reservations WHERE license_plate = ?`,
+            ["TESTDD"],
+        );
+
+        const [stall]: any = await testPool.query(
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 60`,
+        );
+
+        assert.ok(!stall[0].occupied);
+    });
+});
+
 describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     //reject test
     it("should prevent reserving occupied stall when updating reservation", async () => {
@@ -80,8 +100,10 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
             ["TESTDD", 5.0, "L2-02", 2, 60, 4],
         );
         await assert.rejects(
-            `UPDATE reservations SETstall_id = ?, lot_id = ? WHERE license_plate = ?`,
-            [1, 1, "TESTDD"],
+            testPool.query(
+                `UPDATE reservations SET stall_id = ?, lot_id = ? WHERE license_plate = ?`,
+                [1, 1, "TESTDD"],
+            ),
         );
     });
     //success test
@@ -95,6 +117,16 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
             `UPDATE reservations SET stall_id = ? WHERE license_plate = ?`,
             [62, "TESTDD"],
         );
+
+        const [oldOccupancy]: any = await testPool.query(
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 60`,
+        );
+        const [newOccupancy]: any = await testPool.query(
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 62`,
+        );
+
+        assert.ok(!oldOccupancy[0].occupied);
+        assert.ok(newOccupancy[0].occupied);
     });
 });
 
