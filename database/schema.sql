@@ -121,4 +121,4 @@ CREATE TABLE `sessions` (
     created_at DATETIME NOT NULL
 );
 
-ALTER TABLE customers AUTO_INCREMENT=1
+ALTER TABLE customers AUTO_INCREMENT=1;
