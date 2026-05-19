@@ -1,20 +1,15 @@
-import mysql from "mysql2/promise";
+import mysql from "mysql2";
 import "dotenv/config";
 
-export const pool: any = mysql.createPool({
-  host: process.env.MYSQL_HOST || "localhost",
-  port: Number(process.env.MYSQL_PORT) || 2911,
-  user: process.env.MYSQL_USER || "root",
-  password: process.env.MYSQL_PASSWORD || "",
-  database: process.env.MYSQL_DATABASE || "bcit_parkly",
-
-  // udpated settings for stric memory limits
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-    maxIdle: 10,
-    idleTimeout: 60000
-});
+const pool = mysql
+  .createPool({
+    host: process.env.MYSQL_HOST || "localhost",
+    port: Number(process.env.MYSQL_PORT) || 2911,
+    user: process.env.MYSQL_USER || "root",
+    password: process.env.MYSQL_PASSWORD || "",
+    database: process.env.MYSQL_DATABASE || "bcit_parkly",
+  })
+  .promise();
 
 // get ALL customers (returns an array of customer objects)
 async function get_customers() {
@@ -57,7 +52,32 @@ async function create_customer(
   };
 }
 
-//insert reservation into database
+async function get_reservations(id: string) {
+  const [output] = await pool.query(
+    `
+        SELECT stall_location, purchase_date FROM reservations
+        WHERE customer_id = ?
+    `,
+    [id],
+  );
+  return output;
+}
+
+async function get_reservation(id: string) {
+  const [output] = await pool.query(
+    `
+        select stall_location, total_cost, purchase_date FROM reservations
+        WHERE reservation_id = ?
+        `,
+    [id],
+  );
+  return output;
+}
+
+async function create_reservation(
+  license_plate: string,
+  stall_location: string,
+) {}
 
 async function main() {
   try {
@@ -83,4 +103,11 @@ async function main() {
 }
 
 // main();
-export { get_customers, get_customer };
+
+export {
+  get_customers,
+  get_customer,
+  create_customer,
+  get_reservations,
+  get_reservation,
+};
