@@ -2,49 +2,57 @@
 
 ```txt
 BCIT-Parkly/
-├── database/
-│   ├── database.ts                 # Connection pool logic (MySQL)
-│   └── schema.sql                  # Table definitions
+├── database/                              # Database logic
+│   ├── database.ts                        # Connection pool (MySQL)
+│   └── schema.sql                         # Table definitions
 │
-├── node_modules/
-|
-├── public/
-│   ├── css/
+├── public/                                # Browser-side files
+│   ├── css/                               # Styling
 │   │   └── main.css
-│   ├── js/
+│   ├── js/                                # Compiled JS files for frontend
 │   │   ├── map.js
 │   │   └── map.ts
-│   └── img/
-|
-├── src/
-│   ├── index.ts                    # Server entry point (app.listen)
-│   ├── app.ts                      # Express config (middleware, routes setup)
-│   │
-│   ├── controllers/
-│   │   ├── userController.ts       # Login/Signup logic
-│   │   └── parkingController.ts    # Logic for finding/filtering lots
-│   │
-│   ├── models/
-│   │   ├── userModel.ts            # SQL queries for users[cite: 2]
-│   │   └── lotModel.ts             # SQL queries for parking spot availability
-│   │
-│   ├── routes/
-│   │   ├── userRoutes.ts           # /api/users
-│   │   ├── parkingRoutes.ts        # /api/lots
-│   │   └── apiRoutes.ts            # Main router to combine everything
-│   │
-│   ├── middleware/
-│   │   └── authMiddleware.ts       # Checking JWT/Session tokens
-│   │
-│   ├── utils/
-│   │
-│   └── types/
-│       └── index.d.ts
+│   └── assets/                            # Images & logos
 │
-├── views/
+├── src/
+│   ├── index.ts                           # Server entry point (app.listen)
+│   ├── app.ts                             # Express config (middleware, routes setup)
+│   │
+│   ├── controllers/                       # Handles incoming requests (talks to services)
+│   │   ├── userController.ts
+│   │   ├── reservationController.ts
+│   │   └── lotController.ts
+│   │
+│   ├── models/                            # Database tables (SQL queries)
+│   │   ├── userModel.ts
+│   │   ├── reservationModel.ts
+│   │   └── lotModel.ts
+│   │
+│   ├── routes/                            # API endpoints
+│   │   ├── userRoutes.ts                  # /api/users
+│   │   ├── reservationRoutes.ts           # /api/reservations
+│   │   └── lotRoutes.ts                   # /api/lots
+│   │
+│   ├── services/                          # App business logic (talks to models)
+│   │   ├── userService.ts
+│   │   ├── reservationService.ts
+│   │   └── lotService.ts
+│   │
+│   ├── middleware/                        # Authentication
+│   │   └── authMiddleware.ts
+│   │
+│   ├── utils/                             # Any additional unrelated helper functions
+│   │
+│   └── types/                             # Cutom TS interfaces
+│       ├── core.d.ts
+│       ├── map.d.ts
+│       └── api.d.ts
+│
+├── views/                                 # Rendered dynamic HTML pages
 │   ├── main.ejs
-│   ├── customers.ejs
+│   ├── users.ejs
 │   ├── reservations.ejs
+│   ├── lots.ejs
 │   └── login.ejs
 │
 ├── .env
