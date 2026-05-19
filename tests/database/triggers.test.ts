@@ -4,11 +4,13 @@ import { pool } from "../../database/database.js";
 
 let testPool: any;
 
+// start a transaction DON'T CHANGE
 beforeEach(async () => {
     testPool = await pool.getConnection();
     await testPool.beginTransaction();
 });
 
+// rollback all test changes after finished DON'T CHANGE
 afterEach(async () => {
     await testPool.rollback();
     testPool.release();
@@ -59,6 +61,33 @@ describe("Trigger: occupy_stall_on_reservation", () => {
             `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?)`,
             ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+        );
+    });
+});
+
+describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
+    //reject test
+    it("should prevent reserving occupied stall when updating reservation", async () => {
+        await testPool.query(
+            `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+        );
+        await assert.rejects(
+            `UPDATE reservations SETstall_id = ?, lot_id = ? WHERE license_plate = ?`,
+            [1, 1, "TESTDD"],
+        );
+    });
+    //success test
+    it("should allow reserving free stalls when updating reservation", async () => {
+        await testPool.query(
+            `INSERT INTO reservations (license_plate, total_cost, stall_location, lot_id, stall_id, customer_id)
+            VALUES (?, ?, ?, ?, ?, ?)`,
+            ["TESTDD", 5.0, "L2-02", 2, 60, 4],
+        );
+        await testPool.query(
+            `UPDATE reservations SET stall_id = ? WHERE license_plate = ?`,
+            [62, "TESTDD"],
         );
     });
 });
