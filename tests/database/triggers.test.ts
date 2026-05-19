@@ -62,6 +62,12 @@ describe("Trigger: occupy_stall_on_reservation", () => {
             VALUES (?, ?, ?, ?, ?, ?)`,
             ["TESTDD", 5.0, "L2-02", 2, 60, 4],
         );
+
+        const [stall]: any = await testPool.query(
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 60`,
+        );
+
+        assert.ok(stall[0].occupied);
     });
 });
 
