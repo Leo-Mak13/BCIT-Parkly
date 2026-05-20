@@ -1,5 +1,8 @@
 import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
+import express from "express";
+import cookieParser from "cookie-parser";
+import request from "supertest";
 import { pool } from "../../../database/database.js";
 
 const fakeLotRows = [
@@ -36,29 +39,47 @@ const fakeLotRows = [
   },
 ];
 
-function mockLotDatabase(occupied: number) {
+function mockLotDatabase() {
   mock.method(pool, "query", async (sql: string) => {
     if (sql.includes("FROM parking_stalls")) {
-      return [[{ lot_id: 1, lot_capacity: 100, occupied }]];
+      return [[{ lot_id: 1, lot_capacity: 100, occupied: 20 }]];
     }
 
     return [fakeLotRows];
   });
 }
 
+async function makeApp() {
+  const { default: lotRoutes } = await import("../../../src/routes/lotRoutes.js");
+  const app = express();
+
+  app.use(cookieParser());
+  app.engine("ejs", (_file, options: any, callback) => {
+    callback(null, JSON.stringify({
+      parkingLots: options.parkingLots,
+      user: options.user,
+    }));
+  });
+  app.set("view engine", "ejs");
+  app.set("views", "views");
+  app.use("/", lotRoutes);
+
+  return app;
+}
+
 afterEach(() => {
   mock.restoreAll();
 });
 
-describe("lotService unit tests", () => {
-  it("mock data only, then test availability logic", async () => {
-    mockLotDatabase(20);
-    const { getLotAvailability } = await import("../../../src/services/lotService.js");
+describe("lotRoutes integration tests", () => {
+  it("mock data only, then test GET / through Express", async () => {
+    mockLotDatabase();
 
-    const lots = await getLotAvailability();
+    const response = await request(await makeApp()).get("/");
+    const body = JSON.parse(response.text);
 
-    assert.equal(lots[0]?.name, "Test Lot");
-    assert.equal(lots[0]?.availability, "Available");
-    assert.equal(lots[0]?.openSpots, 80);
+    assert.equal(response.status, 200);
+    assert.equal(body.parkingLots[0].name, "Test Lot");
+    assert.equal(body.parkingLots[0].openSpots, 80);
   });
 });

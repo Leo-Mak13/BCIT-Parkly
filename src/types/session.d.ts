@@ -1,5 +1,8 @@
 import * as express from "express";
 
+/**
+ * custom interface for sessions
+ */
 interface Session {
   id: string;
   secretHash: Uint8Array;
@@ -15,6 +18,7 @@ interface SessionRow {
 }
 
 // let the imported request object also contain a cookie key, and a user key
+// extend the Request object from Express to contain custom
 declare global {
   namespace Express {
     interface Request {

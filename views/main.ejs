@@ -2,55 +2,56 @@
 
 <head>
   <title>BCIT Parkly</title>
-  <link rel="stylesheet" type="img/png" href="/assets/bcit-logo.png" />
+  <link rel="icon" type="image/png" href="/assets/bcit-logo-bg.png" />
   <link rel="stylesheet" type="text/css" href="/css/main.css" />
 
   <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
   <script>
-    const parkingLotsData = <%- JSON.stringify(parkingLots) %>;
+    const parkingLotsData = <% - JSON.stringify(parkingLots) %>
   </script>
   <script type="module" src="js/map.js"></script>
+  <script type="module" src="js/details.js"></script>
 
   <!-- Icons kit -->
   <script src="https://kit.fontawesome.com/39589cb536.js" crossorigin="anonymous"></script>
 
   <!-- Map -->
   <script>
-    ((g) => {
-      var h,
-        a,
-        k,
-        p = "The Google Maps JavaScript API",
-        c = "google",
-        l = "importLibrary",
-        q = "__ib__",
-        m = document,
-        b = window;
-      b = b[c] || (b[c] = {});
-      var d = b.maps || (b.maps = {}),
-        r = new Set(),
-        e = new URLSearchParams(),
-        u = () =>
-          h ||
-          (h = new Promise(async (f, n) => {
-            await (a = m.createElement("script"));
-            e.set("libraries", [...r] + "");
-            for (k in g)
-              e.set(
-                k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
-                g[k],
-              );
-            e.set("callback", c + ".maps." + q);
-            a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
-            d[q] = f;
-            a.onerror = () => (h = n(Error(p + " could not load.")));
-            a.nonce = m.querySelector("script[nonce]")?.nonce || "";
-            m.head.append(a);
-          }));
-      d[l]
-        ? console.warn(p + " only loads once. Ignoring:", g)
-        : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
-    })({ key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
+      ((g) => {
+        var h,
+          a,
+          k,
+          p = "The Google Maps JavaScript API",
+          c = "google",
+          l = "importLibrary",
+          q = "__ib__",
+          m = document,
+          b = window;
+        b = b[c] || (b[c] = {});
+        var d = b.maps || (b.maps = {}),
+          r = new Set(),
+          e = new URLSearchParams(),
+          u = () =>
+            h ||
+            (h = new Promise(async (f, n) => {
+              await (a = m.createElement("script"));
+              e.set("libraries", [...r] + "");
+              for (k in g)
+                e.set(
+                  k.replace(/[A-Z]/g, (t) => "_" + t[0].toLowerCase()),
+                  g[k],
+                );
+              e.set("callback", c + ".maps." + q);
+              a.src = `https://maps.${c}apis.com/maps/api/js?` + e;
+              d[q] = f;
+              a.onerror = () => (h = n(Error(p + " could not load.")));
+              a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+              m.head.append(a);
+            }));
+        d[l]
+          ? console.warn(p + " only loads once. Ignoring:", g)
+          : (d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)));
+      })(window.GOOGLE_MAPS_API_KEY_CONFIG = { key: "<%= GOOGLE_MAPS_API_KEY %>", v: "weekly" });
   </script>
 </head>
 
@@ -68,23 +69,23 @@
     <!--Header tabs-->
     <div class="header-tabs">
       <a href="/">Find Parking</a>
-      <a href="/permits">Permits & Rates</a>
-      <a href="/reservations">My Reservations</a>
-      <a href="/help">Help & Support</a>
+      <a href="/info/permits">Permits & Rates</a>
+      <a href="/reserve/reservations">My Reservations</a>
+      <a href="/info/help">Help & Support</a>
     </div>
 
     <!--Sign in button or Logout if (user)-->
-    <% if (locals.user === null) { %>
-    <a role="button" href="/login" class="sign-in-btn">
-    <i class="fa-solid fa-user"></i>
-    Sign In
-    </a>
-    <% } else { %>
-    <a role="button" href="/logout" class="sign-in-btn">
-    <i class="fa-solid fa-user"></i>
-    Sign Out
-    </a>
-    <% } %>
+    <% if (locals.user===null) { %>
+      <a role="button" href="/users/login" class="sign-in-btn">
+        <i class="fa-solid fa-user"></i>
+        Sign In
+      </a>
+      <% } else { %>
+        <a role="button" href="/users/logout" class="sign-in-btn">
+          <i class="fa-solid fa-user"></i>
+          Sign Out
+        </a>
+        <% } %>
   </header>
 
   <!--Breadcrum bar under the header bar-->
@@ -109,14 +110,91 @@
         </button>
       </div>
 
+      <!-- DETAILS SIDE PANEL (slides over the lot list within the sidebar) -->
+      <div id="lot-details-peek" class="details-side-panel">
+        <div id="peek-backdrop" class="peek-backdrop"></div>
+
+        <aside class="peek-content">
+          <!--Details side panel header-->
+          <div class="peek-header">
+            <div class="title-group">
+              <h2 id="peek-name">Lot Name</h2>
+              <p id="peek-address">123 Street Ave, Vancouver</p>
+            </div>
+
+            <!--Close side panel icon-->
+            <button id="close-peek" class="close-peek-btn">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <!--Lot street view image-->
+          <div class="peek-hero-img">
+            <img id="peek-img" src="/assets/bcit-logo.png" alt="Lot Street View">
+            <div id="peek-status-badge" class="status-badge">Available</div>
+          </div>
+
+          <!--Lot occupancy-->
+          <div class="peek-scroll-area">
+            <div class="peek-section">
+              <h3>Live Occupancy</h3>
+              <div class="occupancy-container">
+                <div class="progress-bar">
+                  <div id="peek-progress-fill" class="progress-fill" style="width: 70%"></div>
+                </div>
+                <p id="peek-spots-text">45 spots open of 100</p>
+              </div>
+            </div>
+
+            <!--Schedule and prices-->
+            <div class="peek-section">
+              <h3>Rate Schedule</h3>
+              <table class="price-table">
+                <tr>
+                  <td>Daytime</td>
+                  <td id="peek-price-day">$0.00 / hr</td>
+                </tr>
+                <tr>
+                  <td>Evenings</td>
+                  <td id="peek-price-evening">$0.00 / hr</td>
+                </tr>
+                <tr>
+                  <td>Weekends</td>
+                  <td id="peek-price-weekend">$0.00 / hr</td>
+                </tr>
+              </table>
+            </div>
+
+            <!--Lot features-->
+            <div class="peek-section">
+              <h3>Features</h3>
+              <div class="amenities-grid">
+                <div class="amenity"><i class="fa-solid fa-bolt"></i> EV Charging</div>
+                <div class="amenity"><i class="fa-solid fa-wheelchair"></i> Accessible</div>
+                <div class="amenity"><i class="fa-solid fa-shield-halved"></i> Well-lit</div>
+              </div>
+            </div>
+
+            <!-- Reservation button sits directly under Features -->
+            <div class="peek-footer">
+              <button class="reserve-now-btn">
+                Reserve This Spot <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
       <div class="parking-list">
 
         <% parkingLots.forEach(lot=> { %>
           <div class="lot-card">
 
             <div class="lot-header-btn">
-              <h3><%= lot.name %></h3>
-              <button>
+              <h3>
+                <%= lot.name %>
+              </h3>
+              <button class="sp-details-btn" data-id="<%= lot.lotId %>">
                 Details
                 <i class="fa-solid fa-arrow-right"></i>
               </button>
@@ -133,7 +211,7 @@
             <div class="<%= lot.availability.charAt(0).toLowerCase() + lot.availability.slice(1) %>">
               <p class="status-pill">
                 <i class="fa-solid fa-circle"></i>
-                 <%= lot.availability %>
+                <%= lot.availability %>
               </p>
               <p class="open-spots">
                 <%= lot.openSpots %> total spots
@@ -220,6 +298,11 @@
         </button>
       </div>
 
+      <!-- Re-open sidebar button (shown when sidebar is collapsed) -->
+      <button class="sidebar-reopen-btn" id="sidebar-reopen-btn">
+        <i class="fa-solid fa-caret-right"></i>
+      </button>
+
       <!-- The map, centered at BCIT DTC -->
       <gmp-map center="49.2835,-123.1152" zoom="16" map-id="<%= GOOGLE_MAP_ID %>">
       </gmp-map>
@@ -229,7 +312,6 @@
   <!--THE FOOTER SECTION-->
   <footer>
     <div class="footer-container">
-      <!-- Logo and address column -->
       <div class="footer-col">
         <div class="footer-logo">
           <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
@@ -248,42 +330,41 @@
         </p>
       </div>
 
-      <!-- Quick links column -->
       <div class="footer-col">
         <h4>QUICK LINKS</h4>
         <ul>
-          <li><a href="#">Visit</a></li>
-          <li><a href="#">Apply Now</a></li>
-          <li><a href="#">Give</a></li>
-          <li><a href="#">News</a></li>
-          <li><a href="#">Events</a></li>
-          <li><a href="#">Careers</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/">Visit</a></li>
+          <li><a href="https://www.bcit.ca/admission/apply-now/">Apply Now</a></li>
+          <li><a href="https://www.bcit.ca/foundation/give/">Give</a></li>
+          <li><a href="https://www.bcit.ca/news/">News</a></li>
+          <li><a href="https://www.bcit.ca/events/">Events</a></li>
+          <li><a href="https://www.bcit.ca/about/careers/">Careers</a></li>
         </ul>
       </div>
 
-      <!-- Campuses column -->
       <div class="footer-col">
         <h4>BCIT CAMPUSES</h4>
         <ul>
-          <li><a href="#">Burnaby Campus</a></li>
-          <li><a href="#">Downtown Campus</a></li>
-          <li><a href="#">Marine Campus</a></li>
-          <li><a href="#">Aerospace Technology Campus</a></li>
-          <li><a href="#">Annacis Island Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/burnaby-campus/">Burnaby Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/downtown-campus/">Downtown Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/marine-campus/">Marine Campus</a></li>
+          <li><a href="https://www.bcit.ca/about/visit/aerospace-technology-campus/">Aerospace Technology Campus</a>
+          </li>
+          <li><a href="https://www.bcit.ca/about/visit/annacis-island-campus/">Annacis Island Campus</a></li>
         </ul>
       </div>
     </div>
 
-    <!-- Bottom legal Bar -->
     <div class="footer-bottom">
       <div class="footer-bottom-links">
-        <a href="#">Copyright</a>
-        <a href="#">Privacy</a>
-        <a href="#">Terms of Use</a>
-        <a href="#">Accessibility</a>
+        <a href="https://www.bcit.ca/about/copyright/">Copyright</a>
+        <a href="https://www.bcit.ca/about/privacy/">Privacy</a>
+        <a href="https://www.bcit.ca/about/terms-of-use/">Terms of Use</a>
+        <a href="https://www.bcit.ca/about/web-accessibility/">Accessibility</a>
       </div>
     </div>
   </footer>
+
 </body>
 
 </html>

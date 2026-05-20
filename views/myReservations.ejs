@@ -19,19 +19,19 @@
       <!--Header tabs-->
       <div class="header-tabs">
         <a href="/">Find Parking</a>
-        <a href="/permits">Permits & Rates</a>
-        <a href="/reservations">My Reservations</a>
-        <a href="/help">Help & Support</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
       </div>
 
       <!--Sign in button-->
     <% if (locals.user === null) { %>
-    <a role="button" href="/login" class="sign-in-btn">
-      <i class="fa-solid fa-user"></i>
-      Sign In
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
     </a>
     <% } else { %>
-    <a role="button" href="/logout" class="sign-in-btn">
+    <a role="button" href="/users/logout" class="sign-in-btn">
     <i class="fa-solid fa-user"></i>
     Sign Out
     </a>
@@ -49,16 +49,21 @@
     </section>
     <!-- reservation heading under breadcrumb bar -->
     <div class="reservation-heading">
-      <h1>Your Reservations</h1>
+      <h1>Reservations</h1>
+      <p>BCIT Downtown campus</p>
     </div>
+    <a class="reservation-create " href="/create"> + New reservation</a>
     <!-- buttons to see different versions -->
+    <% if (locals.user === null) { %>  
+        <p>Login to setup reservations!</p>
+      <% } else { %>
+    <div>
     <div class="status">
       <!-- ‼️‼️ I will eventually make it dynamic and show differnet reservations on click -->
       <button class="status-buttons">Today</button>
       <button class="status-buttons">Upcoming</button>
       <button class="status-buttons">Cancelled</button>
     </div>
-    <a class="reservation-create " href="/create"> + Create new reservation</a>
     <!-- displays all the reservations under a specifc user dynamically -->
     <div class="all-reservations"> 
       <% reservations.forEach(reservation => { %>
@@ -70,13 +75,15 @@
             <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
           </div>
           <div class="reservation-btn">
-            <a class="view" href="/reservations/view/<%= reservation.reservation_id %>">View</a>
-            <a class="edit" href="/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
-            <a class="cancel" href="/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
+            <a class="view" href="/reserve/reservations/view/<%= reservation.reservation_id %>">View</a>
+            <a class="edit" href="/reserve/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
+            <a class="cancel" href="/reserve/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
           </div>
         </div>
         <% }) %> 
     </div>
+    </div>
+    <% } %>
     <footer>
       <div class="footer-container">
         <div class="footer-col">

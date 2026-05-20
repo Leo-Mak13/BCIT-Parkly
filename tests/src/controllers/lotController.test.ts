@@ -36,10 +36,32 @@ const fakeLotRows = [
   },
 ];
 
-function mockLotDatabase(occupied: number) {
+function makeResponse() {
+  return {
+    statusCode: 200,
+    viewName: "",
+    viewData: null as any,
+    body: "",
+    render(viewName: string, viewData: any) {
+      this.viewName = viewName;
+      this.viewData = viewData;
+      return this;
+    },
+    status(code: number) {
+      this.statusCode = code;
+      return this;
+    },
+    send(message: string) {
+      this.body = message;
+      return this;
+    },
+  };
+}
+
+function mockLotDatabase() {
   mock.method(pool, "query", async (sql: string) => {
     if (sql.includes("FROM parking_stalls")) {
-      return [[{ lot_id: 1, lot_capacity: 100, occupied }]];
+      return [[{ lot_id: 1, lot_capacity: 100, occupied: 20 }]];
     }
 
     return [fakeLotRows];
@@ -50,15 +72,17 @@ afterEach(() => {
   mock.restoreAll();
 });
 
-describe("lotService unit tests", () => {
-  it("mock data only, then test availability logic", async () => {
-    mockLotDatabase(20);
-    const { getLotAvailability } = await import("../../../src/services/lotService.js");
+describe("lotController unit tests", () => {
+  it("mock data only, then test getHomePage", async () => {
+    mockLotDatabase();
+    const { getHomePage } = await import("../../../src/controllers/lotController.js");
+    const req = { user: null } as any;
+    const res = makeResponse() as any;
 
-    const lots = await getLotAvailability();
+    await getHomePage(req, res);
 
-    assert.equal(lots[0]?.name, "Test Lot");
-    assert.equal(lots[0]?.availability, "Available");
-    assert.equal(lots[0]?.openSpots, 80);
+    assert.equal(res.viewName, "main");
+    assert.equal(res.viewData.parkingLots[0].name, "Test Lot");
+    assert.equal(res.viewData.parkingLots[0].openSpots, 80);
   });
 });

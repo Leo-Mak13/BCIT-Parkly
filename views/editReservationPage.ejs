@@ -3,28 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="/css/login.css" />
-    <script
-      src="https://kit.fontawesome.com/39589cb536.js"
-      crossorigin="anonymous"
-    ></script>
+    <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/css/editPage.css" />
   </head>
   <body>
-    <!-- THE TOP HEADER AREA -->
     <header>
       <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+
+      <!--Header title and subtitle-->
       <div class="header-titles">
         <h2>Parkly</h2>
         <h6>Downtown Campus</h6>
       </div>
+
+      <!--Header tabs-->
       <div class="header-tabs">
         <a href="/">Find Parking</a>
         <a href="/info/permits">Permits & Rates</a>
-        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/reserve/">My Reservations</a>
         <a href="/info/help">Help & Support</a>
       </div>
+
+      <!--Sign in button-->
     <% if (locals.user === null) { %>
     <a role="button" href="/users/login" class="sign-in-btn">
     <i class="fa-solid fa-user"></i>
@@ -37,55 +37,48 @@
     </a>
     <% } %>
     </header>
-
-    <!--Breadcrumb bar under the header bar-->
+    </section>
+    <!--Breadcrum bar under the header bar-->
     <section class="breadcrumb-bar">
       <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
         <a href="/">Home</a>
         <span class="seperator">›</span>
-        <span class="current-pg">SignUp</span>
+        <span class="current-pg">myReservations</span>
       </div>
     </section>
-
-    <div class="confirmation-container">
-      <div class="confirmation-card">
-
-        <div class="confirmation-icon">
-          <img src="/assets/Eo_circle_green_checkmark.svg.png" alt="Registration successful">
-        </div>
-
-        <h1 class="confirmation-title">Registration Complete!</h1>
-        <p class="confirmation-subtitle">Your Parkly account has been successfully created.</p>
-
-        <div class="confirmation-email-wrapper">
-          <p class="confirmation-email-label">Registered with</p>
-          <span class="confirmation-email-pill">
-            <i class="fa-solid fa-envelope"></i>
-            <%= locals.confirmedEmail %>
-          </span>
-        </div>
-
-        <hr class="confirmation-divider">
-
-        <div class="next-steps">
-          <p class="next-steps-title">What's next?</p>
-          <ul class="next-steps-list">
-            <li><span class="step-badge">1</span> Log in to your new account using the button below.</li>
-            <li><span class="step-badge">2</span> Browse available parking lots and reserve a spot.</li>
-            <li><span class="step-badge">3</span> Manage your reservations anytime from your dashboard.</li>
-          </ul>
-        </div>
-
-        <a href="/login" class="confirmation-cta">Log In to Parkly</a>
-
-        <p class="confirmation-help">
-          Need help? <a href="/help">Visit our Help &amp; Support page</a>
-        </p>
+    <!-- reservation heading under breadcrumb bar -->
+    <div class="entire-page">
+      <div class="header-title">
+        <h1>Edit your reservation</h1>
 
       </div>
+      <h1 style="color:red;"><%= error %></h1>
+    <% if (locals.user === null) { %>  
+        <p>Login to setup reservations!</p>
+      <% } else { %>
+      <div class="entire-forms">
+          <div class="form-content">
+            <% toEdit.forEach(edit => { %>
+              <form action="/reserve/reservations/edit/<%= edit.reservation_id %>" method="post">
+              <p class="license-plate">Change license plate:</p>
+              <input type="text" name="license_plate" value="<%= edit.plate %>">
+              <p class="total-cost">Time reserving: </p>
+              <input id="pricing" class="payment" type="number" name="total_cost" value="6">
+              <p>Cost: value here</p>
+              <p class="stall-area">Stall Area: </p>
+              <input type="text" name="stall_location" value="<%= edit.stallArea %>">
+              <p class="lot-location">Change lot:</p>
+              <input type="text" name="lot_id" value="<%= edit.lot %>">
+              <p class="stall-location">Change stall:</p>
+              <input type="number" name="stall_id" value="<%= edit.stall %>">
+              <button type="submit">Submit changes</button>
+              </form>
+          </div>
+          <% }) %> 
+      </div>
+    <% } %>
     </div>
-
-
     <footer>
       <div class="footer-container">
         <div class="footer-col">
@@ -105,6 +98,7 @@
             1-866-434-1610
           </p>
         </div>
+
         <div class="footer-col">
           <h4>QUICK LINKS</h4>
           <ul>
@@ -116,6 +110,7 @@
             <li><a href="#">Careers</a></li>
           </ul>
         </div>
+
         <div class="footer-col">
           <h4>BCIT CAMPUSES</h4>
           <ul>
@@ -127,6 +122,8 @@
           </ul>
         </div>
       </div>
+
+      <!-- Bottom legal Bar -->
       <div class="footer-bottom">
         <div class="footer-bottom-links">
           <a href="#">Copyright</a>
