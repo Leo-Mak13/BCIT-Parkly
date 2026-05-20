@@ -7,6 +7,7 @@ import {
   testRender,
   logOutUser,
   homePage,
+  confirmationPage,
 } from "../controllers/userController";
 import { authValidation } from "../middleware/authMiddleware";
 
@@ -35,5 +36,7 @@ router.get("/logout", logOutUser);
 
 // get homepage
 router.get("/", homePage);
+
+router.get("/confirmation", confirmationPage);
 
 export default router;

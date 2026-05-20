@@ -66,7 +66,7 @@
             <h2>Create Account</h2>
           </div>
           <p class="auth-sub">Register for a BCIT Parking account</p>
-          <form action="/signup" method="POST">
+          <form action="/users/signup" method="POST">
             <div class="form-row-2">
               <div class="form-group">
                 <label for="regFirstName">First Name</label>
@@ -75,7 +75,7 @@
                   id="regFirstName"
                   placeholder="John"
                   name="firstName"
-                  value="<%= devMode ? 'john' : '' %>" 
+                  value="<%= firstName ? firstName : '' %>" 
                   required
                 />
               </div>
@@ -86,7 +86,7 @@
                   id="regLastName"
                   placeholder="Doe"
                   name="lastName"
-                  value="<%= devMode ? 'pork' : '' %>" 
+                  value="<%= lastName ? lastName : '' %>" 
                   required
                 />
               </div>
@@ -98,7 +98,7 @@
                 id="regEmail"
                 placeholder="student@bcit.ca"
                 name="email"
-                value="<%= devMode ? 'johnpork@bcit.ca' : '' %>" 
+                value="<%= email ? locals.email : '' %>" 
                 required
               />
             </div>
@@ -109,7 +109,7 @@
                 id="phoneNumber"
                 placeholder="7781231234"
                 name="phoneNumber"
-                value="<%= devMode ? '77777777' : '' %>" 
+                value="<%= phoneNumber ? locals.phoneNumber : '' %>" 
                 required
               />
             </div>
@@ -117,8 +117,8 @@
               <label for="regRole">Role</label>
               <select id="regRole" name="role">
                 <option value="">-- Select role --</option>
-                <option value="student" <%= devMode ? "selected" : '' %>>Student</option>
-                <option value="staff">Staff</option>
+                <option value="student" <%= role === 'student' ? "selected" : '' %>>Student</option>
+                <option value="staff" <%= role === 'staff' ? "selected" : '' %>>Staff</option>
               </select>
             </div>
             <div class="form-group">
@@ -128,7 +128,7 @@
                 id="regPassword"
                 placeholder="Create a password"
                 name="firstGoPassword"
-                value="<%= devMode ? '123' : '' %>" 
+                value="" 
                 required
               />
             </div>
@@ -139,7 +139,7 @@
                 id="regConfirm"
                 placeholder="Repeat your password"
                 name="secondGoPassword"
-                value="<%= devMode ? '123' : '' %>" 
+                value="" 
                 required
               />
             </div>
