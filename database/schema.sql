@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS `parking_lot_valid_permits`;
 DROP TABLE IF EXISTS `parking_lot_schedules`;
 DROP TABLE IF EXISTS `parking_lot_address`;
 DROP TABLE IF EXISTS `parking_lots`;
+DROP TABLE IF EXISTS `sessions`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `customers`;
-DROP TABLE IF EXISTS `sessions`;
 
 CREATE TABLE `customers` (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
