@@ -63,7 +63,7 @@
                 type="email"
                 id="signinEmail"
                 placeholder="student@bcit.ca"
-                value="<%= devMode ? 'sarah.johnson@example.com' : '' %>"
+                value="<%= email ? email : '' %>"
                 name="email"
                 required
               />
@@ -89,7 +89,7 @@
           </form>
           <div class="auth-divider"><span>or</span></div>
           <p class="auth-switch">
-            Don't have an account? <a href="/signup">Register here</a>
+            Don't have an account? <a href="/users/signup">Register here</a>
           </p>
         </div>
       </div>

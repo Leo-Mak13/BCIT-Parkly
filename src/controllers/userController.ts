@@ -1,10 +1,15 @@
 import express from "express";
 import { Request, Response } from "express";
-import { PasswordMismatchError } from "../middleware/errorTypes";
 import {
-  createCustomer,
+  EmailInUseError,
+  IncorrectEmailPasswordError,
+  PasswordMismatchError,
+} from "../middleware/errorTypes";
+import {
+  createNewCustomerUser,
   getUserIdByEmail,
   logOutDeleteSession,
+  validateEmailNotUsed,
   validateUser,
 } from "../services/userService";
 import { EOL } from "os";
@@ -16,7 +21,7 @@ export function homePage(req: Request, res: Response) {
 }
 
 export function goLoginPage(req: Request, res: Response) {
-  res.render("login", { devMode, error: null, user: req.user });
+  res.render("login", { devMode, error: null, user: req.user, email: "" });
 }
 
 export function goSignupPage(req: Request, res: Response) {
@@ -32,6 +37,12 @@ export function goSignupPage(req: Request, res: Response) {
   });
 }
 
+/**
+ * @func createNewUserHandler handler function for signup/registration
+ * @param req
+ * @param res
+ *
+ */
 export async function createNewUserHandler(req: Request, res: Response) {
   const {
     firstName,
@@ -43,7 +54,8 @@ export async function createNewUserHandler(req: Request, res: Response) {
     role,
   } = req.body;
   try {
-    console.log(
+    const checkEmail = await validateEmailNotUsed(email);
+    const customer = await createNewCustomerUser(
       firstName,
       lastName,
       email,
@@ -52,21 +64,9 @@ export async function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    const customer = await createCustomer(
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      firstGoPassword,
-      secondGoPassword,
-      role,
-    );
-    res.render("confirmationSignUp", {
-      confirmedEmail: email,
-      devMode,
-      user: req.user,
-    });
+    res.redirect("/users/confirmation");
   } catch (error: any) {
+    console.log(error);
     if (error instanceof PasswordMismatchError) {
       return res.render("signup", {
         message: "Passwords must match!",
@@ -78,7 +78,19 @@ export async function createNewUserHandler(req: Request, res: Response) {
         role,
         user: req.user,
       });
+    } else if (error instanceof EmailInUseError) {
+      return res.render("signup", {
+        message: "Email already in use!",
+        devMode,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        role,
+        user: req.user,
+      });
     }
+    console.log(error);
     res.status(500).render("signup", {
       message: "Server error - please try again",
       devMode,
@@ -95,38 +107,39 @@ export async function createNewUserHandler(req: Request, res: Response) {
  * login the user via incoming req.body.email | password - if successful, create a cookie named "auth_session" that contains the string tokenOnly (the token needed to lookup session in database)
  */
 export async function loginUser(req: Request, res: Response) {
+  const email = req.body.email;
   try {
-    const email = req.body.email;
     const plainTextPassword = req.body.password;
     const result = await validateUser(email, plainTextPassword);
-    if (!result) {
+    const user_id = await getUserIdByEmail(email);
+    const sessionToken = await createSession(user_id);
+    const tokenOnly = sessionToken.token;
+    res.cookie("auth_session", tokenOnly, {
+      httpOnly: true,
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    res.redirect("/reserve/reservations");
+  } catch (error: any) {
+    if (error instanceof IncorrectEmailPasswordError) {
       res.render("login", {
+        error: "Wrong password or email - please try again",
+        email,
         devMode,
-        error: "Incorrect email and/or password",
         user: req.user,
       });
     } else {
-      const user_id = await getUserIdByEmail(email);
-      const sessionToken = await createSession(user_id);
-      const tokenOnly = sessionToken.token;
-      res.cookie("auth_session", tokenOnly, {
-        httpOnly: false,
-        secure: false,
-        maxAge: 24 * 60 * 60 * 1000,
+      res.status(500).render("login", {
+        error: "Server error - please try again",
+        devMode,
+        user: req.user,
       });
-      res.redirect("");
     }
-  } catch (err) {
-    res.status(500).render("login", {
-      error: "Server error - please try again",
-      devMode,
-      user: req.user,
-    });
   }
 }
 
 export async function testRender(req: Request, res: Response) {
-  res.render("test", { user: req.user });
+  res.redirect("test");
 }
 
 export async function logOutUser(req: Request, res: Response) {
@@ -141,8 +154,24 @@ export async function logOutUser(req: Request, res: Response) {
       const userId = req.user.id;
       await logOutDeleteSession(userId);
       req.user = null;
-      res.render("login", { devMode, error: null, user: req.user });
+      res.redirect("/users/login");
     }
+  } catch (err) {
+    res.status(500).render("login", {
+      error: "Server error - please try again",
+      devMode,
+      user: req.user,
+    });
+  }
+}
+
+export async function confirmationPage(req: Request, res: Response) {
+  try {
+    res.render("confirmationSignUp", {
+      devMode,
+      error: null,
+      user: req.user,
+    });
   } catch (err) {
     res.status(500).render("login", {
       error: "Server error - please try again",

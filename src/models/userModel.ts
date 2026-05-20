@@ -39,15 +39,28 @@ async function create_user(email: string, password: string) {
 }
 
 async function get_user(email: string) {
-  const [stmt] = await pool.query(`SELECT * FROM users WHERE email = ?`, [
-    email,
-  ]);
+  const [stmt] = await pool.query(
+    `SELECT * FROM users 
+    WHERE email = ?`,
+    [email],
+  );
   return stmt[0];
 }
 
 async function get_user_by_id(id: number) {
-  const [stmt] = await pool.query(`SELECT * FROM users WHERE id = ?`, [id]);
+  const [stmt] = await pool.query(
+    `SELECT * FROM users 
+    JOIN customers ON customers.email=users.email
+    WHERE users.id = ?`,
+    [id],
+  );
   return stmt[0];
+}
+
+// returns a list of objects, ie. [ {email: ...}, {email: ...}, ...]
+async function get_all_emails() {
+  const [stmt] = await pool.query(`SELECT email FROM customers`);
+  return stmt;
 }
 
 export {
@@ -57,4 +70,5 @@ export {
   create_user,
   get_user,
   get_user_by_id,
+  get_all_emails,
 };
