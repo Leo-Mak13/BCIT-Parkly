@@ -83,23 +83,10 @@ CREATE TABLE `parking_stalls` (
     parking_type TEXT NOT NULL CHECK (
         parking_type IN ('regular', 'electric', 'small', 'handicap')
     ),
-    -- centroid_lat DECIMAL(10, 7),
-    -- centroid_lng DECIMAL(10, 7),
-    -- polygon_wkt TEXT,
-    -- coordinates_json JSON,
-    -- POLYGON GEOMETRY SRID 4326 NULL,
     lot_id INT,
     FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
--- CREATE TABLE `parking_stall_vertices` (
---     vertex_order INT NOT NULL,
---     lat DECIMAL(10, 7) NOT NULL,
---     lng DECIMAL(10, 7) NOT NULL,
---     stall_id INT NOT NULL,
---     PRIMARY KEY (stall_id, vertex_order),
---     FOREIGN KEY (stall_id) REFERENCES parking_stalls (stall_id) ON DELETE CASCADE ON UPDATE CASCADE
--- );
 CREATE TABLE `reservations` (
     reservation_id INT PRIMARY KEY AUTO_INCREMENT,
     purchase_date DATETIME DEFAULT CURRENT_TIMESTAMP,
