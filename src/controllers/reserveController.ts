@@ -3,10 +3,14 @@ import {
   get_reservation,
   create_reservation,
   edit_reservation,
+  get_stall_availability,
+  get_all_lots,
 } from "../services/reserveService.js";
 import express from "express";
 import { Request, Response } from "express";
 import { error } from "node:console";
+import { get } from "node:http";
+import { delete_reservation } from "../models/reserveModel.js";
 const devMode = process.env.MODE == "dev";
 
 async function viewAll(req: Request, res: Response) {
@@ -14,16 +18,23 @@ async function viewAll(req: Request, res: Response) {
     if (req.user === null) {
       res.render("myReservations", {
         error: "Error Log in to see reservations",
+        reservation: [],
       });
     } else {
       const UID = req.user.id;
       const reservations = await get_reservations(UID);
-      res.render("myReservations", { devMode, reservations, user: req.user });
+      res.render("myReservations", {
+        devMode,
+        reservations,
+        user: req.user,
+        error: null,
+      });
     }
   } catch (err) {
     res.status(500).render("myReservations", {
-      error: "server error - unable to find your Reservations",
+      error: err,
       user: req.user,
+      reservations: [],
     });
   }
 }
@@ -36,11 +47,11 @@ async function viewOne(req: Request, res: Response) {
       devMode,
       reservation,
       user: req.user,
-      error: "",
+      error: null,
     });
   } catch (err) {
     res.status(500).render("singleReservation", {
-      error: "server error - unable to find your Reservation",
+      error: err,
       user: req.user,
       reservation: [],
     });
@@ -49,11 +60,21 @@ async function viewOne(req: Request, res: Response) {
 
 async function createPage(req: Request, res: Response) {
   try {
-    res.render("newReservation", { devMode });
+    const lots = await get_all_lots();
+    const stalls = await get_stall_availability();
+    res.render("newReservation", {
+      devMode,
+      lots,
+      stalls,
+      user: req.user,
+      error: null,
+    });
   } catch (err) {
     res.status(500).render("newReservation", {
-      error:
-        "server error - unable to create a reservation at this time. Try again later.",
+      devMode,
+      lots: [],
+      stalls: [],
+      error: err,
       user: req.user,
     });
   }
@@ -61,28 +82,38 @@ async function createPage(req: Request, res: Response) {
 
 async function createReservation(req: Request, res: Response) {
   try {
-    const { license_plate, total_cost, stall_location, lot_id, stall_id } =
-      req.body;
-    const UID = req.user.id;
+    const {
+      license_plate,
+      total_cost,
+      start_time,
+      end_time,
+      lot_id,
+      stall_id,
+    } = req.body;
+    const UID = await req.user.id;
     const create = await create_reservation(
       license_plate,
       total_cost,
-      stall_location,
+      start_time,
+      end_time,
       lot_id,
       stall_id,
       UID,
     );
-    res.redirect(`/reserve/`);
+    res.redirect(`/reserve/reservations/`);
   } catch (err) {
     res.status(500).render("myReservations", {
-      error: "server error - unable to reserve that spot",
+      error: err,
       user: req.user,
+      reservations: [],
     });
   }
 }
 
 async function editPage(req: Request, res: Response) {
   try {
+    const lots = await get_all_lots();
+    const stalls = await get_stall_availability();
     const reserveID = (await req.params.reservation_id) as string;
     console.log(reserveID);
     const toEdit = await get_reservation(reserveID);
@@ -90,14 +121,18 @@ async function editPage(req: Request, res: Response) {
     res.render("editReservationPage", {
       devMode,
       toEdit,
+      lots,
+      stalls,
       user: req.user,
-      error: "",
+      error: null,
     });
   } catch (err) {
     console.log(err);
     res.status(500).render("editReservationPage", {
-      error: "server error - cant edit the current reservation",
+      error: err,
       user: req.user,
+      lots: [],
+      stalls: [],
       devMode,
       toEdit: [],
     });
@@ -105,7 +140,7 @@ async function editPage(req: Request, res: Response) {
 }
 
 async function editReservation(req: Request, res: Response) {
-  const { license_plate, total_cost, stall_location, lot_id, stall_id } =
+  const { license_plate, total_cost, start_time, end_time, lot_id, stall_id } =
     req.body;
   try {
     const reservationID = (await req.params.reservation_id) as string;
@@ -113,18 +148,33 @@ async function editReservation(req: Request, res: Response) {
     const edit = await edit_reservation(
       license_plate,
       total_cost,
-      stall_location,
+      start_time,
+      end_time,
       lot_id,
       stall_id,
       reservationID,
     );
-    // res.redirect(`/reserve/views/${reservationID}`);
-    res.redirect(`/reserve/view/${reservationID}`);
+    res.redirect(`/reserve/reservations/view/${reservationID}`);
   } catch (err) {
     res.status(500).render("editReservationPage", {
       error: err,
       user: req.user,
       toEdit: [],
+    });
+  }
+}
+
+async function deleteReservation(req: Request, res: Response) {
+  try {
+    const reservationID = req.params.reservation_id as string;
+    console.log(reservationID);
+    const remove = await delete_reservation(reservationID);
+    res.redirect("/reserve/reservations/");
+  } catch (err) {
+    res.status(500).render("myReservations", {
+      reservations: [],
+      user: req.user,
+      error: err,
     });
   }
 }
@@ -136,4 +186,5 @@ export {
   createReservation,
   editPage,
   editReservation,
+  deleteReservation,
 };

@@ -258,6 +258,17 @@ footer {
 }
 
 /* formatting for the view, create, and cancel buttons */
+.reservation-btn button {
+  border-radius: 10px;
+  text-decoration: none;
+  border: none;
+  margin: 5px;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 .reservation-btn a {
   border-radius: 10px;
   text-decoration: none;
@@ -313,6 +324,7 @@ allows buttons to be on the same line as the info
 .induvidual-reservation {
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
   border: 1px solid black;
   align-items: center;
 }
@@ -396,7 +408,7 @@ allows buttons to be on the same line as the info
   margin-right: 20%;
   margin-left: 20%;
   margin-top: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   justify-content: center;
   gap: 20%;
 }
