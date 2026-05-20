@@ -1,308 +1,589 @@
 CREATE DATABASE  IF NOT EXISTS `bcit_parkly` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `bcit_parkly`;
--- MySQL dump 10.13  Distrib 8.0.46, for macos15 (arm64)
---
--- Host: 64.181.245.168    Database: bcit_parkly
--- ------------------------------------------------------
--- Server version	8.0.45-0ubuntu0.24.04.1
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `customers`
---
-
-DROP TABLE IF EXISTS `customers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `customers` (
-  `customer_id` int NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phone` varchar(10) DEFAULT NULL,
-  `valid_permits` varchar(20) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`customer_id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `customers`
---
-
-LOCK TABLES `customers` WRITE;
-/*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'jordan','jordan.patel@example.com','6045550107','student','patel'),(2,'priya','priya.nair@example.com','6045550108','staff','nair'),(3,'liam','liam.ortiz@example.com','6045550109','student','ortiz'),(4,'grace','grace.kim@example.com','6045550110','staff','kim'),(5,'maria','maria.garcia@example.com','6045550111','student','garcia'),(6,'david','david.chen@example.com','6045550112','staff','chen'),(7,'sarah','sarah.johnson@example.com','6045550113','student','johnson'),(8,'michael','michael.t@example.com','6045550114','staff','thompson'),(9,'emily','emily.r@example.com','6045550115','student','rodriguez'),(10,'james','james.wilson@example.com','6045550116','staff','wilson'),(11,'lisa','lisa.anderson@example.com','6045550117','student','anderson'),(12,'christopher','christopher.lee@example.com','6045550118','staff','lee'),(13,'john','johnpork@bcit.ca','77777777','staff','pork'),(14,'john','johnpork@bcit.ca1231231','77777777','staff','pork');
-/*!40000 ALTER TABLE `customers` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parking_lot_address`
---
-
-DROP TABLE IF EXISTS `parking_lot_address`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `parking_lot_address` (
-  `address_id` int NOT NULL AUTO_INCREMENT,
-  `street` varchar(100) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `province` varchar(50) NOT NULL,
-  `postal_code` varchar(10) NOT NULL,
-  `lot_id` int NOT NULL,
-  PRIMARY KEY (`address_id`),
-  KEY `lot_id` (`lot_id`),
-  CONSTRAINT `parking_lot_address_ibfk_1` FOREIGN KEY (`lot_id`) REFERENCES `parking_lots` (`lot_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parking_lot_address`
---
-
-LOCK TABLES `parking_lot_address` WRITE;
-/*!40000 ALTER TABLE `parking_lot_address` DISABLE KEYS */;
-INSERT INTO `parking_lot_address` VALUES (1,'555 Seymour St','Vancouver','BC','V6B 3H6',1),(2,'619 Richards St','Vancouver','BC','V6B 5E3',2),(3,'550 Hornby St 2E7','Vancouver','BC','V6C 2E7',3),(4,'666 Burrard St','Vancouver','BC','V6C 3P6',4),(5,'550 Robson St','Vancouver','BC','V6B 2B7',5);
-/*!40000 ALTER TABLE `parking_lot_address` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parking_lot_schedules`
---
-
-DROP TABLE IF EXISTS `parking_lot_schedules`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `parking_lot_schedules` (
-  `schedule_id` int NOT NULL AUTO_INCREMENT,
-  `daytimePrice` decimal(10,2) DEFAULT NULL,
-  `daytimeRate` decimal(10,2) DEFAULT NULL,
-  `daytime_start_time` time DEFAULT NULL,
-  `daytime_end_time` time DEFAULT NULL,
-  `daytimeMaxPrice` decimal(10,2) DEFAULT NULL,
-  `eveningPrice` decimal(10,2) DEFAULT NULL,
-  `eveningRate` decimal(10,2) DEFAULT NULL,
-  `evening_start_time` time DEFAULT NULL,
-  `evening_end_time` time DEFAULT NULL,
-  `eveningMaxPrice` decimal(10,2) DEFAULT NULL,
-  `weekendPrice` decimal(10,2) DEFAULT NULL,
-  `weekendRate` decimal(10,2) DEFAULT NULL,
-  `weekend_start_time` time DEFAULT NULL,
-  `weekend_end_time` time DEFAULT NULL,
-  `weekendMaxPrice` decimal(10,2) DEFAULT NULL,
-  `rate_unit` varchar(20) NOT NULL,
-  `lot_id` int NOT NULL,
-  PRIMARY KEY (`schedule_id`),
-  KEY `lot_id` (`lot_id`),
-  CONSTRAINT `parking_lot_schedules_ibfk_1` FOREIGN KEY (`lot_id`) REFERENCES `parking_lots` (`lot_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `parking_lot_schedules_chk_1` CHECK ((`rate_unit` in (_utf8mb4'30 min',_utf8mb4'hr')))
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parking_lot_schedules`
---
-
-LOCK TABLES `parking_lot_schedules` WRITE;
-/*!40000 ALTER TABLE `parking_lot_schedules` DISABLE KEYS */;
-INSERT INTO `parking_lot_schedules` VALUES (1,5.00,1.00,'08:00:00','18:00:00',25.00,3.00,1.00,'18:00:00','00:00:00',12.00,2.50,1.00,'06:00:00','18:00:00',10.00,'hr',1),(2,5.50,1.00,'08:00:00','18:00:00',27.50,3.25,1.00,'18:00:00','00:00:00',13.00,2.75,1.00,'06:00:00','18:00:00',11.00,'hr',2),(3,4.75,1.00,'07:00:00','19:00:00',24.00,2.75,1.00,'19:00:00','07:00:00',11.00,2.25,1.00,'06:00:00','19:00:00',9.00,'hr',3),(4,6.00,1.00,'08:00:00','20:00:00',30.00,3.50,1.00,'20:00:00','08:00:00',14.00,3.00,1.00,'06:00:00','20:00:00',12.00,'hr',4),(5,5.25,1.00,'07:00:00','19:00:00',26.00,3.00,1.00,'19:00:00','07:00:00',12.00,2.50,1.00,'06:00:00','19:00:00',10.00,'hr',5);
-/*!40000 ALTER TABLE `parking_lot_schedules` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parking_lot_valid_permits`
---
-
-DROP TABLE IF EXISTS `parking_lot_valid_permits`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `parking_lot_valid_permits` (
-  `lot_id` int NOT NULL,
-  `valid_permits` varchar(20) NOT NULL,
-  PRIMARY KEY (`lot_id`,`valid_permits`),
-  CONSTRAINT `parking_lot_valid_permits_ibfk_1` FOREIGN KEY (`lot_id`) REFERENCES `parking_lots` (`lot_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `parking_lot_valid_permits_chk_1` CHECK ((`valid_permits` in (_utf8mb4'staff',_utf8mb4'student')))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parking_lot_valid_permits`
---
-
-LOCK TABLES `parking_lot_valid_permits` WRITE;
-/*!40000 ALTER TABLE `parking_lot_valid_permits` DISABLE KEYS */;
-INSERT INTO `parking_lot_valid_permits` VALUES (1,'staff'),(1,'student'),(2,'staff'),(2,'student'),(3,'staff'),(3,'student'),(4,'staff'),(4,'student'),(5,'staff'),(5,'student');
-/*!40000 ALTER TABLE `parking_lot_valid_permits` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parking_lots`
---
-
-DROP TABLE IF EXISTS `parking_lots`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `parking_lots` (
-  `lot_id` int NOT NULL AUTO_INCREMENT,
-  `lot_floor` varchar(10) NOT NULL,
-  `lot_capacity` int NOT NULL,
-  `lat` decimal(30,20) DEFAULT NULL,
-  `lon` decimal(30,20) DEFAULT NULL,
-  `lot_description` text,
-  `lot_name` varchar(50) NOT NULL,
-  PRIMARY KEY (`lot_id`),
-  UNIQUE KEY `lot_floor` (`lot_floor`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parking_lots`
---
-
-LOCK TABLES `parking_lots` WRITE;
-/*!40000 ALTER TABLE `parking_lots` DISABLE KEYS */;
-INSERT INTO `parking_lots` VALUES (1,'1',58,49.28350846808849000000,-123.11494653742396000000,'BCIT Downtown Campus Lot','BCIT Campus Parking'),(2,'2',28,49.28225519714981600000,-123.11535548504304000000,'Lot 1037','619 Richards Street Lot'),(3,'3',67,49.28541860364103000000,-123.11753337849295000000,'Lot 4116','Diamond Parking'),(4,'B1',74,49.28525142611815000000,-123.11953798092193000000,'Precise ParkLink','Park Place Parking'),(5,'B2',57,49.28045903416459000000,-123.11897398685132000000,'Lot 055 - H&Y Mart','Parking Indigo Vancouver');
-/*!40000 ALTER TABLE `parking_lots` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `parking_stalls`
---
-
-DROP TABLE IF EXISTS `parking_stalls`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `parking_stalls` (
-  `stall_id` int NOT NULL AUTO_INCREMENT,
-  `occupied` tinyint(1) DEFAULT '0',
-  `parking_type` text NOT NULL,
-  `lot_id` int DEFAULT NULL,
-  PRIMARY KEY (`stall_id`),
-  KEY `lot_id` (`lot_id`),
-  CONSTRAINT `parking_stalls_ibfk_1` FOREIGN KEY (`lot_id`) REFERENCES `parking_lots` (`lot_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `parking_stalls_chk_1` CHECK ((`parking_type` in (_utf8mb4'regular',_utf8mb4'electric',_utf8mb4'small',_utf8mb4'handicap')))
-) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `parking_stalls`
---
-
-LOCK TABLES `parking_stalls` WRITE;
-/*!40000 ALTER TABLE `parking_stalls` DISABLE KEYS */;
-INSERT INTO `parking_stalls` VALUES (1,1,'regular',1),(2,1,'electric',1),(3,1,'small',1),(4,1,'handicap',1),(5,1,'regular',1),(6,1,'electric',1),(7,1,'regular',1),(8,1,'handicap',1),(9,1,'regular',1),(10,1,'regular',1),(11,1,'regular',1),(12,1,'regular',1),(13,1,'regular',1),(14,1,'electric',1),(15,1,'electric',1),(16,1,'electric',1),(17,1,'electric',1),(18,1,'electric',1),(19,1,'small',1),(20,1,'small',1),(21,1,'small',1),(22,1,'small',1),(23,1,'small',1),(24,1,'handicap',1),(25,1,'handicap',1),(26,1,'handicap',1),(27,1,'handicap',1),(28,1,'handicap',1),(29,1,'regular',1),(30,1,'regular',1),(31,1,'regular',1),(32,1,'regular',1),(33,1,'regular',1),(34,1,'electric',1),(35,1,'electric',1),(36,1,'electric',1),(37,1,'electric',1),(38,1,'electric',1),(39,1,'small',1),(40,1,'small',1),(41,1,'small',1),(42,1,'small',1),(43,1,'small',1),(44,1,'handicap',1),(45,1,'handicap',1),(46,1,'handicap',1),(47,1,'handicap',1),(48,1,'handicap',1),(49,1,'regular',1),(50,1,'regular',1),(51,1,'regular',1),(52,1,'regular',1),(53,1,'regular',1),(54,1,'electric',1),(55,1,'electric',1),(56,1,'electric',1),(57,1,'electric',1),(58,1,'electric',1),(59,1,'regular',2),(60,0,'regular',2),(61,1,'electric',2),(62,0,'electric',2),(63,1,'small',2),(64,0,'small',2),(65,1,'handicap',2),(66,0,'handicap',2),(67,1,'regular',2),(68,0,'regular',2),(69,1,'regular',2),(70,0,'electric',2),(71,1,'electric',2),(72,0,'small',2),(73,1,'small',2),(74,0,'handicap',2),(75,1,'handicap',2),(76,0,'regular',2),(77,1,'regular',2),(78,0,'regular',2),(79,1,'electric',2),(80,0,'electric',2),(81,1,'small',2),(82,0,'small',2),(83,1,'handicap',2),(84,0,'handicap',2),(85,1,'regular',2),(86,0,'regular',2),(87,0,'regular',3),(88,1,'regular',3),(89,0,'electric',3),(90,1,'electric',3),(91,0,'small',3),(92,1,'small',3),(93,1,'handicap',3),(94,0,'regular',3),(95,0,'regular',3),(96,0,'regular',3),(97,0,'regular',3),(98,0,'regular',3),(99,0,'regular',3),(100,0,'regular',3),(101,0,'regular',3),(102,0,'regular',3),(103,0,'regular',3),(104,0,'electric',3),(105,0,'electric',3),(106,0,'electric',3),(107,0,'electric',3),(108,0,'electric',3),(109,0,'electric',3),(110,0,'electric',3),(111,0,'electric',3),(112,0,'electric',3),(113,0,'electric',3),(114,0,'small',3),(115,0,'small',3),(116,0,'small',3),(117,0,'small',3),(118,0,'small',3),(119,0,'small',3),(120,0,'small',3),(121,0,'small',3),(122,0,'small',3),(123,0,'small',3),(124,0,'handicap',3),(125,0,'handicap',3),(126,0,'handicap',3),(127,0,'handicap',3),(128,0,'handicap',3),(129,1,'regular',3),(130,1,'regular',3),(131,1,'regular',3),(132,1,'regular',3),(133,1,'electric',3),(134,1,'electric',3),(135,1,'electric',3),(136,0,'regular',3),(137,0,'regular',3),(138,0,'regular',3),(139,0,'regular',3),(140,0,'regular',3),(141,0,'regular',3),(142,0,'regular',3),(143,0,'regular',3),(144,0,'regular',3),(145,0,'electric',3),(146,0,'electric',3),(147,0,'electric',3),(148,0,'electric',3),(149,0,'electric',3),(150,0,'small',3),(151,0,'small',3),(152,0,'small',3),(153,0,'handicap',3),(154,1,'regular',4),(155,1,'regular',4),(156,1,'electric',4),(157,1,'electric',4),(158,1,'handicap',4),(159,0,'handicap',4),(160,1,'regular',4),(161,1,'regular',4),(162,1,'regular',4),(163,1,'regular',4),(164,1,'regular',4),(165,1,'regular',4),(166,1,'regular',4),(167,1,'regular',4),(168,1,'regular',4),(169,1,'regular',4),(170,1,'electric',4),(171,1,'electric',4),(172,1,'electric',4),(173,1,'electric',4),(174,1,'electric',4),(175,1,'electric',4),(176,1,'electric',4),(177,1,'electric',4),(178,1,'electric',4),(179,1,'electric',4),(180,1,'small',4),(181,1,'small',4),(182,1,'small',4),(183,1,'small',4),(184,1,'small',4),(185,1,'small',4),(186,1,'small',4),(187,1,'small',4),(188,1,'small',4),(189,1,'small',4),(190,1,'handicap',4),(191,1,'handicap',4),(192,1,'handicap',4),(193,1,'handicap',4),(194,1,'handicap',4),(195,1,'handicap',4),(196,1,'handicap',4),(197,1,'handicap',4),(198,1,'handicap',4),(199,1,'handicap',4),(200,1,'regular',4),(201,1,'regular',4),(202,1,'regular',4),(203,1,'regular',4),(204,1,'regular',4),(205,1,'regular',4),(206,1,'regular',4),(207,1,'regular',4),(208,1,'regular',4),(209,1,'regular',4),(210,1,'electric',4),(211,1,'electric',4),(212,1,'electric',4),(213,1,'electric',4),(214,1,'electric',4),(215,1,'electric',4),(216,1,'electric',4),(217,1,'electric',4),(218,1,'electric',4),(219,0,'regular',4),(220,0,'regular',4),(221,0,'regular',4),(222,0,'regular',4),(223,0,'regular',4),(224,0,'electric',4),(225,0,'electric',4),(226,0,'electric',4),(227,0,'small',4),(228,0,'regular',5),(229,0,'regular',5),(230,0,'regular',5),(231,0,'regular',5),(232,0,'regular',5),(233,0,'regular',5),(234,0,'regular',5),(235,0,'regular',5),(236,0,'regular',5),(237,0,'regular',5),(238,0,'regular',5),(239,0,'regular',5),(240,0,'regular',5),(241,0,'electric',5),(242,0,'electric',5),(243,0,'electric',5),(244,0,'electric',5),(245,0,'electric',5),(246,0,'electric',5),(247,0,'electric',5),(248,0,'electric',5),(249,0,'electric',5),(250,0,'electric',5),(251,0,'electric',5),(252,0,'electric',5),(253,0,'electric',5),(254,0,'small',5),(255,0,'small',5),(256,0,'small',5),(257,0,'small',5),(258,0,'small',5),(259,0,'small',5),(260,0,'small',5),(261,0,'small',5),(262,0,'small',5),(263,0,'small',5),(264,0,'small',5),(265,0,'handicap',5),(266,0,'handicap',5),(267,0,'handicap',5),(268,0,'handicap',5),(269,0,'handicap',5),(270,0,'handicap',5),(271,0,'handicap',5),(272,0,'handicap',5),(273,0,'handicap',5),(274,0,'handicap',5),(275,1,'regular',5),(276,1,'regular',5),(277,1,'electric',5),(278,1,'small',5),(279,1,'small',5),(280,1,'handicap',5),(281,0,'regular',5),(282,0,'regular',5),(283,0,'electric',5),(284,0,'small',5);
-/*!40000 ALTER TABLE `parking_stalls` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `reservations`
---
-
-DROP TABLE IF EXISTS `reservations`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `reservations` (
-  `reservation_id` int NOT NULL AUTO_INCREMENT,
-  `purchase_date` datetime DEFAULT CURRENT_TIMESTAMP,
-  `license_plate` varchar(10) NOT NULL,
-  `total_cost` decimal(10,2) NOT NULL,
-  `stall_location` varchar(20) NOT NULL,
-  `lot_id` int DEFAULT NULL,
-  `stall_id` int DEFAULT NULL,
-  `customer_id` int DEFAULT NULL,
-  PRIMARY KEY (`reservation_id`),
-  UNIQUE KEY `license_plate` (`license_plate`),
-  KEY `customer_id` (`customer_id`),
-  KEY `lot_id` (`lot_id`),
-  KEY `stall_id` (`stall_id`),
-  CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`lot_id`) REFERENCES `parking_lots` (`lot_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `reservations_ibfk_3` FOREIGN KEY (`stall_id`) REFERENCES `parking_stalls` (`stall_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `reservations`
---
-
-LOCK TABLES `reservations` WRITE;
-/*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES (4,'2026-05-09 21:30:44','BC8Q9R',6.50,'L2-01',2,9,5),(6,'2026-05-09 21:30:44','BC0U1V',4.00,'L2-03',2,11,7),(7,'2026-05-09 21:30:44','BC1W2X',5.50,'L3-01',3,17,8),(8,'2026-05-09 21:30:44','BC2Y3Z',7.00,'L3-02',3,18,9),(9,'2026-05-09 21:30:44','BC3A4B',3.50,'L4-01',4,25,10),(10,'2026-05-09 21:30:44','BC4C5D',6.00,'L4-02',4,26,11),(11,'2026-05-09 21:30:44','BC5E6F',5.25,'L1-07',1,7,12);
-/*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sessions`
---
-
 DROP TABLE IF EXISTS `sessions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `sessions` (
-  `id` varchar(200) NOT NULL,
-  `secret_hash` mediumblob NOT NULL,
-  `created_at` datetime NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_user_sessions` (`user_id`),
-  CONSTRAINT `fk_user_sessions` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `sessions`
---
-
-LOCK TABLES `sessions` WRITE;
-/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
-INSERT INTO `sessions` VALUES ('kiahx9survzvnhupbqgibupy',_binary '\Î©8©†\Õ{8p¿p°pEql®“ægiï\Â\ÍΩ\›dßr{','2026-05-15 10:00:24',7);
-/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
+DROP TABLE IF EXISTS `reservations`;
 DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+DROP TABLE IF EXISTS `parking_stall_vertices`;
+DROP TABLE IF EXISTS `parking_stalls`;
+DROP TABLE IF EXISTS `parking_lot_valid_permits`;
+DROP TABLE IF EXISTS `parking_lot_schedules`;
+DROP TABLE IF EXISTS `parking_lot_address`;
+DROP TABLE IF EXISTS `parking_lots`;
+DROP TABLE IF EXISTS `customers`;
+
+CREATE TABLE `customers` (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_name VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    phone VARCHAR(10),
+    valid_permits VARCHAR(20) NOT NULL
+);
+
 CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `email` varchar(50) NOT NULL COMMENT 'email',
-  `password_hash` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_customer` (`email`),
-  CONSTRAINT `fk_customer` FOREIGN KEY (`email`) REFERENCES `customers` (`email`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Table to store users as email and hashed password, with email as FK to customers table';
-/*!40101 SET character_set_client = @saved_cs_client */;
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(50) NOT NULL,
+    password_hash VARCHAR(255),
+    FOREIGN KEY (email) REFERENCES customers (email) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
---
--- Dumping data for table `users`
---
+CREATE TABLE `parking_lots` (
+    lot_id INT PRIMARY KEY AUTO_INCREMENT,
+    lot_floor VARCHAR(10) NOT NULL UNIQUE,
+    lot_capacity INT NOT NULL,
+    lat DECIMAL(30, 20),
+    lon DECIMAL(30, 20),
+    lot_description TEXT,
+    lot_name VARCHAR(50) NOT NULL
+);
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'jordan.patel@example.com','$2b$10$cnAHYKB7HXriB/lUB6/XZ.O6JUpbn4a/KtPtXk9h0UAd2mvlj5Jzi'),(2,'priya.nair@example.com','$2b$10$MgASenAIo81/xw4MHY6.cu6orxgrPyszMcuvGHF6P2fZUQOQjuMOO'),(3,'liam.ortiz@example.com','$2b$10$7ojwmyF76s9TnOjKX9dk1unpEZeh/pC/fbqZYB4UIK19o.o44in4q'),(4,'grace.kim@example.com','$2b$10$TrcpiqGVXz8c55C7McNPrebBY9I5.M1TcNrNJl7HveojSuzFpDWWO'),(5,'maria.garcia@example.com','$2b$10$yJBE64Ivn8ehov36kOW7uujTEWYJWGhuN5GgWNS6mayL3ey.f5Jiy'),(6,'david.chen@example.com','$2b$10$jASse6jZsLVXPy.Ndip47.5zoG2clEpQ0a9X.BoJZgTi3Y3iH20qu'),(7,'sarah.johnson@example.com','$2b$10$JMWNr5UnDHs0LjN.h6nzaepSMso2Ka7y0uveS.cAglI8gLcDG26Te'),(8,'michael.t@example.com','$2b$10$gsx4VTqzKWbjXEYT3APYDe121l5bxrrSprQxYjmuP36wvjCYAwHVa'),(9,'emily.r@example.com','$2b$10$H7ziEfxBtnaWQl2e75AJ9enoRp37slBOKI2DxIXN.t8mTWb.pnvs6'),(10,'james.wilson@example.com','$2b$10$0Ql.zMJbhKd3u2JuKOiS0OMJj5uvRsQUpN1V6I7xsVGiCY2/nkM0e'),(11,'lisa.anderson@example.com','$2b$10$NzCRVQoh.O8v0TD7g9PwRO/pgxBW6rkC4rviGwylWGlI0EQ75HMyG'),(12,'christopher.lee@example.com','$2b$10$D2ZOs45tIV34HXeyY2mAMu9vEdsIYxVZvIBirvTrfWgYTfR5LOz6O'),(13,'johnpork@bcit.ca','$2b$10$gy79w/udUguc/7hnj2lQk.xHUmwHW3zLAXU6cEMA.7btVToDRabEq'),(14,'johnpork@bcit.ca1231231','$2b$10$7aCELBiq6VFo8AYk8BVrEeulNpXqHFy0Rua4O9EvdtXUdIpVUvG5q');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+CREATE TABLE `parking_lot_address`(
+    address_id INT PRIMARY KEY AUTO_INCREMENT,
+    street VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    province VARCHAR(50) NOT NULL,
+    postal_code VARCHAR(10) NOT NULL,
+    lot_id INT NOT NULL,
+    FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+CREATE TABLE `parking_lot_schedules` (
+    schedule_id INT PRIMARY KEY AUTO_INCREMENT,
+    daytimePrice DECIMAL(10, 2),
+    daytimeRate DECIMAL(10, 2),
+    daytime_start_time TIME,
+    daytime_end_time TIME,
+    daytimeMaxPrice DECIMAL(10, 2),
+    eveningPrice DECIMAL(10, 2),
+    eveningRate DECIMAL(10, 2),
+    evening_start_time TIME,
+    evening_end_time TIME,
+    eveningMaxPrice DECIMAL(10, 2),
+    weekendPrice DECIMAL(10, 2),
+    weekendRate DECIMAL(10, 2),
+    weekend_start_time TIME,
+    weekend_end_time TIME,
+    weekendMaxPrice DECIMAL(10, 2),
+    rate_unit VARCHAR(20) NOT NULL CHECK (rate_unit IN ('30 min', 'hr')),
+    lot_id INT NOT NULL,
+    FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
--- Dump completed on 2026-05-15 11:03:39
+CREATE TABLE `parking_lot_valid_permits` (
+    lot_id INT NOT NULL,
+    valid_permits VARCHAR(20) NOT NULL CHECK (valid_permits IN ('staff', 'student')),
+    PRIMARY KEY (lot_id, valid_permits),
+    FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `parking_stalls` (
+    stall_id INT PRIMARY KEY AUTO_INCREMENT,
+    occupied BOOLEAN DEFAULT FALSE,
+    parking_type TEXT NOT NULL CHECK (
+        parking_type IN ('regular', 'electric', 'small', 'handicap')
+    ),
+    lot_id INT,
+    FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `reservations` (
+    reservation_id INT PRIMARY KEY AUTO_INCREMENT,
+    purchase_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    license_plate VARCHAR(10) NOT NULL UNIQUE,
+    total_cost DECIMAL(10, 2) NOT NULL,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME NOT NULL,
+    lot_id INT,
+    stall_id INT,
+    customer_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (lot_id) REFERENCES parking_lots (lot_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (stall_id) REFERENCES parking_stalls (stall_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE `sessions` (
+    id VARCHAR(200) NOT NULL PRIMARY KEY,
+    secret_hash MEDIUMBLOB NOT NULL,
+    created_at DATETIME NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+ALTER TABLE customers AUTO_INCREMENT=1;
+
+-- INSERTS
+INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot_name) VALUES
+    ('1', 58, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
+    ('2', 28, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
+    ('3', 67, 49.28541860364103, -123.11753337849295, 'Lot 4116', 'Diamond Parking'),
+    ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
+    ('B2', 57, 49.28045903416459, -123.11897398685132, 'Lot 055 - H&Y Mart', 'Parking Indigo Vancouver');
+
+INSERT INTO customers (customer_name, email, phone, valid_permits) VALUES
+    ('Jordan Patel', 'jordan.patel@example.com', '6045550107', 'student'),
+    ('Priya Nair', 'priya.nair@example.com', '6045550108', 'staff'),
+    ('Liam Ortiz', 'liam.ortiz@example.com', '6045550109', 'student'),
+    ('Grace Kim', 'grace.kim@example.com', '6045550110', 'staff'),
+    ('Maria Garcia', 'maria.garcia@example.com', '6045550111', 'student'),
+    ('David Chen', 'david.chen@example.com', '6045550112', 'staff'),
+    ('Sarah Johnson', 'sarah.johnson@example.com', '6045550113', 'student'),
+    ('Michael Thompson', 'michael.t@example.com', '6045550114', 'staff'),
+    ('Emily Rodriguez', 'emily.r@example.com', '6045550115', 'student'),
+    ('James Wilson', 'james.wilson@example.com', '6045550116', 'staff'),
+    ('Lisa Anderson', 'lisa.anderson@example.com', '6045550117', 'student'),
+    ('Christopher Lee', 'christopher.lee@example.com', '6045550118', 'staff');
+
+INSERT INTO users (id, email, password_hash) VALUES
+    (1, 'jordan.patel@example.com', '$2b$10$cnAHYKB7HXriB/lUB6/XZ.O6JUpbn4a/KtPtXk9h0UAd2mvlj5Jzi'),
+    (2, 'priya.nair@example.com', '$2b$10$MgASenAIo81/xw4MHY6.cu6orxgrPyszMcuvGHF6P2fZUQOQjuMOO'),
+    (3, 'liam.ortiz@example.com', '$2b$10$7ojwmyF76s9TnOjKX9dk1unpEZeh/pC/fbqZYB4UIK19o.o44in4q'),
+    (4, 'grace.kim@example.com', '$2b$10$TrcpiqGVXz8c55C7McNPrebBY9I5.M1TcNrNJl7HveojSuzFpDWWO'),
+    (5, 'maria.garcia@example.com', '$2b$10$yJBE64Ivn8ehov36kOW7uujTEWYJWGhuN5GgWNS6mayL3ey.f5Jiy'),
+    (6, 'david.chen@example.com', '$2b$10$jASse6jZsLVXPy.Ndip47.5zoG2clEpQ0a9X.BoJZgTi3Y3iH20qu'),
+    (7, 'sarah.johnson@example.com', '$2b$10$JMWNr5UnDHs0LjN.h6nzaepSMso2Ka7y0uveS.cAglI8gLcDG26Te'),
+    (8, 'michael.t@example.com', '$2b$10$gsx4VTqzKWbjXEYT3APYDe121l5bxrrSprQxYjmuP36wvjCYAwHVa'),
+    (9, 'emily.r@example.com', '$2b$10$H7ziEfxBtnaWQl2e75AJ9enoRp37slBOKI2DxIXN.t8mTWb.pnvs6'),
+    (10, 'james.wilson@example.com', '$2b$10$0Ql.zMJbhKd3u2JuKOiS0OMJj5uvRsQUpN1V6I7xsVGiCY2/nkM0e'),
+    (11, 'lisa.anderson@example.com', '$2b$10$NzCRVQoh.O8v0TD7g9PwRO/pgxBW6rkC4rviGwylWGlI0EQ75HMyG'),
+    (12, 'christopher.lee@example.com', '$2b$10$D2ZOs45tIV34HXeyY2mAMu9vEdsIYxVZvIBirvTrfWgYTfR5LOz6O');
+
+INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
+    (TRUE, 'regular', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'small', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'handicap', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'regular', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'electric', 1),
+    (TRUE, 'regular', 2),
+    (FALSE, 'regular', 2),
+    (TRUE, 'electric', 2),
+    (FALSE, 'electric', 2),
+    (TRUE, 'small', 2),
+    (FALSE, 'small', 2),
+    (TRUE, 'handicap', 2),
+    (FALSE, 'handicap', 2),
+    (TRUE, 'regular', 2),
+    (FALSE, 'regular', 2),
+    (TRUE, 'regular', 2),
+    (FALSE, 'electric', 2),
+    (TRUE, 'electric', 2),
+    (FALSE, 'small', 2),
+    (TRUE, 'small', 2),
+    (FALSE, 'handicap', 2),
+    (TRUE, 'handicap', 2),
+    (FALSE, 'regular', 2),
+    (TRUE, 'regular', 2),
+    (FALSE, 'regular', 2),
+    (TRUE, 'electric', 2),
+    (FALSE, 'electric', 2),
+    (TRUE, 'small', 2),
+    (FALSE, 'small', 2),
+    (TRUE, 'handicap', 2),
+    (FALSE, 'handicap', 2),
+    (TRUE, 'regular', 2),
+    (FALSE, 'regular', 2),
+    (FALSE, 'regular', 3),
+    (TRUE, 'regular', 3),
+    (FALSE, 'electric', 3),
+    (TRUE, 'electric', 3),
+    (FALSE, 'small', 3),
+    (TRUE, 'small', 3),
+    (TRUE, 'handicap', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'handicap', 3),
+    (FALSE, 'handicap', 3),
+    (FALSE, 'handicap', 3),
+    (FALSE, 'handicap', 3),
+    (FALSE, 'handicap', 3),
+    (TRUE, 'regular', 3),
+    (TRUE, 'regular', 3),
+    (TRUE, 'regular', 3),
+    (TRUE, 'regular', 3),
+    (TRUE, 'electric', 3),
+    (TRUE, 'electric', 3),
+    (TRUE, 'electric', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'regular', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'electric', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'small', 3),
+    (FALSE, 'handicap', 3),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'handicap', 4),
+    (FALSE, 'handicap', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'small', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'handicap', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'regular', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (TRUE, 'electric', 4),
+    (FALSE, 'regular', 4),
+    (FALSE, 'regular', 4),
+    (FALSE, 'regular', 4),
+    (FALSE, 'regular', 4),
+    (FALSE, 'regular', 4),
+    (FALSE, 'electric', 4),
+    (FALSE, 'electric', 4),
+    (FALSE, 'electric', 4),
+    (FALSE, 'small', 4),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'small', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (FALSE, 'handicap', 5),
+    (TRUE, 'regular', 5),
+    (TRUE, 'regular', 5),
+    (TRUE, 'electric', 5),
+    (TRUE, 'small', 5),
+    (TRUE, 'small', 5),
+    (TRUE, 'handicap', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'regular', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'small', 5);
+
+INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id) VALUES
+    ('BC5J6K', 5.00, '2026-05-18 08:00:00', '2026-05-18 13:00:00', 1, 1, 1),
+    ('BC6L7M', 7.50, '2026-05-18 09:00:00', '2026-05-18 16:30:00', 1, 2, 2),
+    ('BC7N8P', 2.50, '2026-05-18 10:00:00', '2026-05-18 12:30:00', 1, 3, 3),
+    ('BC8Q9R', 6.50, '2026-05-18 07:30:00', '2026-05-18 14:00:00', 2, 9, 5),
+    ('BC9S0T', 8.00, '2026-05-18 08:15:00', '2026-05-18 16:15:00', 2, 10, 6),
+    ('BC0U1V', 4.00, '2026-05-18 11:00:00', '2026-05-18 15:00:00', 2, 11, 7),
+    ('BC1W2X', 5.50, '2026-05-18 09:30:00', '2026-05-18 15:00:00', 3, 17, 8),
+    ('BC2Y3Z', 7.00, '2026-05-18 08:00:00', '2026-05-18 15:00:00', 3, 18, 9),
+    ('BC3A4B', 3.50, '2026-05-18 12:00:00', '2026-05-18 15:30:00', 4, 25, 10),
+    ('BC4C5D', 6.00, '2026-05-18 08:45:00', '2026-05-18 14:45:00', 4, 26, 11),
+    ('BC5E6F', 5.25, '2026-05-18 10:30:00', '2026-05-18 15:45:00', 1, 7, 12);
+
+
+INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) VALUES
+    ('555 Seymour St', 'Vancouver', 'BC', 'V6B 3H6', 1),
+    ('619 Richards St', 'Vancouver', 'BC', 'V6B 5E3', 2),
+    ('550 Hornby St 2E7', 'Vancouver', 'BC', 'V6C 2E7', 3),
+    ('666 Burrard St', 'Vancouver', 'BC', 'V6C 3P6', 4),
+    ('550 Robson St', 'Vancouver', 'BC', 'V6B 2B7', 5);
+
+INSERT INTO `parking_lot_schedules` (daytimePrice, daytimeRate, daytime_start_time, daytime_end_time, daytimeMaxPrice, eveningPrice, eveningRate, evening_start_time, evening_end_time, eveningMaxPrice, weekendPrice, weekendRate, weekend_start_time, weekend_end_time, weekendMaxPrice, rate_unit, lot_id) VALUES
+    (5.00, 1.00, '08:00:00', '18:00:00', 25.00, 3.00, 1.00, '18:00:00', '00:00:00', 12.00, 2.50, 1.00, '06:00:00', '18:00:00', 10.00, 'hr', 1),
+    (5.50, 1.00, '08:00:00', '18:00:00', 27.50, 3.25, 1.00, '18:00:00', '00:00:00', 13.00, 2.75, 1.00, '06:00:00', '18:00:00', 11.00, 'hr', 2),
+    (4.75, 1.00, '07:00:00', '19:00:00', 24.00, 2.75, 1.00, '19:00:00', '07:00:00', 11.00, 2.25, 1.00, '06:00:00', '19:00:00', 9.00, 'hr', 3),
+    (6.00, 1.00, '08:00:00', '20:00:00', 30.00, 3.50, 1.00, '20:00:00', '08:00:00', 14.00, 3.00, 1.00, '06:00:00', '20:00:00', 12.00, 'hr', 4),
+    (5.25, 1.00, '07:00:00', '19:00:00', 26.00, 3.00, 1.00, '19:00:00', '07:00:00', 12.00, 2.50, 1.00, '06:00:00', '19:00:00', 10.00, 'hr', 5);
+
+INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
+    (1, 'staff'),
+    (1, 'student'),
+    (2, 'staff'),
+    (2, 'student'),
+    (3, 'staff'),
+    (3, 'student'),
+    (4, 'staff'),
+    (4, 'student'),
+    (5, 'staff'),
+    (5, 'student');
+
+-- TRIGGERS
+
+DROP TRIGGER IF EXISTS `prevent_reserving_occupied`;
+DROP TRIGGER IF EXISTS `occupy_stall_on_reservation`;
+DROP TRIGGER IF EXISTS `unoccupy_stall_on_reservation_delete`;
+DROP TRIGGER IF EXISTS `validate_stall_in_lot`;
+DROP TRIGGER IF EXISTS `validate_customer_permit`;
+DROP TRIGGER IF EXISTS `update_lot_capacity_on_stall_insert`;
+DROP TRIGGER IF EXISTS `update_lot_capacity_on_stall_delete`;
+DROP TRIGGER IF EXISTS `update_stall_occupancy_on_reservation_update`;
+
+DELIMITER //
+CREATE TRIGGER `prevent_reserving_occupied`
+BEFORE INSERT ON reservations
+FOR EACH ROW
+BEGIN
+    IF (SELECT occupied FROM parking_stalls WHERE stall_id = NEW.stall_id) = TRUE THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This parking stall is already occupied.';
+    END IF;
+END //
+DELIMITER ;
+
+-- sets stall to occupied when reservation is made
+    -- sets occupied stall to occupied when reservation is made
+CREATE TRIGGER `occupy_stall_on_reservation`
+AFTER INSERT ON reservations
+FOR EACH ROW
+BEGIN
+    UPDATE parking_stalls
+    SET occupied = TRUE
+    WHERE stall_id = NEW.stall_id;
+END;
+
+-- sets stall to unoccupied when reservation is deleted
+    -- sets occpied stall to free when reservation is deleted
+CREATE TRIGGER `unoccupy_stall_on_reservation_delete`
+AFTER DELETE ON reservations
+FOR EACH ROW
+BEGIN
+    UPDATE parking_stalls
+    SET occupied = FALSE
+    WHERE stall_id = OLD.stall_id;
+END;
+
+-- make sure parking stall being reserved belongs to specified lot
+    -- get lot_id from parking_stalls using stall_id and compare to lot_id in reservation for validation
+DELIMITER //
+CREATE TRIGGER `validate_stall_in_lot`
+BEFORE INSERT ON reservations
+FOR EACH ROW
+BEGIN
+    IF (SELECT lot_id FROM parking_stalls WHERE stall_id = NEW.stall_id) != NEW.lot_id THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This parking stall does not belong to the specified lot.';
+    END IF;
+END //
+DELIMITER ;
+
+-- make sure customer has valid permit for lot
+    -- get permit from customer using customer_id and check if matches lot's permits
+DELIMITER //
+CREATE TRIGGER `validate_customer_permit`
+BEFORE INSERT ON reservations
+FOR EACH ROW
+BEGIN
+    IF (SELECT valid_permits FROM customers WHERE customer_id = NEW.customer_id) NOT IN 
+        (SELECT valid_permits FROM parking_lot_valid_permits WHERE lot_id = NEW.lot_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Customer does not have valid permit for lot.';
+    END IF;
+END //
+DELIMITER ;
+
+-- update lot_capaccity when a new stall is inserted
+    -- increments the lot_capacity on stall insertion
+CREATE TRIGGER `update_lot_capacity_on_stall_insert`
+AFTER INSERT ON parking_stalls
+FOR EACH ROW
+BEGIN
+    UPDATE parking_lots
+    SET lot_capacity = lot_capacity +1
+    WHERE lot_id = NEW.lot_id;
+END;
+
+-- update lot_capacity when a stall is deleted
+    -- decrements the lot_capacity on stall deletion
+CREATE TRIGGER `update_lot_capacity_on_stall_delete`
+AFTER DELETE ON parking_stalls
+FOR EACH ROW
+BEGIN
+    UPDATE parking_lots
+    SET lot_capacity = lot_capacity -1
+    WHERE lot_id = OLD.lot_id;
+END;
+
+-- update stall occupancy when reservation updates
+    -- check if new stall is occupied
+        -- free old stall and occupy new stall
+DELIMITER //
+CREATE TRIGGER `update_stall_occupancy_on_reservation_update`
+BEFORE UPDATE ON reservations
+FOR EACH ROW
+BEGIN
+    IF OLD.stall_id != NEW.stall_id THEN
+        IF (SELECT occupied FROM parking_stalls WHERE stall_id = NEW.stall_id) = TRUE THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'This parking stall is already occupied.';
+        END IF;
+
+        UPDATE parking_stalls
+        SET occupied = FALSE
+        WHERE stall_id = OLD.stall_id;
+
+        UPDATE parking_stalls
+        SET occupied = TRUE
+        WHERE stall_id = NEW.stall_id;
+    END IF;
+END //
+DELIMITER ;
