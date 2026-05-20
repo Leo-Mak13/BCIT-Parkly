@@ -17,8 +17,10 @@ async function viewAll(req: Request, res: Response) {
   try {
     if (req.user === null) {
       res.render("myReservations", {
+        devMode,
         error: "Error Log in to see reservations",
-        reservation: [],
+        reservations: [],
+        user: req.user,
       });
     } else {
       const UID = req.user.id;

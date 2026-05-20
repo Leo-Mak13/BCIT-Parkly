@@ -1,298 +1,83 @@
-html,
 body {
-  height: 100%;
+  background: #f4f7fb;
+}
+
+body > div:first-of-type {
+  width: min(920px, calc(100% - 2rem));
+  margin: 2rem auto 1rem;
+  padding: 1.4rem 1.6rem;
+  box-sizing: border-box;
+  background: #003366;
+  border-radius: 8px;
+  color: white;
+}
+
+body > div:first-of-type h1 {
   margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
 }
 
-main {
-  position: relative;
-  flex: 1;
+body > div:first-of-type::after {
+  content: "Review the parking lot, stall type, time, and total cost.";
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.95rem;
 }
 
-/* --- HEADER BAR ---*/
-header {
-  background-color: #003366;
-  color: white;
-  display: flex;
-  align-items: stretch;
-  padding: 0 1.5rem;
-  height: 60px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  position: relative;
-  flex-shrink: 0;
-}
-
-/*BCIT logo*/
-header img {
-  background-color: white;
-  border-radius: 3px;
-  height: 40px;
-  margin: 10px 10px;
-}
-
-/*Header title and subtitle*/
-.header-titles {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
-  margin-right: 2.5rem;
-}
-
-/*BCIT Parkly title*/
-header h2 {
-  margin: 0;
-  font-size: 1.1rem;
-  margin-right: 2.5rem;
-  white-space: nowrap;
-}
-
-/*BCIT Downtown campus subtitle*/
-header h6 {
-  margin: 0;
-  opacity: 0.7;
-  font-weight: normal;
-}
-
-/*Header page tabs*/
-.header-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-/*Tab links in header (Find Parking, My Reservations, ...)*/
-.header-tabs a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-decoration: none;
-  font-size: 0.8rem;
-  font-weight: bold;
-  padding: 0 5px;
-  opacity: 0.7;
-  transition: border-bottom 0.2s ease;
-  border-bottom: 3px solid transparent;
-}
-
-/* The hover effect for header tabs */
-.header-tabs a:hover {
-  opacity: 1;
-  border-bottom: 3px solid white;
-}
-
-/*Sign in button at the top rigth of the screen*/
-.sign-in-btn {
-  color: white;
-  background-color: #315887;
-  border-radius: 5px;
-  border: rgb(171, 171, 171) 1px solid;
-  align-self: center;
-  margin-left: auto;
-  padding: 8px 10px;
-  align-items: center;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/*When hovering over the sign in button*/
-.sign-in-btn:hover {
-  background-color: #6889aa;
-  transition: 0.5s ease;
-}
-
-/*--- BREADCRUM BAR ---*/
-/*The white breadcrum bar under the main blue header bar*/
-.breadcrumb-bar {
-  background-color: white;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  padding: 0 1.5rem;
-  flex-shrink: 0;
-}
-
-.subheading {
-  display: flex;
-  align-items: center;
-  font-size: 0.75rem;
-}
-
-.subheading span {
-  opacity: 0.7;
-}
-
-/*The seperator between the current page link and name*/
-.subheading .seperator {
-  padding: 0 8px;
-}
-
-/*The current page link*/
-.subheading a {
-  text-decoration: none;
-  color: #003366;
-}
-
-/*When hovering over the current page link*/
-.subheading a:hover {
-  text-decoration: underline;
-}
-
-/*Main div body wrapper for the app*/
-.app-container {
-  display: flex;
-  flex-direction: row;
-  min-height: calc(100vh - 95px);
-  flex-shrink: 0;
-  width: 100%;
-}
-
-/*--- THE FOOTER SECTION ---*/
-footer {
-  background-color: #003366;
-  color: white;
-  width: 100%;
-  flex-shrink: 0;
-  z-index: 10;
-  position: relative;
-}
-
-/*Main footer container*/
-.footer-container {
-  max-width: 1300px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 30px;
-  padding: 20px 20px;
-}
-
-/*Individual footer column*/
-.footer-col {
-  flex: 1;
-  min-width: 200px;
-}
-
-/*BCIT logo*/
-.footer-logo img {
-  height: 50px;
-  background-color: white;
-  margin-bottom: 15px;
-}
-
-/*Footer headers*/
-.footer-col h4 {
-  font-size: 13px;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-/*Footer column body paragraphs*/
-.footer-col p {
-  line-height: 1.4;
-  margin-bottom: 10px;
-  font-size: 13px;
-}
-
-/*Footer colum list*/
-.footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-col ul li {
-  margin-bottom: 5px;
-}
-
-.footer-col ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 13px;
-}
-
-/*When hovering over a footer column list item (link)*/
-.footer-col ul li a:hover {
-  text-decoration: underline;
-}
-
-/*Bottom legal bar*/
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 15px 0;
-}
-
-/*Footer bottom legal links*/
-.footer-bottom-links {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer-bottom-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 12px;
-}
-
-/*When hovering over footer bottom legal links*/
-.footer-bottom-links a:hover {
-  text-decoration: underline;
-}
-
-.entire-reservation {
-  display: flex;
-  flex-direction: column;
-  margin: 30px 20%;
-  justify-content: center;
+.induvidual-reservation {
+  width: min(920px, calc(100% - 2rem));
+  margin: 0 auto 3rem;
+  background: white;
+  border: 1px solid #dfe6f0;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(15, 35, 60, 0.06);
 }
 
 .info-reservation {
-  display: flex;
-  flex-direction: row;
-  gap: 100px;
-  border: 1px solid black;
-  border-bottom: none;
-  border-radius: 25px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
+  display: grid;
+  grid-template-columns: minmax(160px, 0.8fr) minmax(180px, 1.2fr);
+  gap: 1.5rem;
+  padding: 1.35rem;
 }
 
-.column-name {
-  margin-left: 25px;
-}
-
+.column-name,
 .column-info {
-  margin-right: 25px;
-  color: gray;
+  margin: 0;
 }
 
-.links-reservation {
+.column-name p,
+.column-info p {
+  min-height: 32px;
   display: flex;
-  flex-direction: row;
-  gap: 100px;
-  border: 1px solid black;
-  border-top: 1px solid gray;
-  border-radius: 25px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  height: 50px;
+  align-items: center;
+  margin: 0;
+  border-bottom: 1px solid #edf1f6;
 }
 
-.links-reservation a {
-  margin-left: 25px;
-  margin-top: 15px;
+.column-name p {
+  color: #42566f;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.column-info p {
+  color: #15263a;
+  font-size: 0.95rem;
+}
+
+.column-info p:last-child {
+  color: #0b5cad;
+  font-weight: bold;
+}
+
+@media (max-width: 760px) {
+  .info-reservation {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .column-name {
+    display: none;
+  }
 }
