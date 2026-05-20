@@ -2,10 +2,15 @@ import { afterEach, describe, it, mock } from "node:test";
 import assert from "node:assert/strict";
 import bcrypt from "bcrypt";
 import { pool } from "../../../database/database.js";
-import { PasswordMismatchError } from "../../../src/middleware/errorTypes.js";
+import {
+  EmailInUseError,
+  IncorrectEmailPasswordError,
+  PasswordMismatchError,
+} from "../../../src/middleware/errorTypes.js";
 import {
   createHashPassword,
   createNewCustomerUser,
+  validateEmailNotUsed,
   validateUser,
 } from "../../../src/services/userService.js";
 
@@ -34,14 +39,11 @@ describe("userService create new user (signup) tests", () => {
     );
   });
 
-  it("mock data only, then test signup creates customer and user with the same customer id", async () => {
-    const queryMock = mock.method(pool, "query", async (sql: string) => {
-      if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: customerId }]];
-      }
-
-      return [{ affectedRows: 1, insertId: customerId }];
-    });
+  it("mock data only, then test signup creates customer and user", async () => {
+    const queryMock = mock.method(pool, "query", async () => [{
+      affectedRows: 1,
+      insertId: customerId,
+    }]);
 
     await createNewCustomerUser(
       "Jane",
@@ -53,7 +55,7 @@ describe("userService create new user (signup) tests", () => {
       "Student",
     );
 
-    assert.equal(queryMock.mock.calls.length, 3);
+    assert.equal(queryMock.mock.calls.length, 2);
     assert.deepEqual(queryMock.mock.calls[0].arguments[1], [
       "jane",
       signupEmail,
@@ -61,9 +63,25 @@ describe("userService create new user (signup) tests", () => {
       "student",
       "doe",
     ]);
-    assert.deepEqual(queryMock.mock.calls[1].arguments[1], [signupEmail]);
-    assert.equal(queryMock.mock.calls[2].arguments[1][0], signupEmail);
-    assert.equal(queryMock.mock.calls[2].arguments[1][2], customerId);
+    assert.equal(queryMock.mock.calls[1].arguments[1][0], signupEmail);
+    assert.notEqual(queryMock.mock.calls[1].arguments[1][1], password);
+  });
+
+  it("mock data only, then test validateEmailNotUsed follows current email check", async () => {
+    mock.method(pool, "query", async () => [{ [signupEmail]: true }]);
+
+    const isAllowed = await validateEmailNotUsed(signupEmail);
+
+    assert.equal(isAllowed, false);
+  });
+
+  it("mock data only, then test validateEmailNotUsed rejects missing email", async () => {
+    mock.method(pool, "query", async () => [[{ email: loginEmail }]]);
+
+    await assert.rejects(
+      validateEmailNotUsed(signupEmail),
+      EmailInUseError,
+    );
   });
 });
 
@@ -94,10 +112,18 @@ describe("userService login (signin) tests", () => {
       email: loginEmail,
       password_hash: hashedPassword,
     }]]);
-    const isValid = await validateUser(loginEmail, password);
-    const isWrongPasswordValid = await validateUser(loginEmail, "WrongPassword123!");
+    await assert.rejects(
+      validateUser(loginEmail, "WrongPassword123!"),
+      IncorrectEmailPasswordError,
+    );
+  });
 
-    assert.equal(isValid, true);
-    assert.equal(isWrongPasswordValid, false);
+  it("mock data only, then test validateUser rejects unknown email", async () => {
+    mock.method(pool, "query", async () => [[]]);
+
+    await assert.rejects(
+      validateUser(loginEmail, password),
+      IncorrectEmailPasswordError,
+    );
   });
 });

@@ -4,6 +4,7 @@ import { pool } from "../../../database/database.js";
 import {
   create_customer,
   create_user,
+  get_all_emails,
   get_user,
 } from "../../../src/models/userModel.js";
 
@@ -50,41 +51,31 @@ describe("userModel create new user (signup) tests", () => {
 
 describe("userModel login (signin) tests", () => {
   it("mock data only, then test create_user with proper login data", async () => {
-    const queryMock = mock.method(pool, "query", async (sql: string) => {
-      if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: customerId }]];
-      }
+    const queryMock = mock.method(pool, "query", async () => [{ affectedRows: 1 }]);
 
-      return [{ affectedRows: 1 }];
-    });
+    await create_user(loginEmail, "hashed-password");
 
+    assert.equal(queryMock.mock.calls.length, 1);
+    assert.match(queryMock.mock.calls[0].arguments[0], /INSERT INTO users/);
+    assert.deepEqual(queryMock.mock.calls[0].arguments[1], [
+      loginEmail,
+      "hashed-password",
+    ]);
+  });
+
+  it("mock data only, then test customer and user creation both run", async () => {
+    const queryMock = mock.method(pool, "query", async () => [{
+      affectedRows: 1,
+      insertId: customerId,
+    }]);
+
+    await create_customer("jane", loginEmail, "6045551234", "student", "doe");
     await create_user(loginEmail, "hashed-password");
 
     assert.equal(queryMock.mock.calls.length, 2);
     assert.deepEqual(queryMock.mock.calls[1].arguments[1], [
       loginEmail,
       "hashed-password",
-      customerId,
-    ]);
-  });
-
-  it("mock data only, then test customer and user creation use the same customer id", async () => {
-    const queryMock = mock.method(pool, "query", async (sql: string) => {
-      if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: customerId }]];
-      }
-
-      return [{ affectedRows: 1, insertId: customerId }];
-    });
-
-    await create_customer("jane", loginEmail, "6045551234", "student", "doe");
-    await create_user(loginEmail, "hashed-password");
-
-    assert.equal(queryMock.mock.calls.length, 3);
-    assert.deepEqual(queryMock.mock.calls[2].arguments[1], [
-      loginEmail,
-      "hashed-password",
-      customerId,
     ]);
   });
 
@@ -101,4 +92,17 @@ describe("userModel login (signin) tests", () => {
     assert.equal(user.password_hash, "hashed-password");
   });
 
+  it("mock data only, then test get_all_emails returns customer emails", async () => {
+    mock.method(pool, "query", async () => [[
+      { email: signupEmail },
+      { email: loginEmail },
+    ]]);
+
+    const emails: any = await get_all_emails();
+
+    assert.deepEqual(emails, [
+      { email: signupEmail },
+      { email: loginEmail },
+    ]);
+  });
 });

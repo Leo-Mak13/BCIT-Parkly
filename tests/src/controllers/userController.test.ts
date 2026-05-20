@@ -61,8 +61,8 @@ describe("userController create new user (signup) tests", () => {
   it("mock data only, then test signup handler with proper form input", async () => {
     mock.method(console, "log", () => {});
     mock.method(pool, "query", async (sql: string) => {
-      if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: customerId }]];
+      if (sql.includes("SELECT email FROM customers")) {
+        return [{ [signupEmail]: true }];
       }
 
       return [{ affectedRows: 1, insertId: customerId }];
@@ -72,14 +72,14 @@ describe("userController create new user (signup) tests", () => {
 
     await createNewUserHandler(req, res);
 
-    assert.equal(res.redirectPath, "confirmationSignUp");
+    assert.equal(res.redirectPath, "/users/confirmation");
   });
 
-  it("mock data only, then test signup handler creates customer and user with the same customer id", async () => {
+  it("mock data only, then test signup handler creates customer and user", async () => {
     mock.method(console, "log", () => {});
     const queryMock = mock.method(pool, "query", async (sql: string) => {
-      if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: customerId }]];
+      if (sql.includes("SELECT email FROM customers")) {
+        return [{ [signupEmail]: true }];
       }
 
       return [{ affectedRows: 1, insertId: customerId }];
@@ -89,9 +89,27 @@ describe("userController create new user (signup) tests", () => {
 
     await createNewUserHandler(req, res);
 
-    assert.equal(res.redirectPath, "confirmationSignUp");
-    assert.deepEqual(queryMock.mock.calls[1].arguments[1], [signupEmail]);
-    assert.equal(queryMock.mock.calls[2].arguments[1][2], customerId);
+    assert.equal(res.redirectPath, "/users/confirmation");
+    assert.deepEqual(queryMock.mock.calls[1].arguments[1], [
+      "jane",
+      signupEmail,
+      "6045551234",
+      "student",
+      "doe",
+    ]);
+    assert.equal(queryMock.mock.calls[2].arguments[1][0], signupEmail);
+  });
+
+  it("mock data only, then test signup handler rejects email in use", async () => {
+    mock.method(console, "log", () => {});
+    mock.method(pool, "query", async () => [[{ email: "someone@example.com" }]]);
+    const req = { body: makeSignupBody(signupEmail), user: null } as any;
+    const res = makeResponse() as any;
+
+    await createNewUserHandler(req, res);
+
+    assert.equal(res.viewName, "signup");
+    assert.equal(res.viewData.message, "Email already in use!");
   });
 });
 
@@ -144,6 +162,6 @@ describe("userController login (signin) tests", () => {
     await loginUser(req, res);
 
     assert.equal(res.viewName, "login");
-    assert.equal(res.viewData.error, "Incorrect email and/or password");
+    assert.equal(res.viewData.error, "Wrong password or email - please try again");
   });
 });
