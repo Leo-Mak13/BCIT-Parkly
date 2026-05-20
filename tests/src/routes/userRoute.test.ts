@@ -55,8 +55,8 @@ describe("userRoute create new user (signup) tests", () => {
   it("mock data only, then test POST /users/signup with proper form input", async () => {
     mock.method(console, "log", () => {});
     mock.method(pool, "query", async (sql: string) => {
-      if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: customerId }]];
+      if (sql.includes("SELECT email FROM customers")) {
+        return [{ [signupEmail]: true }];
       }
 
       return [{ affectedRows: 1, insertId: customerId }];
@@ -68,14 +68,14 @@ describe("userRoute create new user (signup) tests", () => {
       .send(makeSignupBody(signupEmail));
 
     assert.equal(response.status, 302);
-    assert.equal(response.headers.location, "confirmationSignUp");
+    assert.equal(response.headers.location, "/users/confirmation");
   });
 
-  it("mock data only, then test POST /users/signup creates customer and user with the same customer id", async () => {
+  it("mock data only, then test POST /users/signup creates customer and user", async () => {
     mock.method(console, "log", () => {});
     const queryMock = mock.method(pool, "query", async (sql: string) => {
-      if (sql.includes("SELECT customer_id")) {
-        return [[{ customer_id: customerId }]];
+      if (sql.includes("SELECT email FROM customers")) {
+        return [{ [signupEmail]: true }];
       }
 
       return [{ affectedRows: 1, insertId: customerId }];
@@ -87,9 +87,29 @@ describe("userRoute create new user (signup) tests", () => {
       .send(makeSignupBody(signupEmail));
 
     assert.equal(response.status, 302);
-    assert.equal(response.headers.location, "confirmationSignUp");
-    assert.deepEqual(queryMock.mock.calls[1].arguments[1], [signupEmail]);
-    assert.equal(queryMock.mock.calls[2].arguments[1][2], customerId);
+    assert.equal(response.headers.location, "/users/confirmation");
+    assert.deepEqual(queryMock.mock.calls[1].arguments[1], [
+      "jane",
+      signupEmail,
+      "6045551234",
+      "student",
+      "doe",
+    ]);
+    assert.equal(queryMock.mock.calls[2].arguments[1][0], signupEmail);
+  });
+
+  it("mock data only, then test POST /users/signup rejects email in use", async () => {
+    mock.method(console, "log", () => {});
+    mock.method(pool, "query", async () => [[{ email: "someone@example.com" }]]);
+
+    const response = await request(makeApp())
+      .post("/users/signup")
+      .type("form")
+      .send(makeSignupBody(signupEmail));
+    const body = JSON.parse(response.text);
+
+    assert.equal(response.status, 200);
+    assert.equal(body.message, "Email already in use!");
   });
 });
 
@@ -139,6 +159,6 @@ describe("userRoute login (signin) tests", () => {
     const body = JSON.parse(response.text);
 
     assert.equal(response.status, 200);
-    assert.equal(body.error, "Incorrect email and/or password");
+    assert.equal(body.error, "Wrong password or email - please try again");
   });
 });
