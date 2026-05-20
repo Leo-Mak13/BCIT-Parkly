@@ -13,7 +13,8 @@ DROP TABLE IF EXISTS `customers`;
 
 CREATE TABLE `customers` (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
-    customer_name VARCHAR(50) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(10),
     valid_permits VARCHAR(20) NOT NULL
@@ -117,19 +118,19 @@ INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot
     ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
     ('B2', 57, 49.28045903416459, -123.11897398685132, 'Lot 055 - H&Y Mart', 'Parking Indigo Vancouver');
 
-INSERT INTO customers (customer_name, email, phone, valid_permits) VALUES
-    ('Jordan Patel', 'jordan.patel@example.com', '6045550107', 'student'),
-    ('Priya Nair', 'priya.nair@example.com', '6045550108', 'staff'),
-    ('Liam Ortiz', 'liam.ortiz@example.com', '6045550109', 'student'),
-    ('Grace Kim', 'grace.kim@example.com', '6045550110', 'staff'),
-    ('Maria Garcia', 'maria.garcia@example.com', '6045550111', 'student'),
-    ('David Chen', 'david.chen@example.com', '6045550112', 'staff'),
-    ('Sarah Johnson', 'sarah.johnson@example.com', '6045550113', 'student'),
-    ('Michael Thompson', 'michael.t@example.com', '6045550114', 'staff'),
-    ('Emily Rodriguez', 'emily.r@example.com', '6045550115', 'student'),
-    ('James Wilson', 'james.wilson@example.com', '6045550116', 'staff'),
-    ('Lisa Anderson', 'lisa.anderson@example.com', '6045550117', 'student'),
-    ('Christopher Lee', 'christopher.lee@example.com', '6045550118', 'staff');
+INSERT INTO customers (first_name, last_name, email, phone, valid_permits) VALUES
+('Jordan', 'Patel', 'jordan.patel@example.com', '6045550107', 'student'),
+('Priya', 'Nair', 'priya.nair@example.com', '6045550108', 'staff'),
+('Liam', 'Ortiz', 'liam.ortiz@example.com', '6045550109', 'student'),
+('Grace', 'Kim', 'grace.kim@example.com', '6045550110', 'staff'),
+('Maria', 'Garcia', 'maria.garcia@example.com', '6045550111', 'student'),
+('David', 'Chen', 'david.chen@example.com', '6045550112', 'staff'),
+('Sarah', 'Johnson', 'sarah.johnson@example.com', '6045550113', 'student'),
+('Michael', 'Thompson', 'michael.t@example.com', '6045550114', 'staff'),
+('Emily', 'Rodriguez', 'emily.r@example.com', '6045550115', 'student'),
+('James', 'Wilson', 'james.wilson@example.com', '6045550116', 'staff'),
+('Lisa', 'Anderson', 'lisa.anderson@example.com', '6045550117', 'student'),
+('Christopher', 'Lee', 'christopher.lee@example.com', '6045550118', 'staff');
 
 INSERT INTO users (id, email, password_hash) VALUES
     (1, 'jordan.patel@example.com', '$2b$10$cnAHYKB7HXriB/lUB6/XZ.O6JUpbn4a/KtPtXk9h0UAd2mvlj5Jzi'),
