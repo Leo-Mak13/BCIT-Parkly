@@ -22,7 +22,8 @@ DROP TABLE IF EXISTS `sessions`;
 
 CREATE TABLE `customers` (
     customer_id INT PRIMARY KEY AUTO_INCREMENT,
-    customer_name VARCHAR(50) NOT NULL,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(10),
     valid_permits VARCHAR(20) NOT NULL

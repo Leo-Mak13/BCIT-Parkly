@@ -7,19 +7,19 @@ INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot
     ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
     ('B2', 57, 49.28045903416459, -123.11897398685132, 'Lot 055 - H&Y Mart', 'Parking Indigo Vancouver');
 
-INSERT INTO customers (customer_name, email, phone, valid_permits) VALUES
-    ('Jordan Patel', 'jordan.patel@example.com', '6045550107', 'student'),
-    ('Priya Nair', 'priya.nair@example.com', '6045550108', 'staff'),
-    ('Liam Ortiz', 'liam.ortiz@example.com', '6045550109', 'student'),
-    ('Grace Kim', 'grace.kim@example.com', '6045550110', 'staff'),
-    ('Maria Garcia', 'maria.garcia@example.com', '6045550111', 'student'),
-    ('David Chen', 'david.chen@example.com', '6045550112', 'staff'),
-    ('Sarah Johnson', 'sarah.johnson@example.com', '6045550113', 'student'),
-    ('Michael Thompson', 'michael.t@example.com', '6045550114', 'staff'),
-    ('Emily Rodriguez', 'emily.r@example.com', '6045550115', 'student'),
-    ('James Wilson', 'james.wilson@example.com', '6045550116', 'staff'),
-    ('Lisa Anderson', 'lisa.anderson@example.com', '6045550117', 'student'),
-    ('Christopher Lee', 'christopher.lee@example.com', '6045550118', 'staff');
+INSERT INTO customers (first_name, last_name, email, phone, valid_permits) VALUES
+('Jordan', 'Patel', 'jordan.patel@example.com', '6045550107', 'student'),
+('Priya', 'Nair', 'priya.nair@example.com', '6045550108', 'staff'),
+('Liam', 'Ortiz', 'liam.ortiz@example.com', '6045550109', 'student'),
+('Grace', 'Kim', 'grace.kim@example.com', '6045550110', 'staff'),
+('Maria', 'Garcia', 'maria.garcia@example.com', '6045550111', 'student'),
+('David', 'Chen', 'david.chen@example.com', '6045550112', 'staff'),
+('Sarah', 'Johnson', 'sarah.johnson@example.com', '6045550113', 'student'),
+('Michael', 'Thompson', 'michael.t@example.com', '6045550114', 'staff'),
+('Emily', 'Rodriguez', 'emily.r@example.com', '6045550115', 'student'),
+('James', 'Wilson', 'james.wilson@example.com', '6045550116', 'staff'),
+('Lisa', 'Anderson', 'lisa.anderson@example.com', '6045550117', 'student'),
+('Christopher', 'Lee', 'christopher.lee@example.com', '6045550118', 'staff');
 
 INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (TRUE, 'regular', 1),
