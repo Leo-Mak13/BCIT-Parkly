@@ -314,12 +314,11 @@ allows buttons to be on the same line as the info
   display: flex;
   flex-direction: row;
   border: 1px solid black;
-  border-radius: 10px;
   align-items: center;
 }
 
 .induvidual-reservation:hover {
-  box-shadow: 0 3px 2px grey;
+  box-shadow: 0 1px 1px grey;
 }
 
 /* format for p tags and the distance between the a tags */
@@ -354,7 +353,7 @@ allows buttons to be on the same line as the info
   color: white;
   border-radius: 10px;
   border: none;
-  width: 175px;
+  width: fit-content;
   padding: 8px 15px;
   font-size: 14px;
   font-weight: bold;
@@ -362,7 +361,7 @@ allows buttons to be on the same line as the info
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin-right: 20%;
   margin-left: auto;
-  margin-top: 15px;
+  margin-top: 25px;
   margin-bottom: 15px;
 }
 
@@ -372,14 +371,22 @@ allows buttons to be on the same line as the info
 
 .reservation-heading {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   background-color: #003366;
 }
 
 .reservation-heading h1 {
   color: white;
-  margin: 25px 20%;
+  margin-top: 25px;
+  margin-left: 10%;
+  margin-bottom: 5px;
+}
+
+.reservation-heading p {
+  color: lightgray;
+  margin-top: 5px;
+  margin-left: 10%;
+  font-size: 12px;
 }
 
 /* styling for today, upcoming, and cancelled buttons */
@@ -388,7 +395,7 @@ allows buttons to be on the same line as the info
   border-bottom: 2px solid lightgray;
   margin-right: 20%;
   margin-left: 20%;
-  margin-top: 25px;
+  margin-top: 5px;
   margin-bottom: 15px;
   justify-content: center;
   gap: 20%;

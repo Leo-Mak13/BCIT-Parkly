@@ -6,6 +6,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: bcit_parkly
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    env:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: bcit_parkly
+      GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+      GOOGLE_MAP_ID: ${{ secrets.GOOGLE_MAP_ID }}
+      MODE: ${{ secrets.MODE }}
     steps:
       - uses: actions/checkout@v6
       - name: Set up Node.js v25.9.0
@@ -15,6 +37,9 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
+      - name: Create test database
+        run: |
+          docker exec -i ${{ job.services.mysql.id }} mysql -uroot -proot < database/bcit_parkly_test_db.sql
       - name: Test with npx/tsx
         run: |
           npx tsx --test
@@ -25,6 +50,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

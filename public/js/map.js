@@ -2,6 +2,7 @@
  * @file This file handles the initialization and logic for the Google Map,
  * including dynamic marker and pop-up info window placement.
  */
+import { openDetailsPanel } from "./details.js";
 let timer; //global timer for info window pop-ups
 // Request the needed libraries
 const [{ Map, InfoWindow }, { AdvancedMarkerElement, PinElement }] = await Promise.all([
@@ -130,9 +131,19 @@ function generateHTMLElement(lot) {
         <p class="iw-${lot.availability.toLowerCase()}">${lot.availability}</p>
       </div>
       <p class="iw-description">${lot.description}</p>
-      <a href="/lots/${lot.lotId}" class="iw-details-btn">Details →</a>
+      <a class="iw-details-btn">Details →</a>
     </div>
   `;
+    // Find the button element inside the newly generated template wrapper
+    const detailsBtn = wrapper.querySelector(".iw-details-btn");
+    // Attach the click listener directly to the button element
+    if (detailsBtn) {
+        detailsBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            console.log("Map pop-up Details button clicked for lot:", lot.name);
+            openDetailsPanel(lot);
+        });
+    }
     return wrapper;
 }
 /**
@@ -198,7 +209,7 @@ function addMarkerAndInfoWindow(markerClass, map, lot, type) {
 async function initMap() {
     // Get the gmp-map element
     const mapElement = document.querySelector("gmp-map");
-    const innerMap = mapElement.innerMap; // get the inner map
+    const innerMap = await mapElement.innerMap; // get the inner map
     // Add marker for each parking lot
     parkingLotsData.forEach((lot) => {
         addMarkerAndInfoWindow(AdvancedMarkerElement, innerMap, lot, lot.availability);
@@ -222,4 +233,3 @@ async function initMap() {
     });
 }
 initMap();
-export {};
