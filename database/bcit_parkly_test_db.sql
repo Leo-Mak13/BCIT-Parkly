@@ -495,6 +495,8 @@ DELIMITER ;
 
 -- sets stall to occupied when reservation is made
     -- sets occupied stall to occupied when reservation is made
+
+DELIMITER //
 CREATE TRIGGER `occupy_stall_on_reservation`
 AFTER INSERT ON reservations
 FOR EACH ROW
@@ -502,10 +504,13 @@ BEGIN
     UPDATE parking_stalls
     SET occupied = TRUE
     WHERE stall_id = NEW.stall_id;
-END;
+END//
+DELIMITER ;
 
 -- sets stall to unoccupied when reservation is deleted
     -- sets occpied stall to free when reservation is deleted
+
+DELIMITER //
 CREATE TRIGGER `unoccupy_stall_on_reservation_delete`
 AFTER DELETE ON reservations
 FOR EACH ROW
@@ -513,7 +518,8 @@ BEGIN
     UPDATE parking_stalls
     SET occupied = FALSE
     WHERE stall_id = OLD.stall_id;
-END;
+END//
+DELIMITER ;
 
 -- make sure parking stall being reserved belongs to specified lot
     -- get lot_id from parking_stalls using stall_id and compare to lot_id in reservation for validation
@@ -544,6 +550,7 @@ DELIMITER ;
 
 -- update lot_capaccity when a new stall is inserted
     -- increments the lot_capacity on stall insertion
+DELIMITER //
 CREATE TRIGGER `update_lot_capacity_on_stall_insert`
 AFTER INSERT ON parking_stalls
 FOR EACH ROW
@@ -551,10 +558,12 @@ BEGIN
     UPDATE parking_lots
     SET lot_capacity = lot_capacity +1
     WHERE lot_id = NEW.lot_id;
-END;
+END//
+DELIMITER ;
 
 -- update lot_capacity when a stall is deleted
     -- decrements the lot_capacity on stall deletion
+DELIMITER //
 CREATE TRIGGER `update_lot_capacity_on_stall_delete`
 AFTER DELETE ON parking_stalls
 FOR EACH ROW
@@ -562,7 +571,8 @@ BEGIN
     UPDATE parking_lots
     SET lot_capacity = lot_capacity -1
     WHERE lot_id = OLD.lot_id;
-END;
+END//
+DELIMITER ;
 
 -- update stall occupancy when reservation updates
     -- check if new stall is occupied
