@@ -114,7 +114,7 @@ export async function loginUser(req: Request, res: Response) {
     const sessionToken = await createSession(user_id);
     const tokenOnly = sessionToken.token;
     res.cookie("auth_session", tokenOnly, {
-      httpOnly: true,
+      httpOnly: false,
       secure: false,
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -172,6 +172,7 @@ export async function confirmationPage(req: Request, res: Response) {
       user: req.user,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).render("login", {
       error: "Server error - please try again",
       devMode,
