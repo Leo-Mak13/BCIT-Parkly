@@ -7,9 +7,14 @@ import {
   create_user,
   get_user,
   get_user_by_id,
+  get_all_emails,
 } from "../models/userModel";
 import { delete_session_by_user_id } from "../models/authModel";
-import { PasswordMismatchError } from "../middleware/errorTypes";
+import {
+  PasswordMismatchError,
+  EmailInUseError,
+  IncorrectEmailPasswordError,
+} from "../middleware/errorTypes";
 import { Customer, User } from "../types/core";
 import bcrypt from "bcrypt";
 
@@ -97,11 +102,31 @@ export async function validateUser(
 ): Promise<boolean | void> {
   const user = await get_user(email);
   if (!user) {
-    return false;
+    throw new IncorrectEmailPasswordError("Email or password do not match!");
   } else {
     const hashPassword = user.password_hash;
     const validPassword = await bcrypt.compare(password, hashPassword);
-    return validPassword;
+    if (validPassword) {
+      return validPassword;
+    } else {
+      throw new IncorrectEmailPasswordError("Email or password do not match!");
+    }
+  }
+}
+
+/**
+ * @func validateEmailNotUsed checks that incoming email for registration is not used
+ * @param new_customer_email incoming email to be used for registration
+ * @returns a boolean - true if valid email (no one using it), or false for in-use
+ */
+export async function validateEmailNotUsed(
+  new_customer_email: string,
+): Promise<boolean> {
+  const emails = await get_all_emails();
+  if (new_customer_email in emails) {
+    return false;
+  } else {
+    throw new EmailInUseError("Email already in use!");
   }
 }
 
