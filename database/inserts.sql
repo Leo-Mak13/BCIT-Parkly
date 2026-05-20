@@ -21,6 +21,20 @@ INSERT INTO customers (first_name, last_name, email, phone, valid_permits) VALUE
 ('Lisa', 'Anderson', 'lisa.anderson@example.com', '6045550117', 'student'),
 ('Christopher', 'Lee', 'christopher.lee@example.com', '6045550118', 'staff');
 
+INSERT INTO users (id, email, password_hash) VALUES
+    (1, 'jordan.patel@example.com', '$2b$10$cnAHYKB7HXriB/lUB6/XZ.O6JUpbn4a/KtPtXk9h0UAd2mvlj5Jzi'),
+    (2, 'priya.nair@example.com', '$2b$10$MgASenAIo81/xw4MHY6.cu6orxgrPyszMcuvGHF6P2fZUQOQjuMOO'),
+    (3, 'liam.ortiz@example.com', '$2b$10$7ojwmyF76s9TnOjKX9dk1unpEZeh/pC/fbqZYB4UIK19o.o44in4q'),
+    (4, 'grace.kim@example.com', '$2b$10$TrcpiqGVXz8c55C7McNPrebBY9I5.M1TcNrNJl7HveojSuzFpDWWO'),
+    (5, 'maria.garcia@example.com', '$2b$10$yJBE64Ivn8ehov36kOW7uujTEWYJWGhuN5GgWNS6mayL3ey.f5Jiy'),
+    (6, 'david.chen@example.com', '$2b$10$jASse6jZsLVXPy.Ndip47.5zoG2clEpQ0a9X.BoJZgTi3Y3iH20qu'),
+    (7, 'sarah.johnson@example.com', '$2b$10$JMWNr5UnDHs0LjN.h6nzaepSMso2Ka7y0uveS.cAglI8gLcDG26Te'),
+    (8, 'michael.t@example.com', '$2b$10$gsx4VTqzKWbjXEYT3APYDe121l5bxrrSprQxYjmuP36wvjCYAwHVa'),
+    (9, 'emily.r@example.com', '$2b$10$H7ziEfxBtnaWQl2e75AJ9enoRp37slBOKI2DxIXN.t8mTWb.pnvs6'),
+    (10, 'james.wilson@example.com', '$2b$10$0Ql.zMJbhKd3u2JuKOiS0OMJj5uvRsQUpN1V6I7xsVGiCY2/nkM0e'),
+    (11, 'lisa.anderson@example.com', '$2b$10$NzCRVQoh.O8v0TD7g9PwRO/pgxBW6rkC4rviGwylWGlI0EQ75HMyG'),
+    (12, 'christopher.lee@example.com', '$2b$10$D2ZOs45tIV34HXeyY2mAMu9vEdsIYxVZvIBirvTrfWgYTfR5LOz6O');
+
 INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (TRUE, 'regular', 1),
     (TRUE, 'electric', 1),
