@@ -1,23 +1,15 @@
 CREATE DATABASE IF NOT EXISTS `bcit_parkly`;
-
 USE `bcit_parkly`;
 
 DROP TABLE IF EXISTS `reservations`;
-
 DROP TABLE IF EXISTS `parking_stall_vertices`;
-
 DROP TABLE IF EXISTS `parking_stalls`;
-
 DROP TABLE IF EXISTS `parking_lot_valid_permits`;
-
 DROP TABLE IF EXISTS `parking_lot_schedules`;
-
 DROP TABLE IF EXISTS `parking_lot_address`;
-
 DROP TABLE IF EXISTS `parking_lots`;
-
+DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `customers`;
-
 DROP TABLE IF EXISTS `sessions`;
 
 CREATE TABLE `customers` (
@@ -27,6 +19,13 @@ CREATE TABLE `customers` (
     email VARCHAR(50) NOT NULL UNIQUE,
     phone VARCHAR(10),
     valid_permits VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE `users` (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(50) NOT NULL,
+    password_hash VARCHAR(255),
+    FOREIGN KEY (email) REFERENCES customers (email) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE `parking_lots` (
@@ -106,7 +105,8 @@ CREATE TABLE `reservations` (
 CREATE TABLE `sessions` (
     id VARCHAR(200) NOT NULL PRIMARY KEY,
     secret_hash MEDIUMBLOB NOT NULL,
-    created_at DATETIME NOT NULL
+    created_at DATETIME NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 ALTER TABLE customers AUTO_INCREMENT=1;
