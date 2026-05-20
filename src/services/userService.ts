@@ -123,10 +123,17 @@ export async function validateEmailNotUsed(
   new_customer_email: string,
 ): Promise<boolean> {
   const emails = await get_all_emails();
-  if (new_customer_email in emails) {
-    return false;
-  } else {
+  let emailsOnly: string[] = [];
+  emails.map((email: string) => {
+    const emailKey = Object.values(email);
+    emailsOnly.push(emailKey[0]);
+  });
+  if (emailsOnly.includes(new_customer_email)) {
+    console.log("test2");
     throw new EmailInUseError("Email already in use!");
+  } else {
+    console.log("test1");
+    return false;
   }
 }
 
