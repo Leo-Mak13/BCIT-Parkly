@@ -7,7 +7,8 @@
 
   <!-- Sending our Node.js-side parking lot data to browser-side JS via HTML (the bridge) -->
   <script>
-    const parkingLotsData = <%- JSON.stringify(parkingLots) %>
+    window.parkingLotsData = <%- JSON.stringify(parkingLots) %>;
+    var parkingLotsData = window.parkingLotsData;
   </script>
   <script type="module" src="js/map.js"></script>
   <script type="module" src="js/details.js"></script>
