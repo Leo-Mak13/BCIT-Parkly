@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/editPage.css" />
   </head>
   <body>
@@ -20,7 +21,7 @@
       <div class="header-tabs">
         <a href="/">Find Parking</a>
         <a href="/info/permits">Permits & Rates</a>
-        <a href="/reserve/">My Reservations</a>
+        <a href="/reserve/reservations/">My Reservations</a>
         <a href="/info/help">Help & Support</a>
       </div>
 
@@ -49,33 +50,39 @@
     </section>
     <!-- reservation heading under breadcrumb bar -->
     <div class="entire-page">
+    <p style="color:red;"><%= error %></p>
       <div class="header-title">
         <h1>Edit your reservation</h1>
 
       </div>
-      <h1 style="color:red;"><%= error %></h1>
     <% if (locals.user === null) { %>  
         <p>Login to setup reservations!</p>
       <% } else { %>
       <div class="entire-forms">
           <div class="form-content">
-            <% toEdit.forEach(edit => { %>
-              <form action="/reserve/reservations/edit/<%= edit.reservation_id %>" method="post">
+              <form action="/reserve/reservations/edit/<%= toEdit.reservation_id %>" method="post">
               <p class="license-plate">Change license plate:</p>
-              <input type="text" name="license_plate" value="<%= edit.plate %>">
+              <input type="text" name="license_plate" value="<%= toEdit.license_plate %>">
               <p class="total-cost">Time reserving: </p>
-              <input id="pricing" class="payment" type="number" name="total_cost" value="6">
+              <input id="pricing" class="payment" type="number" name="total_cost" value="<%= toEdit.total_cost %>">
               <p>Cost: value here</p>
               <p class="stall-area">Stall Area: </p>
-              <input type="text" name="stall_location" value="<%= edit.stallArea %>">
+              <select type="text" name="stall_location" value="<%= toEdit.stall_location %>"> </select>
               <p class="lot-location">Change lot:</p>
-              <input type="text" name="lot_id" value="<%= edit.lot %>">
+              <select id="lot-select" type="text" name="lot_id" value="<%= toEdit.lot_id %>"> 
+                <% lots.forEach(lot => {%> 
+                  <option value="<%= lot.lot_id %>" selected="<%= toEdit.lot_id %>"><%= lot.lot_name %></option>
+                  <%}) %>
+              </select>
               <p class="stall-location">Change stall:</p>
-              <input type="number" name="stall_id" value="<%= edit.stall %>">
-              <button type="submit">Submit changes</button>
+              <select id="stall-select" type="number" name="stall_id" value="<%= toEdit.stall_id %>">
+                <% stalls.forEach(stall => {%> 
+                  <option class="stall-option" data-lot-id="<%= stall.lot_id %>" value="<%= stall.stall_id %>" selected="<%= toEdit.stall_id %>"><%= stall.stall_id %> - <%= stall.parking_type %></option>
+                  <%}) %>
+                 </select>
+              <button class="submit"type="submit">Submit changes</button>
               </form>
           </div>
-          <% }) %> 
       </div>
     <% } %>
     </div>
@@ -133,5 +140,30 @@
         </div>
       </div>
     </footer>
+    <script>
+    
+    const selectLot = document.getElementById("lot-select")
+    const selectStall = document.getElementById("stall-select")
+
+    // makes an array where is queries all options
+    const optionSelect = Array.from(selectStall.querySelectorAll(".stall-option"))
+
+    
+    selectLot.addEventListener("change", function() {
+      // inputs the id of the selected lot to then query
+      const selectedLot = selectLot.value;
+      // default value in when there is no value selected
+      selectStall.innerHTML = '<option value="">-- Select a Stall --</option>';
+
+      optionSelect.forEach(function (option) {
+        //compares if the lot id of the stall matches the selected stall id
+          if (option.dataset.lotId === selectedLot){
+            //appends the stall if the lot_id's match
+            selectStall.appendChild(option)
+          }
+      })
+    })
+    selectLot.dispatchEvent(new Event("change"));
+    </script>
   </body>
 </html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/myReservation.css" />
   </head>
   <body>
@@ -52,7 +53,7 @@
       <h1>Reservations</h1>
       <p>BCIT Downtown campus</p>
     </div>
-    <a class="reservation-create " href="/create"> + New reservation</a>
+    <a class="reservation-create " href="/reserve/reservations/create"> + New reservation</a>
     <!-- buttons to see different versions -->
     <% if (locals.user === null) { %>  
         <p>Login to setup reservations!</p>
@@ -62,14 +63,15 @@
       <!-- ‼️‼️ I will eventually make it dynamic and show differnet reservations on click -->
       <button class="status-buttons">Today</button>
       <button class="status-buttons">Upcoming</button>
-      <button class="status-buttons">Cancelled</button>
+      <button class="status-buttons">Past</button>
     </div>
     <!-- displays all the reservations under a specifc user dynamically -->
-    <div class="all-reservations"> 
+    <p style="color:red;"><%= error %></p>
+    <div class="all-reservations">
       <% reservations.forEach(reservation => { %>
         <div class="induvidual-reservation">
           <div class="info-reservation">
-            <h1 class="stall-location"><%= reservation.stall_location %></h1>
+            <h1 class="stall-location">L<%= reservation.lot_floor %> - <%= reservation.stall_id %></h1>
             <p class="basic-info-reservation"><%= reservation.purchase_date %></p>
             <p class="basic-info-reservation"><%= reservation.license_plate %></p>
             <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
@@ -77,7 +79,11 @@
           <div class="reservation-btn">
             <a class="view" href="/reserve/reservations/view/<%= reservation.reservation_id %>">View</a>
             <a class="edit" href="/reserve/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
-            <a class="cancel" href="/reserve/reservations/delete/<%= reservation.reservation_id %>">Cancel</a>
+          </div>
+          <div class="reservation-btn">
+            <form method="post" action="/reserve/reservations/delete/<%= reservation.reservation_id %>" onsubmit="return confirm('are you sure you want to cancel?')">
+              <button class="cancel">Cancel</button>
+            </form>
           </div>
         </div>
         <% }) %> 
