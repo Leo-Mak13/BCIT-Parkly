@@ -66,6 +66,7 @@ export async function createNewUserHandler(req: Request, res: Response) {
     );
     res.redirect("/users/confirmation");
   } catch (error: any) {
+    console.log(error);
     if (error instanceof PasswordMismatchError) {
       return res.render("signup", {
         message: "Passwords must match!",
