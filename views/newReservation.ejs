@@ -65,15 +65,11 @@
                     data-day-price="<%= lot.daytimePrice %>" 
                     data-day-max="<%= lot.daytimeMaxPrice %>" 
                     data-day-start="<%= lot.daytime_start_time %>"
-                    daya-day-end="<%= lot.daytime_end_time %>"
+                    data-day-end="<%= lot.daytime_end_time %>"
                     data-evening-price="<%= lot.eveningPrice %>"
                     data-evening-max="<%= lot.eveningMaxPrice %>"
-                    data-evening-start="<%= lot.evening_start_time %>"
-                    data-evening-end="<%= lot.evening_end_time %>"
                     data-weekend-price="<%= lot.weekendPrice %>"
-                    data-weekend-max="<%= lot.weekendMaxPrice %>"
-                    data-weekend-start="<%= lot.weekend_start_time %>"
-                    data-weekend-end="<%= lot.weekend_end_time %>"><%= lot.lot_name %></option>
+                    data-weekend-max="<%= lot.weekendMaxPrice %>"><%= lot.lot_name %></option>
                   <%}) %>
                 </select> 
                 <p>Stall:</p>
@@ -91,7 +87,7 @@
                 <input id="start-time"type="time" name="start_time" required>
                 <p>End Time:</p>
                 <input id="end-time" type="time" name="end_time" required>
-                <input type="text" id="total-cost" name="total_cost" readonly value="0.00">
+                <input type="text" id="total-cost" readonly value="0.00">
               </div>
               <div class="btn-area">
                 <a href="/reserve/reservations">Back to reservations</a>
@@ -181,7 +177,7 @@
       selectLot.dispatchEvent(new Event("change"));
   </script>
   <script>
-    //script to calculate the cost of the time spent
+    //script to calculate the cost of the time spent and limit the times selected
     function calculateCost(){
       const date = document.getElementById("reserve-date").value
       const start = document.getElementById("start-time").value
@@ -189,21 +185,23 @@
       const lotID = document.getElementById("lot-select").selectedOptions[0]
 
       if (date && start && end && lotID) {
-        const startDate = new Date(`${date} ${start}`)
-        const endDate = new Date(`${date} ${end}`)
+        const startDate = new Date(`${date}T${start}`)
+        const endDate = new Date(`${date}T${end}`)
+
         const weekEnds = startDate.getDay() === 0 || startDate.getDay() === 6
+        
         const diffHours = (endDate - startDate) / (1000 * 60 * 60)
         const lotRates = lotID.dataset
         let rate = 0, max = 0
         if (weekEnds) {
-          rate = parseFloat(rates.weekendPrice)
-          max = parseFloat(lotRates.weekendMaxPrice)
-        }else if (start >= "08:00" && start < "18:00"){
+          rate = parseFloat(lotRates.weekendPrice)
+          max = parseFloat(lotRates.weekendMax)
+        }else if (start >= lotRates.daytimeStart && start < lotRates.daytimeEnd){
           rate = parseFloat(lotRates.daytimePrice)
-          max = parseFloat(lotRates.daytimeMaxPrice)
+          max = parseFloat(lotRates.daytimeMax)
         }else {
           rate = parseFloat(lotRates.eveningPrice)
-          max = parseFloat(lotRates.eveningMaxPrice)
+          max = parseFloat(lotRates.eveningMax)
         }
         const total = Math.min(diffHours * rate, max)
         document.getElementById("total-cost").value = `${total.toFixed(2)}`
@@ -214,32 +212,6 @@
     document.getElementById("end-time").addEventListener("change", calculateCost)
     document.getElementById("lot-select").addEventListener("change", calculateCost)
 
-  </script>
-  <script>
-    //script for date format for database
-    const entireForm = document.getElementById("create-form")
-    entireForm.addEventListener("submit", function(_){
-      //prevents the submit buttion from submitting everthing automatically 
-      _.preventDefault()
-
-      //current values of each input
-      const date = document.getElementById("reserve-date").value
-      const start = document.getElementById("start-time").value
-      const end = document.getElementById("end-time").value
-
-      if (!date || !start || !end) {
-        alert("Please fill in every form field")
-        return
-      }
-      //overwrites the current value in start and end to include the date
-      document.getElementById("start-time").value = `${date} ${start}:00`
-      document.getElementById("end-time").value = `${date} ${end}:00`
-
-      console.log(document.getElementById("start-time").value)
-      console.log(document.getElementById("end-time").value)
-      //submits all changes 
-      this.submit()
-    })
   </script>
   </body>
 </html>
