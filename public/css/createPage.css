@@ -1,0 +1,167 @@
+body {
+  background: #f4f7fb;
+}
+
+.entire-page {
+  flex: 1;
+  width: min(980px, calc(100% - 2rem));
+  margin: 2rem auto 3rem;
+}
+
+.heading-title {
+  min-height: 86px;
+  margin-bottom: 1rem;
+  padding: 1.4rem 1.6rem;
+  background: #003366;
+  border-radius: 8px;
+  color: white;
+}
+
+.heading-title::before {
+  content: "New Reservation";
+  display: block;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: bold;
+  line-height: 1.15;
+}
+
+.heading-title::after {
+  content: "Choose a lot, stall, and time for your Downtown Campus parking.";
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.95rem;
+}
+
+.entire-form {
+  margin: 0;
+}
+
+.form-styles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.user-info,
+.time-info,
+.btn-area {
+  background: white;
+  border: 1px solid #dfe6f0;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(15, 35, 60, 0.06);
+}
+
+.user-info,
+.time-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.25rem;
+}
+
+.user-info h4,
+.time-info h4 {
+  margin: 0 0 0.6rem;
+  color: #102f54;
+  font-size: 1.05rem;
+}
+
+.user-info p,
+.time-info p {
+  margin: 0.45rem 0 0.15rem;
+  color: #42566f;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.form-styles input,
+.form-styles select {
+  width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #cbd6e2;
+  border-radius: 6px;
+  background: white;
+  color: #15263a;
+  font-size: 0.95rem;
+}
+
+.form-styles input:focus,
+.form-styles select:focus {
+  outline: 3px solid rgba(14, 106, 197, 0.18);
+  border-color: #0e6ac5;
+}
+
+#total-cost {
+  color: #0b5cad;
+  font-weight: bold;
+}
+
+.btn-area {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+
+.btn-area a,
+.btn-area button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-area a {
+  color: #102f54;
+  background: #eef3f8;
+  border: 1px solid #cbd6e2;
+}
+
+.btn-area a:hover {
+  background: #e1e9f2;
+}
+
+.btn-area .submit {
+  color: white;
+  background: #16803a;
+}
+
+.btn-area .submit:hover {
+  background: #11652e;
+}
+
+body > p,
+.entire-page > p {
+  width: min(980px, calc(100% - 2rem));
+  margin: 1rem auto;
+  color: #ba2636 !important;
+}
+
+@media (max-width: 760px) {
+  .form-styles {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-area {
+    justify-content: stretch;
+  }
+
+  .btn-area a,
+  .btn-area button {
+    width: 100%;
+  }
+}
