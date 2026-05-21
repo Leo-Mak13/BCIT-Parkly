@@ -1,269 +1,108 @@
-/*
-reservation styles
-*/
-
-html,
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #f4f7fb;
 }
 
-main {
-  position: relative;
+.entire-page {
   flex: 1;
+  width: min(920px, calc(100% - 2rem));
+  margin: 2rem auto 3rem;
 }
 
-/* --- HEADER BAR ---*/
-header {
-  background-color: #003366;
+.header-title {
+  margin-bottom: 1rem;
+  padding: 1.4rem 1.6rem;
+  background: #003366;
+  border-radius: 8px;
   color: white;
-  display: flex;
-  align-items: stretch;
-  padding: 0 1.5rem;
-  height: 60px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  position: relative;
-  flex-shrink: 0;
 }
 
-/*BCIT logo*/
-header img {
-  background-color: white;
-  border-radius: 3px;
-  height: 40px;
-  margin: 10px 10px;
-}
-
-/*Header title and subtitle*/
-.header-titles {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 2px;
-  margin-right: 2.5rem;
-}
-
-/*BCIT Parkly title*/
-header h2 {
+.header-title h1 {
   margin: 0;
-  font-size: 1.1rem;
-  margin-right: 2.5rem;
-  white-space: nowrap;
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  line-height: 1.15;
 }
 
-/*BCIT Downtown campus subtitle*/
-header h6 {
+.header-title::after {
+  content: "Update the vehicle, lot, stall, or cost details for this reservation.";
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.95rem;
+}
+
+.entire-forms {
+  display: block;
   margin: 0;
-  opacity: 0.7;
-  font-weight: normal;
 }
 
-/*Header page tabs*/
-.header-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+.form-content {
+  background: white;
+  border: 1px solid #dfe6f0;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(15, 35, 60, 0.06);
 }
 
-/*Tab links in header (Find Parking, My Reservations, ...)*/
-.header-tabs a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  text-decoration: none;
-  font-size: 0.8rem;
+.form-content form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1rem;
+  padding: 1.25rem;
+}
+
+.form-content p {
+  margin: 0.25rem 0 0;
+  color: #42566f;
+  font-size: 0.9rem;
   font-weight: bold;
-  padding: 0 5px;
-  opacity: 0.7;
-  transition: border-bottom 0.2s ease;
-  border-bottom: 3px solid transparent;
 }
 
-/* The hover effect for header tabs */
-.header-tabs a:hover {
-  opacity: 1;
-  border-bottom: 3px solid white;
+.form-content input,
+.form-content select {
+  width: 100%;
+  min-height: 40px;
+  box-sizing: border-box;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #cbd6e2;
+  border-radius: 6px;
+  background: white;
+  color: #15263a;
+  font-size: 0.95rem;
 }
 
-/*Sign in button at the top rigth of the screen*/
-.sign-in-btn {
+.form-content input:focus,
+.form-content select:focus {
+  outline: 3px solid rgba(14, 106, 197, 0.18);
+  border-color: #0e6ac5;
+}
+
+.form-content .submit {
+  grid-column: 1 / -1;
+  justify-self: end;
+  min-height: 38px;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 6px;
   color: white;
-  background-color: #315887;
-  border-radius: 5px;
-  border: rgb(171, 171, 171) 1px solid;
-  align-self: center;
-  margin-left: auto;
-  padding: 8px 10px;
-  align-items: center;
-  font-size: 14px;
+  background: #16803a;
+  font-size: 0.9rem;
   font-weight: bold;
   cursor: pointer;
 }
 
-/*When hovering over the sign in button*/
-.sign-in-btn:hover {
-  background-color: #6889aa;
-  transition: 0.5s ease;
+.form-content .submit:hover {
+  background: #11652e;
 }
 
-/*--- BREADCRUM BAR ---*/
-/*The white breadcrum bar under the main blue header bar*/
-.breadcrumb-bar {
-  background-color: white;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  padding: 0 1.5rem;
-  flex-shrink: 0;
+.entire-page > p {
+  color: #ba2636 !important;
 }
 
-.subheading {
-  display: flex;
-  align-items: center;
-  font-size: 0.75rem;
-}
+@media (max-width: 760px) {
+  .form-content form {
+    grid-template-columns: 1fr;
+  }
 
-.subheading span {
-  opacity: 0.7;
-}
-
-/*The seperator between the current page link and name*/
-.subheading .seperator {
-  padding: 0 8px;
-}
-
-/*The current page link*/
-.subheading a {
-  text-decoration: none;
-  color: #003366;
-}
-
-/*When hovering over the current page link*/
-.subheading a:hover {
-  text-decoration: underline;
-}
-
-/*Main div body wrapper for the app*/
-.app-container {
-  display: flex;
-  flex-direction: row;
-  min-height: calc(100vh - 95px);
-  flex-shrink: 0;
-  width: 100%;
-}
-
-/*--- THE FOOTER SECTION ---*/
-footer {
-  background-color: #003366;
-  color: white;
-  width: 100%;
-  flex-shrink: 0;
-  z-index: 10;
-  position: relative;
-}
-
-/*Main footer container*/
-.footer-container {
-  max-width: 1300px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 30px;
-  padding: 20px 20px;
-}
-
-/*Individual footer column*/
-.footer-col {
-  flex: 1;
-  min-width: 200px;
-}
-
-/*BCIT logo*/
-.footer-logo img {
-  height: 50px;
-  background-color: white;
-  margin-bottom: 15px;
-}
-
-/*Footer headers*/
-.footer-col h4 {
-  font-size: 13px;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-/*Footer column body paragraphs*/
-.footer-col p {
-  line-height: 1.4;
-  margin-bottom: 10px;
-  font-size: 13px;
-}
-
-/*Footer colum list*/
-.footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-col ul li {
-  margin-bottom: 5px;
-}
-
-.footer-col ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 13px;
-}
-
-/*When hovering over a footer column list item (link)*/
-.footer-col ul li a:hover {
-  text-decoration: underline;
-}
-
-/*Bottom legal bar*/
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 15px 0;
-}
-
-/*Footer bottom legal links*/
-.footer-bottom-links {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer-bottom-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 12px;
-}
-
-/*When hovering over footer bottom legal links*/
-.footer-bottom-links a:hover {
-  text-decoration: underline;
-}
-
-.entire-forms {
-  display: flex;
-  flex-direction: row;
-  margin: 5px 250px;
-  margin-top: 15px;
-}
-
-.lot {
-  border: 1px solid black;
+  .form-content .submit {
+    width: 100%;
+  }
 }
