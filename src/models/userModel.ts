@@ -57,6 +57,7 @@ async function get_user_by_id(id: number) {
   return stmt[0];
 }
 
+// returns a list of objects, ie. [ {email: ...}, {email: ...}, ...]
 async function get_all_emails() {
   const [stmt] = await pool.query(`SELECT email FROM customers`);
   return stmt;
