@@ -11,13 +11,11 @@ import { Request, Response } from "express";
 import { error } from "node:console";
 import { get } from "node:http";
 import { delete_reservation } from "../models/reserveModel.js";
-const devMode = process.env.MODE == "dev";
 
 async function viewAll(req: Request, res: Response) {
   try {
     if (req.user === null) {
       res.render("myReservations", {
-        devMode,
         error: "Error Log in to see reservations",
         reservations: [],
         user: req.user,
@@ -26,7 +24,6 @@ async function viewAll(req: Request, res: Response) {
       const UID = req.user.id;
       const reservations = await get_reservations(UID);
       res.render("myReservations", {
-        devMode,
         reservations,
         user: req.user,
         error: null,
@@ -46,7 +43,6 @@ async function viewOne(req: Request, res: Response) {
     const reservationID = req.params.reservation_id;
     const reservations = await get_reservation(reservationID);
     res.render("singleReservation", {
-      devMode,
       reservation: [reservations],
       user: req.user,
       error: null,
@@ -65,7 +61,6 @@ async function createPage(req: Request, res: Response) {
     const lots = await get_all_lots();
     const stalls = await get_stall_availability();
     res.render("newReservation", {
-      devMode,
       lots,
       stalls,
       user: req.user,
@@ -73,7 +68,6 @@ async function createPage(req: Request, res: Response) {
     });
   } catch (err) {
     res.status(500).render("newReservation", {
-      devMode,
       lots: [],
       stalls: [],
       error: err,
@@ -152,7 +146,6 @@ async function editPage(req: Request, res: Response) {
     const toEdit = await get_reservation(reserveID);
     console.log(toEdit);
     res.render("editReservationPage", {
-      devMode,
       toEdit,
       lots,
       stalls,
@@ -166,7 +159,7 @@ async function editPage(req: Request, res: Response) {
       user: req.user,
       lots: [],
       stalls: [],
-      devMode,
+
       toEdit: [],
     });
   }
