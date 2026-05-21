@@ -44,10 +44,10 @@ async function viewAll(req: Request, res: Response) {
 async function viewOne(req: Request, res: Response) {
   try {
     const reservationID = req.params.reservation_id;
-    const reservation = await get_reservation(reservationID);
+    const reservations = await get_reservation(reservationID);
     res.render("singleReservation", {
       devMode,
-      reservation,
+      reservation: [reservations],
       user: req.user,
       error: null,
     });
@@ -85,19 +85,50 @@ async function createPage(req: Request, res: Response) {
 async function createReservation(req: Request, res: Response) {
   try {
     const {
+      date_reserved,
       license_plate,
-      total_cost,
       start_time,
       end_time,
       lot_id,
       stall_id,
     } = req.body;
+
+    const lotRates = await get_all_lots();
+    const lot = lotRates.find((l) => l.lot_id == parseInt(lot_id));
+
+    const parseStart = `${date_reserved} ${start_time}:00`;
+    const parseEnd = `${date_reserved} ${end_time}:00`;
+
+    const end = new Date(`${date_reserved}T${end_time}`);
+    const start = new Date(`${date_reserved}T${start_time}`);
+
+    const diffHours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+    const weekEnds = start.getDay() === 0 || end.getDay() === 6;
+
+    let rate = 0,
+      max = 0;
+    if (weekEnds === true) {
+      rate = parseFloat(lot.weekendPrice);
+      max = parseFloat(lot.weekendMaxPrice);
+    } else if (
+      start >= lot.daytime_start_time &&
+      start < lot.daytime_end_time
+    ) {
+      rate = parseFloat(lot.daytimePrice);
+      max = parseFloat(lot.daytimeMaxPrice);
+    } else {
+      rate = parseFloat(lot.eveningPrice);
+      max = parseFloat(lot.eveningMaxPrice);
+    }
+
+    const total_cost = Math.min(diffHours * rate, max);
+
     const UID = await req.user.id;
     const create = await create_reservation(
       license_plate,
       total_cost,
-      start_time,
-      end_time,
+      parseStart,
+      parseEnd,
       lot_id,
       stall_id,
       UID,
@@ -142,26 +173,62 @@ async function editPage(req: Request, res: Response) {
 }
 
 async function editReservation(req: Request, res: Response) {
-  const { license_plate, total_cost, start_time, end_time, lot_id, stall_id } =
-    req.body;
   try {
+    const {
+      date_reserved,
+      license_plate,
+      start_time,
+      end_time,
+      lot_id,
+      stall_id,
+    } = req.body;
     const reservationID = (await req.params.reservation_id) as string;
-    console.log(reservationID);
+
+    const lotRates = await get_all_lots();
+    const lot = lotRates.find((l) => l.lot_id == parseInt(lot_id));
+
+    const parseStart = `${date_reserved} ${start_time}:00`;
+    const parseEnd = `${date_reserved} ${end_time}:00`;
+
+    const end = new Date(`${date_reserved}T${end_time}`);
+    const start = new Date(`${date_reserved}T${start_time}`);
+
+    const diffHours = (end.getTime() - start.getTime()) / (1000 * 60 * 60);
+    const weekEnds = start.getDay() === 0 || end.getDay() === 6;
+
+    let rate = 0,
+      max = 0;
+    if (weekEnds === true) {
+      rate = parseFloat(lot.weekendPrice);
+      max = parseFloat(lot.weekendMaxPrice);
+    } else if (
+      start >= lot.daytime_start_time &&
+      start < lot.daytime_end_time
+    ) {
+      rate = parseFloat(lot.daytimePrice);
+      max = parseFloat(lot.daytimeMaxPrice);
+    } else {
+      rate = parseFloat(lot.eveningPrice);
+      max = parseFloat(lot.eveningMaxPrice);
+    }
+
+    const total_cost = Math.min(diffHours * rate, max);
+
     const edit = await edit_reservation(
       license_plate,
       total_cost,
-      start_time,
-      end_time,
+      parseStart,
+      parseEnd,
       lot_id,
       stall_id,
       reservationID,
     );
     res.redirect(`/reserve/reservations/view/${reservationID}`);
   } catch (err) {
-    res.status(500).render("editReservationPage", {
+    res.status(500).render("sigleReservation", {
       error: err,
       user: req.user,
-      toEdit: [],
+      reservation: [],
     });
   }
 }

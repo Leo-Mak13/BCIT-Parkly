@@ -60,28 +60,50 @@
       <% } else { %>
       <div class="entire-forms">
           <div class="form-content">
-              <form action="/reserve/reservations/edit/<%= toEdit.reservation_id %>" method="post">
-              <p class="license-plate">Change license plate:</p>
-              <input type="text" name="license_plate" value="<%= toEdit.license_plate %>">
-              <p class="total-cost">Time reserving: </p>
-              <input id="pricing" class="payment" type="number" name="total_cost" value="<%= toEdit.total_cost %>">
-              <p>Cost: value here</p>
-              <p class="stall-area">Stall Area: </p>
-              <select type="text" name="stall_location" value="<%= toEdit.stall_location %>"> </select>
-              <p class="lot-location">Change lot:</p>
-              <select id="lot-select" type="text" name="lot_id" value="<%= toEdit.lot_id %>"> 
+              <form id="create-form" class="form-styles" action="/reserve/reservations/edit/<%= toEdit.reservation_id %>" method="post">
+              <div class="user-info">
+                <h4>Your information:</h4>
+                <p>Licence plate:</p>
+                <input type="text" name="license_plate" value="<%= toEdit.license_plate %>" required>
+                </select>
+                <p>Lot:</p>
+                <select id="lot-select" type="text" name="lot_id" required>
                 <% lots.forEach(lot => {%> 
-                  <option value="<%= lot.lot_id %>" selected="<%= toEdit.lot_id %>"><%= lot.lot_name %></option>
+                  <option value="<%= lot.lot_id %>" 
+                    data-day-price="<%= lot.daytimePrice %>" 
+                    data-day-max="<%= lot.daytimeMaxPrice %>" 
+                    data-day-start="<%= lot.daytime_start_time %>"
+                    data-day-end="<%= lot.daytime_end_time %>"
+                    data-evening-price="<%= lot.eveningPrice %>"
+                    data-evening-max="<%= lot.eveningMaxPrice %>"
+                    data-weekend-price="<%= lot.weekendPrice %>"
+                    data-weekend-max="<%= lot.weekendMaxPrice %>"
+                    selected="<%= lot.lot_id %>"><%= lot.lot_name %></option>
                   <%}) %>
-              </select>
-              <p class="stall-location">Change stall:</p>
-              <select id="stall-select" type="number" name="stall_id" value="<%= toEdit.stall_id %>">
+                </select> 
+                <p>Stall:</p>
+                <select id="stall-select" type="number" name="stall_id" required>
                 <% stalls.forEach(stall => {%> 
-                  <option class="stall-option" data-lot-id="<%= stall.lot_id %>" value="<%= stall.stall_id %>" selected="<%= toEdit.stall_id %>"><%= stall.stall_id %> - <%= stall.parking_type %></option>
+                  <option class="stall-option" data-lot-id="<%= stall.lot_id %>" value="<%= stall.stall_id %>" selected="<%= stall.stall_id %>"><%= stall.stall_id %> - <%= stall.parking_type %></option>
                   <%}) %>
-                 </select>
-              <button class="submit"type="submit">Submit changes</button>
-              </form>
+                </select>
+              </div>  
+              <div class="time-info">
+                <h4>Times:</h4>
+                <p>Date: </p>
+                <input id="reserve-date"type="date" name="date_reserved" value="<%= toEdit.start_time.toISOString().slice(0, 10) %>" required>
+                <p>Start time:</p>
+                <input id="start-time"type="time" name="start_time" value="<%= toEdit.start_time.toISOString().slice(11, 16) %>"required>
+                <p>End Time:</p>
+                <input id="end-time" type="time" name="end_time" value="<%= toEdit.end_time.toISOString().slice(11, 16) %>" required>
+                <input type="text" id="total-cost" readonly value="0.00">
+              </div>
+              <div class="btn-area">
+                <a href="/reserve/reservations">Back to reservations</a>
+                <a href="/">Back to main page</a>
+                <button class="submit" type="submit">Submit</button>
+              </div>
+            </form>
           </div>
       </div>
     <% } %>
@@ -140,30 +162,42 @@
         </div>
       </div>
     </footer>
-    <script>
-    
-    const selectLot = document.getElementById("lot-select")
-    const selectStall = document.getElementById("stall-select")
+  <script>
+    //script to calculate the cost of the time spent and limit the times selected
+    function calculateCost(){
+      const date = document.getElementById("reserve-date").value
+      const start = document.getElementById("start-time").value
+      const end = document.getElementById("end-time").value
+      const lotID = document.getElementById("lot-select").selectedOptions[0]
 
-    // makes an array where is queries all options
-    const optionSelect = Array.from(selectStall.querySelectorAll(".stall-option"))
+      if (date && start && end && lotID) {
+        const startDate = new Date(`${date}T${start}`)
+        const endDate = new Date(`${date}T${end}`)
 
-    
-    selectLot.addEventListener("change", function() {
-      // inputs the id of the selected lot to then query
-      const selectedLot = selectLot.value;
-      // default value in when there is no value selected
-      selectStall.innerHTML = '<option value="">-- Select a Stall --</option>';
+        const weekEnds = startDate.getDay() === 0 || startDate.getDay() === 6
+        
+        const diffHours = (endDate - startDate) / (1000 * 60 * 60)
+        const lotRates = lotID.dataset
+        let rate = 0, max = 0
+        if (weekEnds) {
+          rate = parseFloat(lotRates.weekendPrice)
+          max = parseFloat(lotRates.weekendMax)
+        }else if (start >= lotRates.daytimeStart && start < lotRates.daytimeEnd){
+          rate = parseFloat(lotRates.daytimePrice)
+          max = parseFloat(lotRates.daytimeMax)
+        }else {
+          rate = parseFloat(lotRates.eveningPrice)
+          max = parseFloat(lotRates.eveningMax)
+        }
+        const total = Math.min(diffHours * rate, max)
+        document.getElementById("total-cost").value = `${total.toFixed(2)}`
+      }
+    }
+    document.getElementById("reserve-date").addEventListener("change", calculateCost)
+    document.getElementById("start-time").addEventListener("change", calculateCost)
+    document.getElementById("end-time").addEventListener("change", calculateCost)
+    document.getElementById("lot-select").addEventListener("change", calculateCost)
 
-      optionSelect.forEach(function (option) {
-        //compares if the lot id of the stall matches the selected stall id
-          if (option.dataset.lotId === selectedLot){
-            //appends the stall if the lot_id's match
-            selectStall.appendChild(option)
-          }
-      })
-    })
-    selectLot.dispatchEvent(new Event("change"));
-    </script>
+  </script>
   </body>
 </html>
