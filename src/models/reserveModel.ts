@@ -14,7 +14,7 @@ async function get_reservations(id: string) {
 async function get_reservation(id: string) {
   const [output] = await pool.query(
     `
-        select customer_id, reservation_id,start_time, end_time, total_cost, purchase_date, parking_lots.lot_name, parking_lots.lot_floor, parking_stalls.parking_type, parking_lot_address.street, parking_lot_address.city, parking_lot_address.province FROM reservations
+        select customer_id, reservations.lot_id, reservations.stall_id,reservation_id,start_time, end_time, license_plate, total_cost, purchase_date, parking_lots.lot_name, parking_lots.lot_floor, parking_stalls.parking_type, parking_lot_address.street, parking_lot_address.city, parking_lot_address.province FROM reservations
         INNER JOIN parking_lots ON reservations.lot_id = parking_lots.lot_id
         INNER JOIN parking_stalls ON reservations.stall_id = parking_stalls.stall_id
         INNER JOIN parking_lot_address ON parking_lots.lot_id = parking_lot_address.lot_id
@@ -23,7 +23,7 @@ async function get_reservation(id: string) {
     [id],
   );
   console.log("in get_reservation", output);
-  return output;
+  return output[0];
 }
 
 async function edit_reservation(
