@@ -1,4 +1,0 @@
-"lot_id","lot_floor","lot_type","lot_capacity","street","city","province","postal_code","lot_availability","lat","lon"
-"1","P1","staff","100","3700 Willingdon Ave","Burnaby","BC","V5G3H2","available","49.2834540","-123.1152764"
-"2","P2","student","150","3700 Willingdon Ave","Burnaby","BC","V5G3H2","available","49.2834298","-123.1153750"
-"3","P3","public","200","3700 Willingdon Ave","Burnaby","BC","V5G3H2","available","",""
