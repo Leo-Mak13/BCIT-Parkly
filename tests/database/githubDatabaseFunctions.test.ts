@@ -91,17 +91,23 @@ describe("github database user functions", () => {
     assert.ok(createdCustomerId);
   });
 
-  it("connects create_user to the test database and reports the current schema mismatch", async () => {
+  it("connects create_user to the test database", async () => {
     const email = `github-db-create-user-${Date.now()}@example.com`;
 
     await create_customer("github", email, "6045559998", "student", "tester");
 
     try {
-      await assert.rejects(
-        create_user(email, "hashed-password"),
-        /customer_id/,
+      await create_user(email, "hashed-password");
+
+      const [users]: any = await pool.query(
+        "SELECT email, password_hash FROM users WHERE email = ?",
+        [email],
       );
+
+      assert.equal(users[0].email, email);
+      assert.equal(users[0].password_hash, "hashed-password");
     } finally {
+      await pool.query("DELETE FROM users WHERE email = ?", [email]);
       await pool.query("DELETE FROM customers WHERE email = ?", [email]);
     }
   });

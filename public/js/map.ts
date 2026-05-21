@@ -3,6 +3,8 @@
  * including dynamic marker and pop-up info window placement.
  */
 
+import { openDetailsPanel } from "./details.js";
+
 declare const parkingLotsData: any[];
 let timer: any; //global timer for info window pop-ups
 
@@ -139,6 +141,20 @@ function generateHTMLElement(lot: any): HTMLElement {
       <a class="iw-details-btn">Details →</a>
     </div>
   `;
+
+  // Find the button element inside the newly generated template wrapper
+  const detailsBtn = wrapper.querySelector(
+    ".iw-details-btn",
+  ) as HTMLButtonElement;
+
+  // Attach the click listener directly to the button element
+  if (detailsBtn) {
+    detailsBtn.addEventListener("click", (event: Event) => {
+      event.stopPropagation();
+      console.log("Map pop-up Details button clicked for lot:", lot.name);
+      openDetailsPanel(lot);
+    });
+  }
 
   return wrapper as HTMLElement;
 }
