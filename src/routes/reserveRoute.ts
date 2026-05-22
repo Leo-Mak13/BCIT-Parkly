@@ -6,6 +6,7 @@ import {
   createReservation,
   editPage,
   editReservation,
+  deleteReservation,
 } from "../controllers/reserveController.js";
 import { authValidation } from "../middleware/authMiddleware";
 
@@ -15,6 +16,8 @@ const router = express.Router();
 router.use(authValidation);
 
 router.get("/", viewAll);
+
+router.post("/delete/:reservation_id", deleteReservation);
 
 router.get("/view/:reservation_id", viewOne);
 

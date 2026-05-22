@@ -13,7 +13,8 @@ async function get_reservation(id: string) {
 async function create_reservation(
   license_plate: string,
   total_cost: number,
-  stall_location: string,
+  start_time: string,
+  end_time: string,
   lot_id: number,
   stall_id: number,
   customer_id: number,
@@ -21,7 +22,8 @@ async function create_reservation(
   const result = await db.create_reservation(
     license_plate,
     total_cost,
-    stall_location,
+    start_time,
+    end_time,
     lot_id,
     stall_id,
     customer_id,
@@ -29,10 +31,26 @@ async function create_reservation(
   return result;
 }
 
+async function get_stall_availability(id?: string) {
+  if (id) {
+    const result = await db.get_stall_availability(id);
+    return result;
+  } else {
+    const result = await db.get_stall_availability();
+    return result;
+  }
+}
+
+async function get_all_lots() {
+  const result = await db.get_all_lots();
+  return result;
+}
+
 async function edit_reservation(
   license_plate: string,
   total_cost: number,
-  stall_location: string,
+  start_time: string,
+  end_time: string,
   lot_id: number,
   stall_id: number,
   reservation_id: string,
@@ -40,11 +58,17 @@ async function edit_reservation(
   const result = await db.edit_reservation(
     license_plate,
     total_cost,
-    stall_location,
+    start_time,
+    end_time,
     lot_id,
     stall_id,
     reservation_id,
   );
+  return result;
+}
+
+async function delete_reservation(id: string) {
+  const result = await db.delete_reservation(id);
   return result;
 }
 
@@ -53,4 +77,7 @@ export {
   get_reservation,
   create_reservation,
   edit_reservation,
+  get_stall_availability,
+  get_all_lots,
+  delete_reservation,
 };
