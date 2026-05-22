@@ -47,8 +47,8 @@ export async function mapRowToParkingLot(): Promise<Map<number, ParkingLot>> {
           floor: Number(lot.lot_floor),
           type: lot.lot_type,
           capacity: lot.lot_capacity,
-          latitude: Number(Number(lot.lat).toFixed(2)),
-          longitude: Number(Number(lot.lon).toFixed(2)),
+          latitude: Number(Number(lot.lat)),
+          longitude: Number(Number(lot.lon)),
           validPermits: [lot.valid_permits],
           description:
             lot.lot_description.charAt(0).toUpperCase() +
