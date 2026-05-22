@@ -49,23 +49,21 @@
       </div>
     </section>
     <!-- reservation heading under breadcrumb bar -->
-    <div class="entire-page">
     <p style="color:red;"><%= error %></p>
+    <div class="entire-page">
       <div class="header-title">
         <h1>Edit your reservation</h1>
-
       </div>
-    <% if (locals.user === null) { %>  
+
+      <% if (locals.user === null) { %>  
         <p>Login to setup reservations!</p>
       <% } else { %>
-      <div class="entire-forms">
-          <div class="form-content">
-              <form id="create-form" class="form-styles" action="/reserve/reservations/edit/<%= toEdit.reservation_id %>" method="post">
+      <div class="entire-form">
+          <form id="edit-form" class="form-styles" action="/reserve/reservations/edit/<%= toEdit.reservation_id %>" method="post">
               <div class="user-info">
                 <h4>Your information:</h4>
                 <p>Licence plate:</p>
                 <input type="text" name="license_plate" value="<%= toEdit.license_plate %>" required>
-                </select>
                 <p>Lot:</p>
                 <select id="lot-select" type="text" name="lot_id" required>
                 <% lots.forEach(lot => {%> 
@@ -78,13 +76,13 @@
                     data-evening-max="<%= lot.eveningMaxPrice %>"
                     data-weekend-price="<%= lot.weekendPrice %>"
                     data-weekend-max="<%= lot.weekendMaxPrice %>"
-                    selected="<%= lot.lot_id %>"><%= lot.lot_name %></option>
+                    <%= lot.lot_id === toEdit.lot_id ? "selected" : "" %>><%= lot.lot_name %></option>
                   <%}) %>
                 </select> 
                 <p>Stall:</p>
                 <select id="stall-select" type="number" name="stall_id" required>
                 <% stalls.forEach(stall => {%> 
-                  <option class="stall-option" data-lot-id="<%= stall.lot_id %>" value="<%= stall.stall_id %>" selected="<%= stall.stall_id %>"><%= stall.stall_id %> - <%= stall.parking_type %></option>
+                  <option class="stall-option" data-lot-id="<%= stall.lot_id %>" value="<%= stall.stall_id %>" <%= stall.stall_id === toEdit.stall_id ? "selected" : "" %>><%= stall.stall_id %> - <%= stall.parking_type %></option>
                   <%}) %>
                 </select>
               </div>  
@@ -101,10 +99,9 @@
               <div class="btn-area">
                 <a href="/reserve/reservations">Back to reservations</a>
                 <a href="/">Back to main page</a>
-                <button class="submit" type="submit">Submit</button>
+                <button class="submit" type="submit">Save changes</button>
               </div>
             </form>
-          </div>
       </div>
     <% } %>
     </div>
