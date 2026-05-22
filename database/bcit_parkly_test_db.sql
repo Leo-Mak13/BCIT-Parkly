@@ -529,16 +529,22 @@ DROP EVENT IF EXISTS `free_stalls_on_reservation_expiry`;
 
 DELIMITER //
 CREATE EVENT `free_stalls_on_reservation_expiry`
-ON SCHEDULE EVERY 1 MINUTE
+ON SCHEDULE EVERY 10 SECOND
 DO
 BEGIN
+    -- free stall with no active reservation
     UPDATE parking_stalls
     SET occupied = FALSE
+    WHERE stall_id NOT IN (
+        SELECT stall_id FROM reservations WHERE stall_id IS NOT NULL AND start_time <= NOW() AND end_time > NOW()
+    );
+
+    -- occupy stall with active reservation
+    UPDATE parking_stalls
+    SET occupied = TRUE
     WHERE stall_id IN (
-        SELECT stall_id FROM reservations WHERE end_time < NOW()
-    )
-    AND stall_id NOT IN (
         SELECT stall_id FROM reservations WHERE start_time <= NOW() AND end_time > NOW()
     );
 END //
+
 DELIMITER ;
