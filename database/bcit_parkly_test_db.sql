@@ -111,11 +111,14 @@ CREATE TABLE `sessions` (
 ALTER TABLE customers AUTO_INCREMENT=1;
 
 -- INSERTS
+USE `bcit_parkly`;
+
 INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot_name) VALUES
     ('1', 6, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
     ('2', 10, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
     ('3', 67, 49.28541860364103, -123.11753337849295, 'Lot 4116', 'Diamond Parking'),
-    ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking');
+    ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
+    ('B1', 30, 49.28131977717858, -123.11024460254156, 'EasyPark Lot 2', 'EasyPark Lot');
 
 INSERT INTO customers (first_name, last_name, email, phone, valid_permits) VALUES
 ('Jordan', 'Patel', 'jordan.patel@example.com', '6045550107', 'student'),
@@ -302,7 +305,37 @@ INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (FALSE, 'electric', 4),
     (FALSE, 'electric', 4),
     (FALSE, 'electric', 4),
-    (FALSE, 'small', 4);
+    (FALSE, 'small', 4),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (TRUE,  'electric', 5),
+    (TRUE,  'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (FALSE, 'electric', 5),
+    (TRUE,  'small',    5),
+    (FALSE, 'small',    5),
+    (FALSE, 'small',    5),
+    (FALSE, 'small',    5),
+    (TRUE,  'handicap', 5),
+    (FALSE, 'handicap', 5);
 
 INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id) VALUES
     ('BC5J6K', 5.00, '2026-05-21 08:00:00', '2026-05-23 23:59:59', 1, 1, 1),
@@ -323,19 +356,33 @@ INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_i
     ('BC1W2X', 5.50, '2026-05-18 09:30:00', '2026-05-18 15:00:00', 3, 35, 8),
     ('BC2Y3Z', 7.00, '2026-05-18 08:00:00', '2026-05-18 15:00:00', 3, 36, 9),
     ('BC3A4B', 3.50, '2026-05-18 12:00:00', '2026-05-18 15:30:00', 4, 102, 10),
-    ('BC4C5D', 6.00, '2026-05-18 08:45:00', '2026-05-18 14:45:00', 4, 103, 11);
+    ('BC4C5D', 6.00, '2026-05-18 08:45:00', '2026-05-18 14:45:00', 4, 103, 11),
+    ('BC5F1G', 5.00, '2026-05-22 07:30:00', '2026-05-24 23:59:59', 5, 158, 1),
+    ('BC6H2J', 6.50, '2026-05-22 08:00:00', '2026-05-24 23:59:59', 5, 159, 2),
+    ('BC7K3L', 4.25, '2026-05-22 08:30:00', '2026-05-24 23:59:59', 5, 160, 3),
+    ('BC8M4N', 7.00, '2026-05-22 09:00:00', '2026-05-24 23:59:59', 5, 161, 4),
+    ('BC9P5Q', 5.75, '2026-05-22 09:30:00', '2026-05-24 23:59:59', 5, 162, 5),
+    ('BC0R6S', 3.50, '2026-05-22 10:00:00', '2026-05-24 23:59:59', 5, 163, 6),
+    ('BC1T7U', 8.00, '2026-05-22 07:00:00', '2026-05-24 23:59:59', 5, 174, 7),
+    ('BC2V8W', 6.25, '2026-05-22 10:30:00', '2026-05-24 23:59:59', 5, 175, 8),
+    ('BC3X9Y', 4.75, '2026-05-22 11:00:00', '2026-05-24 23:59:59', 5, 182, 9),
+    ('BC4Z0A', 5.50, '2026-05-22 11:30:00', '2026-05-24 23:59:59', 5, 186, 10);
+
 
 INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) VALUES
     ('555 Seymour St', 'Vancouver', 'BC', 'V6B 3H6', 1),
     ('619 Richards St', 'Vancouver', 'BC', 'V6B 5E3', 2),
     ('550 Hornby St 2E7', 'Vancouver', 'BC', 'V6C 2E7', 3),
-    ('666 Burrard St', 'Vancouver', 'BC', 'V6C 3P6', 4);
+    ('666 Burrard St', 'Vancouver', 'BC', 'V6C 3P6', 4),
+    ('550 Hornby St #2E7', 'Vancouver', 'BC', 'V6C 2E7', 5);
+
 
 INSERT INTO `parking_lot_schedules` (daytimePrice, daytimeRate, daytime_start_time, daytime_end_time, daytimeMaxPrice, eveningPrice, eveningRate, evening_start_time, evening_end_time, eveningMaxPrice, weekendPrice, weekendRate, weekend_start_time, weekend_end_time, weekendMaxPrice, rate_unit, lot_id) VALUES
     (5.00, 1.00, '08:00:00', '18:00:00', 25.00, 3.00, 1.00, '18:00:00', '00:00:00', 12.00, 2.50, 1.00, '06:00:00', '18:00:00', 10.00, 'hr', 1),
     (5.50, 1.00, '08:00:00', '18:00:00', 27.50, 3.25, 1.00, '18:00:00', '00:00:00', 13.00, 2.75, 1.00, '06:00:00', '18:00:00', 11.00, 'hr', 2),
     (4.75, 1.00, '07:00:00', '19:00:00', 24.00, 2.75, 1.00, '19:00:00', '07:00:00', 11.00, 2.25, 1.00, '06:00:00', '19:00:00', 9.00, 'hr', 3),
-    (6.00, 1.00, '08:00:00', '20:00:00', 30.00, 3.50, 1.00, '20:00:00', '08:00:00', 14.00, 3.00, 1.00, '06:00:00', '20:00:00', 12.00, 'hr', 4);
+    (6.00, 1.00, '08:00:00', '20:00:00', 30.00, 3.50, 1.00, '20:00:00', '08:00:00', 14.00, 3.00, 1.00, '06:00:00', '20:00:00', 12.00, 'hr', 4),
+    (5.25, 1.00, '08:00:00', '18:00:00', 26.00, 3.10, 1.00, '18:00:00', '00:00:00', 12.50, 2.60, 1.00, '06:00:00', '18:00:00', 10.50, 'hr', 5);
 
 INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
     (1, 'staff'),
@@ -345,7 +392,9 @@ INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
     (3, 'staff'),
     (3, 'student'),
     (4, 'staff'),
-    (4, 'student');
+    (4, 'student'),
+    (5, 'staff'),
+    (5, 'student');
 
 -- TRIGGERS
 
