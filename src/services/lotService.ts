@@ -16,7 +16,13 @@ export async function getLotAvailability(): Promise<ParkingLot[]> {
 
   for (const lot of lotsArray) {
     const occupancy = occupancyRows.find((r: any) => r.lot_id === lot.lotId);
-    const availableSpots = lot.capacity - occupancy.occupied;
+
+    let occupiedCount = 0;
+    if (occupancy) {
+      occupiedCount = occupancy.occupied;
+    }
+
+    const availableSpots = lot.capacity - occupiedCount;
 
     // Check lot availability based on number of available spots
     if (availableSpots == 0) {
