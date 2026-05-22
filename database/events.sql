@@ -11,6 +11,9 @@ BEGIN
     SET occupied = FALSE
     WHERE stall_id IN (
         SELECT stall_id FROM reservations WHERE end_time < NOW()
+    )
+    AND stall_id NOT IN (
+        SELECT stall_id FROM reservations WHERE start_time <= NOW() AND end_time > NOW()
     );
 END //
 DELIMITER ;
