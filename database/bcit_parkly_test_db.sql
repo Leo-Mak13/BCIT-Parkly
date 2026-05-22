@@ -118,7 +118,7 @@ INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot
     ('2', 10, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
     ('3', 67, 49.28541860364103, -123.11753337849295, 'Lot 4116', 'Diamond Parking'),
     ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
-    ('B1', 30, 49.28131977717858, -123.11024460254156, 'EasyPark Lot 2', 'EasyPark Lot');
+    ('B2', 30, 49.28131977717858, -123.11024460254156, 'EasyPark Lot 2', 'EasyPark Lot');
 
 INSERT INTO customers (first_name, last_name, email, phone, valid_permits) VALUES
 ('Jordan', 'Patel', 'jordan.patel@example.com', '6045550107', 'student'),
