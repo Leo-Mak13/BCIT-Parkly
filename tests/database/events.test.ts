@@ -21,7 +21,7 @@ describe("Event: free_stalls_on_reservation_expiry", () => {
         await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            ["TESTEXP", 5.0, "2020-01-01 08:00:00", "2020-01-01 10:00:00", 2, 60, 4],
+            ["TESTEXP", 5.0, "2020-01-01 08:00:00", "2020-01-01 10:00:00", 2, 16, 4],
         );
         await testPool.query(
             `UPDATE parking_stalls
@@ -35,7 +35,7 @@ describe("Event: free_stalls_on_reservation_expiry", () => {
         );
 
         const [stall]: any = await testPool.query(
-            `SELECT occupied FROM parking_stalls WHERE stall_id = 60`,
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 16`,
         );
 
         assert.ok(!stall[0].occupied);
@@ -45,7 +45,7 @@ describe("Event: free_stalls_on_reservation_expiry", () => {
         await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            ["TESTFUT", 5.0, "2099-01-01 08:00:00", "2099-01-01 10:00:00", 2, 60, 4],
+            ["TESTFUT", 5.0, "2099-01-01 08:00:00", "2099-01-01 10:00:00", 2, 16, 4],
         );
         await testPool.query(
             `UPDATE parking_stalls
@@ -59,7 +59,7 @@ describe("Event: free_stalls_on_reservation_expiry", () => {
         );
 
         const [stall]: any = await testPool.query(
-            `SELECT occupied FROM parking_stalls WHERE stall_id = 60`,
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 16`,
         );
 
         assert.ok(stall[0].occupied);
