@@ -109,6 +109,9 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     //success test
     it("should allow reserving free stalls when updating reservation", async () => {
         await testPool.query(
+            `UPDATE parking_stalls SET occupied = FALSE WHERE stall_id IN (60, 62)`,
+        );
+        await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
             ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
