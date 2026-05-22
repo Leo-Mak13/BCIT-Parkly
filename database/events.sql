@@ -4,7 +4,7 @@ USE `bcit_parkly`;
     -- runs every minute and unoccupies stalls whose reservation has expired
 DELIMITER //
 CREATE EVENT `free_stalls_on_reservation_expiry`
-ON SCHEDULE EVERY 1 MINUTE
+ON SCHEDULE EVERY 10 SECOND
 DO
 BEGIN
     UPDATE parking_stalls
