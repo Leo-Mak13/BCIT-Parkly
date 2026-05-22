@@ -2,11 +2,11 @@ body {
   background: #f4f7fb;
 }
 
-footer {
-  margin-top: auto;
+.reservation-view-page {
+  flex: 1;
 }
 
-body > div:first-of-type {
+.reservation-view-page > div:first-of-type {
   width: min(920px, calc(100% - 2rem));
   margin: 2rem auto 1rem;
   padding: 1.4rem 1.6rem;
@@ -16,12 +16,12 @@ body > div:first-of-type {
   color: white;
 }
 
-body > div:first-of-type h1 {
+.reservation-view-page > div:first-of-type h1 {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
 }
 
-body > div:first-of-type::after {
+.reservation-view-page > div:first-of-type::after {
   content: "Review the parking lot, stall type, time, and total cost.";
   display: block;
   margin-top: 0.35rem;

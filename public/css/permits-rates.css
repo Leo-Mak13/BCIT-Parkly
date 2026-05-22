@@ -1,5 +1,6 @@
-footer {
-  margin-top: auto;
+/* ── Page wrapper: keeps footer at the bottom with shared main.css chrome ── */
+.pr-page {
+  flex: 1;
 }
 
 /* ── Hero banner ── */
