@@ -177,6 +177,13 @@
       selectLot.dispatchEvent(new Event("change"));
   </script>
   <script>
+      // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
+  
+  // Set the min attribute to today
+  document.getElementById('reserve-date').setAttribute('min', today);
+  </script>
+  <script>
     //script to calculate the cost of the time spent and limit the times selected
     function calculateCost(){
       const date = document.getElementById("reserve-date").value

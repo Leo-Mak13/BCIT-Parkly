@@ -2,7 +2,11 @@ body {
   background: #f4f7fb;
 }
 
-body > div:first-of-type {
+.reservation-view-page {
+  flex: 1;
+}
+
+.reservation-view-page > div:first-of-type {
   width: min(920px, calc(100% - 2rem));
   margin: 2rem auto 1rem;
   padding: 1.4rem 1.6rem;
@@ -12,12 +16,12 @@ body > div:first-of-type {
   color: white;
 }
 
-body > div:first-of-type h1 {
+.reservation-view-page > div:first-of-type h1 {
   margin: 0;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
 }
 
-body > div:first-of-type::after {
+.reservation-view-page > div:first-of-type::after {
   content: "Review the parking lot, stall type, time, and total cost.";
   display: block;
   margin-top: 0.35rem;
@@ -71,6 +75,70 @@ body > div:first-of-type::after {
   font-weight: bold;
 }
 
+.reservation-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  padding-top: 0.25rem;
+}
+
+.reservation-actions form {
+  margin: 0;
+}
+
+.reservation-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.reservation-actions button {
+  min-height: 38px;
+  padding: 0 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.back-btn {
+  color: #102f54;
+  background: #eef3f8;
+  border: 1px solid #cbd6e2;
+}
+
+.back-btn:hover {
+  background: #e1e9f2;
+}
+
+.edit-btn {
+  color: white;
+  background: #0e6ac5;
+  border: 1px solid #0a549e;
+}
+
+.edit-btn:hover {
+  background: #0a549e;
+}
+
+.delete-btn {
+  color: white;
+  background: #ba2636;
+  border: 1px solid #951b28;
+}
+
+.delete-btn:hover {
+  background: #951b28;
+}
+
 @media (max-width: 760px) {
   .info-reservation {
     grid-template-columns: 1fr;
@@ -79,5 +147,12 @@ body > div:first-of-type::after {
 
   .column-name {
     display: none;
+  }
+
+  .reservation-actions,
+  .reservation-actions a,
+  .reservation-actions form,
+  .reservation-actions button {
+    width: 100%;
   }
 }

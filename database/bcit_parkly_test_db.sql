@@ -111,12 +111,13 @@ CREATE TABLE `sessions` (
 ALTER TABLE customers AUTO_INCREMENT=1;
 
 -- INSERTS
+
 INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot_name) VALUES
-    ('1', 58, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
-    ('2', 28, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
+    ('1', 6, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
+    ('2', 10, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
     ('3', 67, 49.28541860364103, -123.11753337849295, 'Lot 4116', 'Diamond Parking'),
     ('B1', 74, 49.28525142611815, -123.11953798092193, 'Precise ParkLink', 'Park Place Parking'),
-    ('B2', 57, 49.28045903416459, -123.11897398685132, 'Lot 055 - H&Y Mart', 'Parking Indigo Vancouver');
+    ('B2', 30, 49.28131977717858, -123.11024460254156, 'EasyPark Lot 2', 'EasyPark Lot');
 
 INSERT INTO customers (first_name, last_name, email, phone, valid_permits) VALUES
 ('Jordan', 'Patel', 'jordan.patel@example.com', '6045550107', 'student'),
@@ -153,84 +154,14 @@ INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (TRUE, 'handicap', 1),
     (TRUE, 'regular', 1),
     (TRUE, 'electric', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'small', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'handicap', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'regular', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
-    (TRUE, 'electric', 1),
     (TRUE, 'regular', 2),
-    (FALSE, 'regular', 2),
+    (TRUE, 'regular', 2),
     (TRUE, 'electric', 2),
-    (FALSE, 'electric', 2),
-    (TRUE, 'small', 2),
-    (FALSE, 'small', 2),
-    (TRUE, 'handicap', 2),
-    (FALSE, 'handicap', 2),
-    (TRUE, 'regular', 2),
-    (FALSE, 'regular', 2),
-    (TRUE, 'regular', 2),
-    (FALSE, 'electric', 2),
     (TRUE, 'electric', 2),
-    (FALSE, 'small', 2),
     (TRUE, 'small', 2),
-    (FALSE, 'handicap', 2),
-    (TRUE, 'handicap', 2),
-    (FALSE, 'regular', 2),
-    (TRUE, 'regular', 2),
-    (FALSE, 'regular', 2),
-    (TRUE, 'electric', 2),
-    (FALSE, 'electric', 2),
     (TRUE, 'small', 2),
-    (FALSE, 'small', 2),
     (TRUE, 'handicap', 2),
-    (FALSE, 'handicap', 2),
+    (TRUE, 'handicap', 2),
     (TRUE, 'regular', 2),
     (FALSE, 'regular', 2),
     (FALSE, 'regular', 3),
@@ -374,91 +305,88 @@ INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (FALSE, 'electric', 4),
     (FALSE, 'electric', 4),
     (FALSE, 'small', 4),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (TRUE,  'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (FALSE, 'regular',  5),
+    (TRUE,  'electric', 5),
+    (TRUE,  'electric', 5),
     (FALSE, 'electric', 5),
     (FALSE, 'electric', 5),
     (FALSE, 'electric', 5),
     (FALSE, 'electric', 5),
     (FALSE, 'electric', 5),
     (FALSE, 'electric', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'small', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (FALSE, 'handicap', 5),
-    (TRUE, 'regular', 5),
-    (TRUE, 'regular', 5),
-    (TRUE, 'electric', 5),
-    (TRUE, 'small', 5),
-    (TRUE, 'small', 5),
-    (TRUE, 'handicap', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'regular', 5),
-    (FALSE, 'electric', 5),
-    (FALSE, 'small', 5);
+    (TRUE,  'small',    5),
+    (FALSE, 'small',    5),
+    (FALSE, 'small',    5),
+    (FALSE, 'small',    5),
+    (TRUE,  'handicap', 5),
+    (FALSE, 'handicap', 5);
 
 INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id) VALUES
-    ('BC5J6K', 5.00, '2026-05-18 08:00:00', '2026-05-18 13:00:00', 1, 1, 1),
-    ('BC6L7M', 7.50, '2026-05-18 09:00:00', '2026-05-18 16:30:00', 1, 2, 2),
-    ('BC7N8P', 2.50, '2026-05-18 10:00:00', '2026-05-18 12:30:00', 1, 3, 3),
-    ('BC8Q9R', 6.50, '2026-05-18 07:30:00', '2026-05-18 14:00:00', 2, 9, 5),
-    ('BC9S0T', 8.00, '2026-05-18 08:15:00', '2026-05-18 16:15:00', 2, 10, 6),
-    ('BC0U1V', 4.00, '2026-05-18 11:00:00', '2026-05-18 15:00:00', 2, 11, 7),
-    ('BC1W2X', 5.50, '2026-05-18 09:30:00', '2026-05-18 15:00:00', 3, 17, 8),
-    ('BC2Y3Z', 7.00, '2026-05-18 08:00:00', '2026-05-18 15:00:00', 3, 18, 9),
-    ('BC3A4B', 3.50, '2026-05-18 12:00:00', '2026-05-18 15:30:00', 4, 25, 10),
-    ('BC4C5D', 6.00, '2026-05-18 08:45:00', '2026-05-18 14:45:00', 4, 26, 11),
-    ('BC5E6F', 5.25, '2026-05-18 10:30:00', '2026-05-18 15:45:00', 1, 7, 12);
-
+    -- Lot 1 (capacity 6): FULL -- 6 active reservations, each 2 days long
+    ('FULL01', 5.00, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 1, 1, 1),
+    ('FULL02', 7.50, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 1, 2, 2),
+    ('FULL03', 2.50, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 1, 3, 3),
+    ('FULL04', 5.25, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 1, 4, 4),
+    ('FULL05', 6.00, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 1, 5, 5),
+    ('FULL06', 4.50, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 1, 6, 6),
+    -- Lot 2 (capacity 10): LIMITED -- 9 active reservations, each 2 days long (1 stall free)
+    ('LIM01', 6.50, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 7, 1),
+    ('LIM02', 8.00, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 8, 2),
+    ('LIM03', 4.00, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 9, 3),
+    ('LIM04', 5.00, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 10, 4),
+    ('LIM05', 6.25, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 11, 5),
+    ('LIM06', 3.75, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 12, 6),
+    ('LIM07', 7.00, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 13, 7),
+    ('LIM08', 4.50, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 14, 8),
+    ('LIM09', 5.50, '2026-05-21 12:00:00', '2026-05-23 12:00:00', 2, 15, 9),
+    -- Lot 3 (capacity 67): AVAILABLE -- mix of active and inactive
+    ('ACT301', 5.00, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 3, 17, 1),  -- active
+    ('ACT302', 6.50, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 3, 18, 2),  -- active
+    ('ACT303', 4.25, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 3, 19, 3),  -- active
+    ('EXP301', 7.00, '2026-05-18 08:00:00', '2026-05-19 18:00:00', 3, 20, 4),  -- inactive (expired)
+    ('FUT301', 5.75, '2026-05-25 08:00:00', '2026-05-27 18:00:00', 3, 21, 5),  -- inactive (future)
+    -- Lot 4 (capacity 74): AVAILABLE -- mix of active and inactive
+    ('ACT401', 3.50, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 4, 84, 6),  -- active
+    ('ACT402', 8.00, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 4, 85, 7),  -- active
+    ('ACT403', 6.25, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 4, 86, 8),  -- active
+    ('EXP401', 4.75, '2026-05-18 08:00:00', '2026-05-19 18:00:00', 4, 87, 9),  -- inactive (expired)
+    ('FUT401', 5.50, '2026-05-25 08:00:00', '2026-05-27 18:00:00', 4, 88, 10), -- inactive (future)
+    -- Lot 5 (capacity 30): AVAILABLE -- mix of active and inactive
+    ('ACT501', 5.00, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 5, 158, 11), -- active
+    ('ACT502', 6.50, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 5, 159, 12), -- active
+    ('ACT503', 4.25, '2026-05-21 09:00:00', '2026-05-23 09:00:00', 5, 160, 1),  -- active
+    ('EXP501', 7.00, '2026-05-18 08:00:00', '2026-05-19 18:00:00', 5, 161, 2),  -- inactive (expired)
+    ('FUT501', 5.75, '2026-05-25 08:00:00', '2026-05-27 18:00:00', 5, 162, 3);  -- inactive (future)
 
 INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) VALUES
     ('555 Seymour St', 'Vancouver', 'BC', 'V6B 3H6', 1),
     ('619 Richards St', 'Vancouver', 'BC', 'V6B 5E3', 2),
     ('550 Hornby St 2E7', 'Vancouver', 'BC', 'V6C 2E7', 3),
     ('666 Burrard St', 'Vancouver', 'BC', 'V6C 3P6', 4),
-    ('550 Robson St', 'Vancouver', 'BC', 'V6B 2B7', 5);
+    ('550 Hornby St #2E7', 'Vancouver', 'BC', 'V6C 2E7', 5);
+
 
 INSERT INTO `parking_lot_schedules` (daytimePrice, daytimeRate, daytime_start_time, daytime_end_time, daytimeMaxPrice, eveningPrice, eveningRate, evening_start_time, evening_end_time, eveningMaxPrice, weekendPrice, weekendRate, weekend_start_time, weekend_end_time, weekendMaxPrice, rate_unit, lot_id) VALUES
     (5.00, 1.00, '08:00:00', '18:00:00', 25.00, 3.00, 1.00, '18:00:00', '00:00:00', 12.00, 2.50, 1.00, '06:00:00', '18:00:00', 10.00, 'hr', 1),
     (5.50, 1.00, '08:00:00', '18:00:00', 27.50, 3.25, 1.00, '18:00:00', '00:00:00', 13.00, 2.75, 1.00, '06:00:00', '18:00:00', 11.00, 'hr', 2),
     (4.75, 1.00, '07:00:00', '19:00:00', 24.00, 2.75, 1.00, '19:00:00', '07:00:00', 11.00, 2.25, 1.00, '06:00:00', '19:00:00', 9.00, 'hr', 3),
     (6.00, 1.00, '08:00:00', '20:00:00', 30.00, 3.50, 1.00, '20:00:00', '08:00:00', 14.00, 3.00, 1.00, '06:00:00', '20:00:00', 12.00, 'hr', 4),
-    (5.25, 1.00, '07:00:00', '19:00:00', 26.00, 3.00, 1.00, '19:00:00', '07:00:00', 12.00, 2.50, 1.00, '06:00:00', '19:00:00', 10.00, 'hr', 5);
+    (5.25, 1.00, '08:00:00', '18:00:00', 26.00, 3.10, 1.00, '18:00:00', '00:00:00', 12.50, 2.60, 1.00, '06:00:00', '18:00:00', 10.50, 'hr', 5);
 
 INSERT INTO `parking_lot_valid_permits` (lot_id, valid_permits) VALUES
     (1, 'staff'),
@@ -597,4 +525,30 @@ BEGIN
         WHERE stall_id = NEW.stall_id;
     END IF;
 END //
+DELIMITER ;
+
+-- events
+
+DROP EVENT IF EXISTS `free_stalls_on_reservation_expiry`;
+
+DELIMITER //
+CREATE EVENT `free_stalls_on_reservation_expiry`
+ON SCHEDULE EVERY 10 SECOND
+DO
+BEGIN
+    -- free stall with no active reservation
+    UPDATE parking_stalls
+    SET occupied = FALSE
+    WHERE stall_id NOT IN (
+        SELECT stall_id FROM reservations WHERE stall_id IS NOT NULL AND start_time <= NOW() AND end_time > NOW()
+    );
+
+    -- occupy stall with active reservation
+    UPDATE parking_stalls
+    SET occupied = TRUE
+    WHERE stall_id IN (
+        SELECT stall_id FROM reservations WHERE start_time <= NOW() AND end_time > NOW()
+    );
+END //
+
 DELIMITER ;
