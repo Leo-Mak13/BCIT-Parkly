@@ -89,11 +89,19 @@
               <div class="time-info">
                 <h4>Times:</h4>
                 <p>Date: </p>
-                <input id="reserve-date"type="date" name="date_reserved" value="<%= toEdit.start_time.toISOString().slice(0, 10) %>" required>
+                <input id="reserve-date"type="date" name="date_reserved" value="<%= toEdit.start_time.toLocaleDateString('en-CA') %>" required>
                 <p>Start time:</p>
-                <input id="start-time"type="time" name="start_time" value="<%= toEdit.start_time.toISOString().slice(11, 16) %>"required>
+                <input id="start-time"type="time" name="start_time" value="<%= toEdit.start_time.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+                }) %>" required>
                 <p>End Time:</p>
-                <input id="end-time" type="time" name="end_time" value="<%= toEdit.end_time.toISOString().slice(11, 16) %>" required>
+                <input id="end-time" type="time" name="end_time" value="<%= toEdit.end_time.toLocaleTimeString('en-GB', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+                }) %>" required>
                 <input type="text" id="total-cost" readonly value="0.00">
               </div>
               <div class="btn-area">
@@ -159,6 +167,13 @@
         </div>
       </div>
     </footer>
+  <script>
+      // Get today's date
+  const today = new Date().toISOString().split('T')[0];
+  
+  // Set the min attribute to today
+  document.getElementById('reserve-date').setAttribute('min', today);
+  </script>
   <script>
     //script to calculate the cost of the time spent and limit the times selected
     function calculateCost(){
