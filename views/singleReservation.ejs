@@ -48,46 +48,48 @@
         <span class="current-pg">myReservations</span>
       </div>
     </section>
-    <!-- reservation heading under breadcrumb bar -->
-     <div>
-     <h1>Your Reservation</h1>
-     </div>
-        <div class="induvidual-reservation">
-        <% reservation.forEach(info => { %>
-          <div class="info-reservation">
-            <div class="column-name">
-            <p>Lot floor: </p>
-            <p>Lot name: </p>
-            <p>Stall ID: </p>
-            <p>Stall type: </p>
-            <p>License plate: </p>
-            <p>Purchase date: </p>
-            <p>Start date:</p>
-            <p>End date:</p>
-            <p>Cost: </p>
-            </div>
-            <div class="column-info">
-              <p><%= info.lot_floor %></p>
-              <p><%= info.lot_name %></p>
-              <p><%= info.stall_id %></p>
-              <p><%= info.parking_type %></p>
-              <p><%= info.license_plate %></p>
-              <p><%= info.purchase_date %></p>
-              <p><%= info.start_time %></p>
-              <p><%= info.end_time %></p>
-              <p>$<%= info.total_cost %></p>
+    <main class="reservation-view-page">
+      <!-- reservation heading under breadcrumb bar -->
+       <div>
+       <h1>Your Reservation</h1>
+       </div>
+          <div class="induvidual-reservation">
+          <% reservation.forEach(info => { %>
+            <div class="info-reservation">
+              <div class="column-name">
+              <p>Lot floor: </p>
+              <p>Lot name: </p>
+              <p>Stall ID: </p>
+              <p>Stall type: </p>
+              <p>License plate: </p>
+              <p>Purchase date: </p>
+              <p>Start date:</p>
+              <p>End date:</p>
+              <p>Cost: </p>
+              </div>
+              <div class="column-info">
+                <p><%= info.lot_floor %></p>
+                <p><%= info.lot_name %></p>
+                <p><%= info.stall_id %></p>
+                <p><%= info.parking_type %></p>
+                <p><%= info.license_plate %></p>
+                <p><%= info.purchase_date %></p>
+                <p><%= info.start_time %></p>
+                <p><%= info.end_time %></p>
+                <p>$<%= info.total_cost %></p>
 
+              </div>
+              <div class="reservation-actions">
+                <a class="back-btn" href="/reserve/reservations">Go back</a>
+                <a class="edit-btn" href="/reserve/reservations/edit/<%= info.reservation_id %>">Edit reservation</a>
+                <form method="post" action="/reserve/reservations/delete/<%= info.reservation_id %>" onsubmit="return confirm('are you sure you want to cancel?')">
+                  <button class="delete-btn" type="submit">Delete reservation</button>
+                </form>
+              </div>
             </div>
-            <div class="reservation-actions">
-              <a class="back-btn" href="/reserve/reservations">Go back</a>
-              <a class="edit-btn" href="/reserve/reservations/edit/<%= info.reservation_id %>">Edit reservation</a>
-              <form method="post" action="/reserve/reservations/delete/<%= info.reservation_id %>" onsubmit="return confirm('are you sure you want to cancel?')">
-                <button class="delete-btn" type="submit">Delete reservation</button>
-              </form>
-            </div>
+          <% }) %>
           </div>
-        <% }) %>
-        </div>
+    </main>
     <footer>
       <div class="footer-container">
         <div class="footer-col">
