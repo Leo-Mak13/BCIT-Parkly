@@ -15,11 +15,7 @@ import { delete_reservation } from "../models/reserveModel.js";
 async function viewAll(req: Request, res: Response) {
   try {
     if (req.user === null) {
-      res.render("myReservations", {
-        error: "Error Log in to see reservations",
-        reservations: [],
-        user: req.user,
-      });
+      res.redirect("/users/login");
     } else {
       const UID = req.user.id;
       const reservations = await get_reservations(UID);
