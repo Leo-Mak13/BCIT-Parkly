@@ -111,6 +111,8 @@ CREATE TABLE `sessions` (
 ALTER TABLE customers AUTO_INCREMENT=1;
 
 -- INSERTS
+USE `bcit_parkly`;
+
 INSERT INTO parking_lots(lot_floor, lot_capacity, lat, lon, lot_description, lot_name) VALUES
     ('1', 58, 49.28350846808849, -123.11494653742396, 'BCIT Downtown Campus Lot', 'BCIT Campus Parking'),
     ('2', 28, 49.282255197149816, -123.11535548504304, 'Lot 1037', '619 Richards Street Lot'),
@@ -433,9 +435,9 @@ INSERT INTO parking_stalls (occupied, parking_type, lot_id) VALUES
     (FALSE, 'small', 5);
 
 INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id) VALUES
-    ('BC5J6K', 5.00, '2026-05-18 08:00:00', '2026-05-18 13:00:00', 1, 1, 1),
-    ('BC6L7M', 7.50, '2026-05-18 09:00:00', '2026-05-18 16:30:00', 1, 2, 2),
-    ('BC7N8P', 2.50, '2026-05-18 10:00:00', '2026-05-18 12:30:00', 1, 3, 3),
+    ('BC5J6K', 5.00, '2026-05-21 08:00:00', '2026-05-23 23:59:59', 1, 1, 1),
+    ('BC6L7M', 7.50, '2026-05-21 09:00:00', '2026-05-23 23:59:59', 1, 2, 2),
+    ('BC7N8P', 2.50, '2026-05-21 10:00:00', '2026-05-23 23:59:59', 1, 3, 3),
     ('BC8Q9R', 6.50, '2026-05-18 07:30:00', '2026-05-18 14:00:00', 2, 9, 5),
     ('BC9S0T', 8.00, '2026-05-18 08:15:00', '2026-05-18 16:15:00', 2, 10, 6),
     ('BC0U1V', 4.00, '2026-05-18 11:00:00', '2026-05-18 15:00:00', 2, 11, 7),
@@ -443,7 +445,7 @@ INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_i
     ('BC2Y3Z', 7.00, '2026-05-18 08:00:00', '2026-05-18 15:00:00', 3, 18, 9),
     ('BC3A4B', 3.50, '2026-05-18 12:00:00', '2026-05-18 15:30:00', 4, 25, 10),
     ('BC4C5D', 6.00, '2026-05-18 08:45:00', '2026-05-18 14:45:00', 4, 26, 11),
-    ('BC5E6F', 5.25, '2026-05-18 10:30:00', '2026-05-18 15:45:00', 1, 7, 12);
+    ('BC5E6F', 5.25, '2026-05-21 10:30:00', '2026-05-23 23:59:59', 1, 7, 12);
 
 
 INSERT INTO `parking_lot_address` (street, city, province, postal_code, lot_id) VALUES
@@ -601,6 +603,8 @@ DELIMITER ;
 
 -- events
 
+DROP EVENT IF EXISTS `free_stalls_on_reservation_expiry`;
+
 DELIMITER //
 CREATE EVENT `free_stalls_on_reservation_expiry`
 ON SCHEDULE EVERY 1 MINUTE
@@ -610,6 +614,9 @@ BEGIN
     SET occupied = FALSE
     WHERE stall_id IN (
         SELECT stall_id FROM reservations WHERE end_time < NOW()
+    )
+    AND stall_id NOT IN (
+        SELECT stall_id FROM reservations WHERE start_time <= NOW() AND end_time > NOW()
     );
 END //
 DELIMITER ;
