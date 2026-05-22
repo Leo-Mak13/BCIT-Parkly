@@ -8,7 +8,7 @@ body {
   margin: 2rem auto 3rem;
 }
 
-.header-title {
+.heading-title {
   min-height: 86px;
   margin-bottom: 1rem;
   padding: 1.4rem 1.6rem;
@@ -17,14 +17,16 @@ body {
   color: white;
 }
 
-.header-title h1 {
-  margin: 0;
+.heading-title::before {
+  content: "New Reservation";
+  display: block;
   font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: bold;
   line-height: 1.15;
 }
 
-.header-title::after {
-  content: "Update the lot, stall, and reservation details for Downtown Campus parking.";
+.heading-title::after {
+  content: "Choose a lot, stall, and time for your Downtown Campus parking.";
   display: block;
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.78);

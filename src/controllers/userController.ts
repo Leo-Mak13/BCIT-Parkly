@@ -64,7 +64,7 @@ export async function createNewUserHandler(req: Request, res: Response) {
       secondGoPassword,
       role,
     );
-    res.redirect("/users/confirmation");
+    res.redirect(`/users/confirmation?user=${email}`);
   } catch (error: any) {
     console.log(error);
     if (error instanceof PasswordMismatchError) {
@@ -167,10 +167,12 @@ export async function logOutUser(req: Request, res: Response) {
 
 export async function confirmationPage(req: Request, res: Response) {
   try {
+    const newestUser = req.query.user;
     res.render("confirmationSignUp", {
       devMode,
       error: null,
       user: req.user,
+      new_email: newestUser,
     });
   } catch (err) {
     res.status(500).render("login", {
