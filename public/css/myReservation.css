@@ -2,6 +2,10 @@ body {
   background: #f4f7fb;
 }
 
+.reservations-page {
+  flex: 1;
+}
+
 .reservation-heading {
   background-color: #003366;
   color: white;
@@ -20,12 +24,12 @@ body {
 }
 
 .reservation-create {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   min-height: 38px;
   width: fit-content;
-  margin: 1.35rem clamp(1rem, 12vw, 16rem) 0 auto;
+  margin: 1.35rem max(1rem, calc((100% - 960px) / 2)) 0 auto;
   padding: 0 1rem;
   color: white;
   background-color: #0e6ac5;
@@ -178,10 +182,6 @@ div > p[style*="red"] {
 }
 
 @media (max-width: 760px) {
-  .reservation-create {
-    margin-right: 1rem;
-  }
-
   .status {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

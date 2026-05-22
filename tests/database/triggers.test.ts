@@ -18,6 +18,9 @@ afterEach(async () => {
 
 describe("Trigger: prevent_reserving_occupied", () => {
     it("should prevent reserving occupied parking stalls", async () => {
+        await testPool.query(
+            `UPDATE parking_stalls SET occupied = TRUE WHERE stall_id = 1`,
+        );
         await assert.rejects(
             testPool.query(
                 `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id) 
@@ -60,11 +63,11 @@ describe("Trigger: occupy_stall_on_reservation", () => {
         await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 16, 4],
         );
 
         const [stall]: any = await testPool.query(
-            `SELECT occupied FROM parking_stalls WHERE stall_id = 60`,
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 16`,
         );
 
         assert.ok(stall[0].occupied);
@@ -76,7 +79,7 @@ describe("Trigger: unoccupy_stall_on_reservation_delete", () => {
         await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 16, 4],
         );
         await testPool.query(
             `DELETE FROM reservations WHERE license_plate = ?`,
@@ -84,7 +87,7 @@ describe("Trigger: unoccupy_stall_on_reservation_delete", () => {
         );
 
         const [stall]: any = await testPool.query(
-            `SELECT occupied FROM parking_stalls WHERE stall_id = 60`,
+            `SELECT occupied FROM parking_stalls WHERE stall_id = 16`,
         );
 
         assert.ok(!stall[0].occupied);
@@ -95,9 +98,15 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     //reject test
     it("should prevent reserving occupied stall when updating reservation", async () => {
         await testPool.query(
+            `UPDATE parking_stalls SET occupied = FALSE WHERE stall_id = 60`,
+        );
+        await testPool.query(
+            `UPDATE parking_stalls SET occupied = TRUE WHERE stall_id = 1`,
+        );
+        await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 3, 60, 4],
         );
         await assert.rejects(
             testPool.query(
@@ -109,9 +118,12 @@ describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     //success test
     it("should allow reserving free stalls when updating reservation", async () => {
         await testPool.query(
+            `UPDATE parking_stalls SET occupied = FALSE WHERE stall_id IN (60, 62)`,
+        );
+        await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
-            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 2, 60, 4],
+            ["TESTDD", 5.0, "2026-05-20 08:00:00", "2026-05-20 10:00:00", 3, 60, 4],
         );
         await testPool.query(
             `UPDATE reservations SET stall_id = ? WHERE license_plate = ?`,
