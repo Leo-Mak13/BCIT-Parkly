@@ -18,6 +18,9 @@ afterEach(async () => {
 
 describe("Trigger: prevent_reserving_occupied", () => {
     it("should prevent reserving occupied parking stalls", async () => {
+        await testPool.query(
+            `UPDATE parking_stalls SET occupied = TRUE WHERE stall_id = 1`,
+        );
         await assert.rejects(
             testPool.query(
                 `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id) 
@@ -94,6 +97,12 @@ describe("Trigger: unoccupy_stall_on_reservation_delete", () => {
 describe("Trigger: update_stall_occupancy_on_reservation_update", () => {
     //reject test
     it("should prevent reserving occupied stall when updating reservation", async () => {
+        await testPool.query(
+            `UPDATE parking_stalls SET occupied = FALSE WHERE stall_id = 60`,
+        );
+        await testPool.query(
+            `UPDATE parking_stalls SET occupied = TRUE WHERE stall_id = 1`,
+        );
         await testPool.query(
             `INSERT INTO reservations (license_plate, total_cost, start_time, end_time, lot_id, stall_id, customer_id)
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
