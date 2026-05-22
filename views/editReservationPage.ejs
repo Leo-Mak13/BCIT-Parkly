@@ -167,6 +167,31 @@
         </div>
       </div>
     </footer>
+   <script>
+      //script for lot and stall drop down menus
+    const selectLot = document.getElementById("lot-select")
+    const selectStall = document.getElementById("stall-select")
+
+    // makes an array where is queries all options
+    const optionSelect = Array.from(selectStall.querySelectorAll(".stall-option"))
+
+    
+    selectLot.addEventListener("change", function() {
+      // inputs the id of the selected lot to then query
+      const selectedLot = selectLot.value;
+      // default value in when there is no value selected
+      selectStall.innerHTML = '<option value="">-- Select a Stall --</option>';
+
+      optionSelect.forEach(function (option) {
+        //compares if the lot id of the stall matches the selected stall id
+          if (option.dataset.lotId === selectedLot){
+            //appends the stall if the lot_id's match
+            selectStall.appendChild(option)
+          }
+      })
+    })
+      selectLot.dispatchEvent(new Event("change"));
+  </script>
   <script>
       // Get today's date
   const today = new Date().toISOString().split('T')[0];

@@ -68,7 +68,7 @@ function populateDetailsPanel(lot) {
     // Wire up the Reserve button to go to the new reservation page for this lot
     const reserveBtn = document.querySelector(".reserve-now-btn");
     reserveBtn.onclick = () => {
-        window.location.href = "/reserve/reservations/new?lotId=" + lot.lotId;
+        window.location.href = "/reserve/reservations/create";
     };
 }
 /**
