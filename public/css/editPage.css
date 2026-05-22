@@ -4,11 +4,12 @@ body {
 
 .entire-page {
   flex: 1;
-  width: min(920px, calc(100% - 2rem));
+  width: min(980px, calc(100% - 2rem));
   margin: 2rem auto 3rem;
 }
 
 .header-title {
+  min-height: 86px;
   margin-bottom: 1rem;
   padding: 1.4rem 1.6rem;
   background: #003366;
@@ -23,41 +24,58 @@ body {
 }
 
 .header-title::after {
-  content: "Update the vehicle, lot, stall, or cost details for this reservation.";
+  content: "Update the lot, stall, and reservation details for Downtown Campus parking.";
   display: block;
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.78);
   font-size: 0.95rem;
 }
 
-.entire-forms {
-  display: block;
+.entire-form {
   margin: 0;
 }
 
-.form-content {
+.form-styles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.user-info,
+.time-info,
+.btn-area {
   background: white;
   border: 1px solid #dfe6f0;
   border-radius: 8px;
   box-shadow: 0 8px 22px rgba(15, 35, 60, 0.06);
 }
 
-.form-content form {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.9rem 1rem;
+.user-info,
+.time-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
   padding: 1.25rem;
 }
 
-.form-content p {
-  margin: 0.25rem 0 0;
+.user-info h4,
+.time-info h4 {
+  margin: 0 0 0.6rem;
+  color: #102f54;
+  font-size: 1.05rem;
+}
+
+.user-info p,
+.time-info p {
+  margin: 0.45rem 0 0.15rem;
   color: #42566f;
   font-size: 0.9rem;
   font-weight: bold;
 }
 
-.form-content input,
-.form-content select {
+.form-styles input,
+.form-styles select {
   width: 100%;
   min-height: 40px;
   box-sizing: border-box;
@@ -69,40 +87,79 @@ body {
   font-size: 0.95rem;
 }
 
-.form-content input:focus,
-.form-content select:focus {
+.form-styles input:focus,
+.form-styles select:focus {
   outline: 3px solid rgba(14, 106, 197, 0.18);
   border-color: #0e6ac5;
 }
 
-.form-content .submit {
+#total-cost {
+  color: #0b5cad;
+  font-weight: bold;
+}
+
+.btn-area {
   grid-column: 1 / -1;
-  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  padding: 1rem;
+}
+
+.btn-area a,
+.btn-area button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 38px;
   padding: 0 1rem;
   border: 0;
   border-radius: 6px;
-  color: white;
-  background: #16803a;
+  text-decoration: none;
   font-size: 0.9rem;
   font-weight: bold;
   cursor: pointer;
 }
 
-.form-content .submit:hover {
+.btn-area a {
+  color: #102f54;
+  background: #eef3f8;
+  border: 1px solid #cbd6e2;
+}
+
+.btn-area a:hover {
+  background: #e1e9f2;
+}
+
+.btn-area .submit {
+  color: white;
+  background: #16803a;
+}
+
+.btn-area .submit:hover {
   background: #11652e;
 }
 
+body > p,
 .entire-page > p {
+  width: min(980px, calc(100% - 2rem));
+  margin: 1rem auto;
   color: #ba2636 !important;
 }
 
 @media (max-width: 760px) {
-  .form-content form {
+  .form-styles {
     grid-template-columns: 1fr;
   }
 
-  .form-content .submit {
+  .btn-area {
+    justify-content: stretch;
+  }
+
+  .btn-area a,
+  .btn-area button {
     width: 100%;
   }
 }
