@@ -1,3 +1,7 @@
+footer {
+  margin-top: auto;
+}
+
 /* ── Hero banner ── */
 .hs-hero {
   background: linear-gradient(135deg, #003366 0%, #00509e 100%);
