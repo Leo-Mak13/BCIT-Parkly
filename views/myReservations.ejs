@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/myReservation.css" />
+  </head>
+  <body>
+    <header>
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
+      </div>
+
+      <!--Sign in button-->
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
+    </header>
+    </section>
+    <!--Breadcrum bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">myReservations</span>
+      </div>
+    </section>
+    <!-- reservation heading under breadcrumb bar -->
+    <div class="reservation-heading">
+      <h1>Reservations</h1>
+      <p>BCIT Downtown campus</p>
+    </div>
+    <a class="reservation-create " href="/reserve/reservations/create"> + New reservation</a>
+    <!-- buttons to see different versions -->
+    <% if (locals.user === null) { %>  
+        <p>Login to setup reservations!</p>
+      <% } else { %>
+    <div>
+    <div class="status">
+      <!-- ‼️‼️ I will eventually make it dynamic and show differnet reservations on click -->
+      <button class="status-buttons">Today</button>
+      <button class="status-buttons">Upcoming</button>
+      <button class="status-buttons">Past</button>
+    </div>
+    <!-- displays all the reservations under a specifc user dynamically -->
+    <p style="color:red;"><%= error %></p>
+    <div class="all-reservations">
+      <% reservations.forEach(reservation => { %>
+        <div class="induvidual-reservation">
+          <div class="info-reservation">
+            <h1 class="stall-location">L<%= reservation.lot_floor %> - <%= reservation.stall_id %></h1>
+            <p class="basic-info-reservation"><%= reservation.purchase_date %></p>
+            <p class="basic-info-reservation"><%= reservation.license_plate %></p>
+            <p class="basic-info-reservation">$<%= reservation.total_cost %></p>
+          </div>
+          <div class="reservation-btn">
+            <a class="view" href="/reserve/reservations/view/<%= reservation.reservation_id %>">View</a>
+            <a class="edit" href="/reserve/reservations/edit/<%= reservation.reservation_id %>">Edit</a>
+          </div>
+          <div class="reservation-btn">
+            <form method="post" action="/reserve/reservations/delete/<%= reservation.reservation_id %>" onsubmit="return confirm('are you sure you want to cancel?')">
+              <button class="cancel">Cancel</button>
+            </form>
+          </div>
+        </div>
+        <% }) %> 
+    </div>
+    </div>
+    <% } %>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom legal Bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+body {
+  background: #f4f7fb;
+}
+
+.reservation-heading {
+  background-color: #003366;
+  color: white;
+  padding: 2rem clamp(1.5rem, 8vw, 7rem) 1.6rem;
+}
+
+.reservation-heading h1 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.7rem, 3vw, 2.25rem);
+  line-height: 1.1;
+}
+
+.reservation-heading p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.reservation-create {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  width: fit-content;
+  margin: 1.35rem clamp(1rem, 12vw, 16rem) 0 auto;
+  padding: 0 1rem;
+  color: white;
+  background-color: #0e6ac5;
+  border: 1px solid #0a549e;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: bold;
+  box-shadow: 0 6px 16px rgba(14, 106, 197, 0.22);
+}
+
+.reservation-create:hover {
+  background-color: #0a549e;
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+  width: min(760px, calc(100% - 2rem));
+  margin: 1rem auto;
+  padding: 0.25rem;
+  background: #eaf0f7;
+  border-radius: 8px;
+}
+
+.status-buttons {
+  min-height: 36px;
+  padding: 0 1.1rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #42566f;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.status-buttons:hover,
+.status-buttons:focus {
+  color: #003366;
+  background: white;
+  outline: none;
+}
+
+.all-reservations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: min(960px, calc(100% - 2rem));
+  margin: 0 auto 3rem;
+}
+
+.induvidual-reservation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  background: white;
+  border: 1px solid #dfe6f0;
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(15, 35, 60, 0.06);
+}
+
+.induvidual-reservation:hover {
+  border-color: #c9d7e8;
+  box-shadow: 0 10px 24px rgba(15, 35, 60, 0.1);
+}
+
+.info-reservation {
+  flex: 1;
+  min-width: 220px;
+}
+
+.info-reservation p,
+.info-reservation h1 {
+  margin: 0;
+}
+
+.info-reservation .stall-location {
+  margin-bottom: 0.45rem;
+  color: #102f54;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  text-decoration: none;
+}
+
+.basic-info-reservation {
+  color: #536174;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.basic-info-reservation:last-child {
+  color: #0b5cad;
+  font-weight: bold;
+}
+
+.reservation-btn {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.reservation-btn form {
+  margin: 0;
+}
+
+.reservation-btn a,
+.reservation-btn button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 0.9rem;
+  border: 0;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.reservation-btn .view,
+.reservation-btn .edit {
+  background: #0e6ac5;
+}
+
+.reservation-btn .view:hover,
+.reservation-btn .edit:hover {
+  background: #0a549e;
+}
+
+.reservation-btn .cancel {
+  background: #ba2636;
+}
+
+.reservation-btn .cancel:hover {
+  background: #951b28;
+}
+
+body > p,
+div > p[style*="red"] {
+  width: min(960px, calc(100% - 2rem));
+  margin: 1rem auto;
+  color: #ba2636 !important;
+}
+
+@media (max-width: 760px) {
+  .reservation-create {
+    margin-right: 1rem;
+  }
+
+  .status {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .status-buttons {
+    padding: 0 0.35rem;
+  }
+
+  .induvidual-reservation {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reservation-btn,
+  .reservation-btn a,
+  .reservation-btn button,
+  .reservation-btn form {
+    width: 100%;
+  }
+}

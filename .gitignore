@@ -1,2 +1,8 @@
 .env
 node_modules
+testing.*
+*testing*
+week2*
+*notes*
+test.ejs
+test.ts

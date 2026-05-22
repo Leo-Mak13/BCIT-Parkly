@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Help &amp; Support – Parkly</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/help-support.css">
+  <script
+      src="https://kit.fontawesome.com/39589cb536.js"
+      crossorigin="anonymous"
+    ></script>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <a href="/>
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+    </a>
+    <div class="header-titles">
+      <h2>Parkly</h2>
+      <h6>Downtown Campus</h6>
+    </div>
+    <div class="header-tabs">
+      <a href="/">Find Parking</a>
+      <a href="/info/permits">Permits & Rates</a>
+      <a href="/reserve/reservations">My Reservations</a>
+      <a href="/info/help">Help & Support</a>
+    </div>
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
+  </header>
+
+  <!-- ===== BREADCRUMB ===== -->
+  <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">Help &amp; Support</span>
+      </div>
+    </section>
+
+  <!-- ===== PAGE ===== -->
+  <div class="hs-page">
+
+    <!-- Hero -->
+    <div class="hs-hero">
+      <h1>Help &amp; Support</h1>
+      <p>BCIT Downtown Campus — Parking help, FAQs, and contact information</p>
+    </div>
+
+    <!-- Content -->
+    <div class="hs-content">
+
+      <!-- ── Contact cards ── -->
+      <div class="hs-contact-row">
+
+        <div class="hs-contact-card">
+          <div class="hs-contact-card-icon">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <h3>Phone</h3>
+          <p>
+            <strong>604-434-5734</strong><br>
+            Monday – Friday<br>
+            8:00 am – 4:30 pm
+          </p>
+        </div>
+
+        <div class="hs-contact-card">
+          <div class="hs-contact-card-icon">
+            <i class="fa-solid fa-envelope"></i>
+          </div>
+          <h3>Email</h3>
+          <p>
+            <a href="mailto:parking@bcit.ca">parking@bcit.ca</a><br>
+            We respond within 1–2 business days.
+          </p>
+        </div>
+
+        <div class="hs-contact-card">
+          <div class="hs-contact-card-icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <h3>In Person</h3>
+          <p>
+            555 Seymour Street<br>
+            Vancouver, BC V6B 3H6<br>
+            Monday – Friday, 8:00 am – 4:30 pm
+          </p>
+        </div>
+
+      </div>
+
+      <!-- ── Contact form ── -->
+      <div class="hs-form-section">
+        <h2>Send Us a Message</h2>
+        <p>Fill out the form below and we will get back to you as soon as possible.</p>
+
+        <form onsubmit="submitContact(event)">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="contactFirst">First Name</label>
+              <input type="text" id="contactFirst" placeholder="John" required>
+            </div>
+            <div class="form-group">
+              <label for="contactLast">Last Name</label>
+              <input type="text" id="contactLast" placeholder="Doe" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contactEmail">Email Address</label>
+            <input type="email" id="contactEmail" placeholder="student@bcit.ca" required>
+          </div>
+          <div class="form-group">
+            <label for="contactSubject">Subject</label>
+            <select id="contactSubject">
+              <option value="">-- Select a topic --</option>
+              <option value="reservation">Reservation Issue</option>
+              <option value="payment">Payment / Billing</option>
+              <option value="permit">Permit Inquiry</option>
+              <option value="ticket">Parking Ticket</option>
+              <option value="ev">EV Charging</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contactMessage">Message</label>
+            <textarea id="contactMessage" rows="5" placeholder="Describe your issue or question..." required></textarea>
+          </div>
+          <button type="submit" class="hs-submit-btn">Send Message</button>
+        </form>
+      </div>
+
+    </div><!-- end hs-content -->
+  </div><!-- end hs-page -->
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <div class="footer-container">
+      <!-- Logo and address column -->
+      <div class="footer-col">
+        <div class="footer-logo">
+          <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+        </div>
+        <p>
+          3700 Willingdon Ave.
+          <br />
+          Burnaby, British Columbia
+          <br />
+          Canada V5G 3H2
+        </p>
+        <p>
+          604-434-5734
+          <br />
+          1-866-434-1610
+        </p>
+      </div>
+      <!-- Quick links column -->
+      <div class="footer-col">
+        <h4>QUICK LINKS</h4>
+        <ul>
+          <li><a href="#">Visit</a></li>
+          <li><a href="#">Apply Now</a></li>
+          <li><a href="#">Give</a></li>
+          <li><a href="#">News</a></li>
+          <li><a href="#">Events</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <!-- Campuses column -->
+      <div class="footer-col">
+        <h4>BCIT CAMPUSES</h4>
+        <ul>
+          <li><a href="#">Burnaby Campus</a></li>
+          <li><a href="#">Downtown Campus</a></li>
+          <li><a href="#">Marine Campus</a></li>
+          <li><a href="#">Aerospace Technology Campus</a></li>
+          <li><a href="#">Annacis Island Campus</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- Bottom legal Bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-links">
+        <a href="#">Copyright</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Accessibility</a>
+      </div>
+    </div>
+</footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const item = btn.closest('.hs-faq-item');
+      const isOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.hs-faq-item').forEach(i => i.classList.remove('open'));
+      // Toggle clicked
+      if (!isOpen) item.classList.add('open');
+    }
+
+    function submitContact(e) {
+      e.preventDefault();
+      alert('Message sent! We will get back to you within 1–2 business days.');
+      e.target.reset();
+    }
+  </script>
+
+</body>
+</html>

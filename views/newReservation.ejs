@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BCIT Parkly</title>
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/createPage.css" />
+  </head>
+  <body>
+    <header>
+      <a href="/"><img src="/assets/bcit-logo.png" alt="BCIT Logo" /></a>
+
+      <!--Header title and subtitle-->
+      <div class="header-titles">
+        <h2>Parkly</h2>
+        <h6>Downtown Campus</h6>
+      </div>
+
+      <!--Header tabs-->
+      <div class="header-tabs">
+        <a href="/">Find Parking</a>
+        <a href="/info/permits">Permits & Rates</a>
+        <a href="/reserve/reservations">My Reservations</a>
+        <a href="/info/help">Help & Support</a>
+      </div>
+
+      <!--Sign in button-->
+    <% if (locals.user === null) { %>
+    <a role="button" href="/users/login" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign In
+    </a>
+    <% } else { %>
+    <a role="button" href="/users/logout" class="sign-in-btn">
+    <i class="fa-solid fa-user"></i>
+    Sign Out
+    </a>
+    <% } %>
+    </header>
+    </section>
+    <!--Breadcrum bar under the header bar-->
+    <section class="breadcrumb-bar">
+      <div class="subheading">
+        <!--❗❗❗ WILL MAKE THIS DYNAMIC LATER ❗❗❗-->
+        <a href="/">Home</a>
+        <span class="seperator">›</span>
+        <span class="current-pg">myReservations</span>
+      </div>
+    </section>
+    <p style="color:red;"><%= error %></p>
+    <div class="entire-page">
+        <div class="heading-title"></div>
+        <div class="entire-form">
+            <form id="create-form" class="form-styles"action="/reserve/reservations/create" method="post">
+              <div class="user-info">
+                <h4>Your information:</h4>
+                <p>Licence plate:</p>
+                <input type="text" name="license_plate" required>
+                </select>
+                <p>Lot:</p>
+                <select id="lot-select" type="text" name="lot_id" required>
+                <% lots.forEach(lot => {%> 
+                  <option value="<%= lot.lot_id %>" 
+                    data-day-price="<%= lot.daytimePrice %>" 
+                    data-day-max="<%= lot.daytimeMaxPrice %>" 
+                    data-day-start="<%= lot.daytime_start_time %>"
+                    data-day-end="<%= lot.daytime_end_time %>"
+                    data-evening-price="<%= lot.eveningPrice %>"
+                    data-evening-max="<%= lot.eveningMaxPrice %>"
+                    data-weekend-price="<%= lot.weekendPrice %>"
+                    data-weekend-max="<%= lot.weekendMaxPrice %>"><%= lot.lot_name %></option>
+                  <%}) %>
+                </select> 
+                <p>Stall:</p>
+                <select id="stall-select" type="number" name="stall_id" required>
+                <% stalls.forEach(stall => {%> 
+                  <option class="stall-option" data-lot-id="<%= stall.lot_id %>" value="<%= stall.stall_id %>"><%= stall.stall_id %> - <%= stall.parking_type %></option>
+                  <%}) %>
+                </select>
+              </div>  
+              <div class="time-info">
+                <h4>Times:</h4>
+                <p>Date: </p>
+                <input id="reserve-date"type="date" name="date_reserved" required>
+                <p>Start time:</p>
+                <input id="start-time"type="time" name="start_time" required>
+                <p>End Time:</p>
+                <input id="end-time" type="time" name="end_time" required>
+                <input type="text" id="total-cost" readonly value="0.00">
+              </div>
+              <div class="btn-area">
+                <a href="/reserve/reservations">Back to reservations</a>
+                <a href="/">Back to main page</a>
+                <button class="submit" type="submit">Submit</button>
+              </div>
+            </form>
+        </div>
+    </div>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <div class="footer-logo">
+            <img src="/assets/bcit-logo.png" alt="BCIT Logo" />
+          </div>
+          <p>
+            3700 Willingdon Ave.
+            <br />
+            Burnaby, British Columbia
+            <br />
+            Canada V5G 3H2
+          </p>
+          <p>
+            604-434-5734
+            <br />
+            1-866-434-1610
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>QUICK LINKS</h4>
+          <ul>
+            <li><a href="#">Visit</a></li>
+            <li><a href="#">Apply Now</a></li>
+            <li><a href="#">Give</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>BCIT CAMPUSES</h4>
+          <ul>
+            <li><a href="#">Burnaby Campus</a></li>
+            <li><a href="#">Downtown Campus</a></li>
+            <li><a href="#">Marine Campus</a></li>
+            <li><a href="#">Aerospace Technology Campus</a></li>
+            <li><a href="#">Annacis Island Campus</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom legal Bar -->
+      <div class="footer-bottom">
+        <div class="footer-bottom-links">
+          <a href="#">Copyright</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </footer>
+    <script>
+      //script for lot and stall drop down menus
+    const selectLot = document.getElementById("lot-select")
+    const selectStall = document.getElementById("stall-select")
+
+    // makes an array where is queries all options
+    const optionSelect = Array.from(selectStall.querySelectorAll(".stall-option"))
+
+    
+    selectLot.addEventListener("change", function() {
+      // inputs the id of the selected lot to then query
+      const selectedLot = selectLot.value;
+      // default value in when there is no value selected
+      selectStall.innerHTML = '<option value="">-- Select a Stall --</option>';
+
+      optionSelect.forEach(function (option) {
+        //compares if the lot id of the stall matches the selected stall id
+          if (option.dataset.lotId === selectedLot){
+            //appends the stall if the lot_id's match
+            selectStall.appendChild(option)
+          }
+      })
+    })
+      selectLot.dispatchEvent(new Event("change"));
+  </script>
+  <script>
+      // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
+  
+  // Set the min attribute to today
+  document.getElementById('reserve-date').setAttribute('min', today);
+  </script>
+  <script>
+    //script to calculate the cost of the time spent and limit the times selected
+    function calculateCost(){
+      const date = document.getElementById("reserve-date").value
+      const start = document.getElementById("start-time").value
+      const end = document.getElementById("end-time").value
+      const lotID = document.getElementById("lot-select").selectedOptions[0]
+
+      if (date && start && end && lotID) {
+        const startDate = new Date(`${date}T${start}`)
+        const endDate = new Date(`${date}T${end}`)
+
+        const weekEnds = startDate.getDay() === 0 || startDate.getDay() === 6
+        
+        const diffHours = (endDate - startDate) / (1000 * 60 * 60)
+        const lotRates = lotID.dataset
+        let rate = 0, max = 0
+        if (weekEnds) {
+          rate = parseFloat(lotRates.weekendPrice)
+          max = parseFloat(lotRates.weekendMax)
+        }else if (start >= lotRates.daytimeStart && start < lotRates.daytimeEnd){
+          rate = parseFloat(lotRates.daytimePrice)
+          max = parseFloat(lotRates.daytimeMax)
+        }else {
+          rate = parseFloat(lotRates.eveningPrice)
+          max = parseFloat(lotRates.eveningMax)
+        }
+        const total = Math.min(diffHours * rate, max)
+        document.getElementById("total-cost").value = `${total.toFixed(2)}`
+      }
+    }
+    document.getElementById("reserve-date").addEventListener("change", calculateCost)
+    document.getElementById("start-time").addEventListener("change", calculateCost)
+    document.getElementById("end-time").addEventListener("change", calculateCost)
+    document.getElementById("lot-select").addEventListener("change", calculateCost)
+
+  </script>
+  </body>
+</html>
