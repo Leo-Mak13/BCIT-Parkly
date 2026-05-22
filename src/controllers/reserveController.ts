@@ -43,7 +43,7 @@ async function viewOne(req: Request, res: Response) {
     const reservationID = req.params.reservation_id;
     const reservations = await get_reservation(reservationID);
     res.render("singleReservation", {
-      reservation: [reservations],
+      reservation: reservations ? [reservations] : [],
       user: req.user,
       error: null,
     });
