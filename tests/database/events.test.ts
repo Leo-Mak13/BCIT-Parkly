@@ -69,7 +69,6 @@ describe("Event: free_stalls_on_reservation_expiry", () => {
         const [events]: any = await testPool.query(
             `SHOW EVENTS WHERE Name = 'free_stalls_on_reservation_expiry'`,
         );
-
         assert.equal(events.length, 1);
         assert.equal(events[0].Status, "ENABLED");
     });
