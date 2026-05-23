@@ -155,7 +155,7 @@ npm run dev
 * [x] **Milestone 2**: Generate interactive map markers with data layouts.
 * [x] **Milestone 3**: Synced sidebar components with dynamic details side panel.
 * [x] **Milestone 4**: Hide API key details on server and resolve Street View permissions.
-* [ ] **Milestone 5**: Implement functional reservation forms (create, view, and delete).
+* [x] **Milestone 5**: Implement functional reservation forms (create, view, and delete).
 
 ## 💡 Pro-Tips
 
