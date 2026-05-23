@@ -1,10 +1,85 @@
-# 🚗 BCIT Parkly: Find Parking at BCIT Downtown Campus
+# 🚗 Parkly: Find Parking at BCIT Downtown Campus
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Type-Web%20App-ff6b6b?style=for-the-badge&logo=googlemaps&logoColor=white" />
+  <img src="https://img.shields.io/badge/Language-TypeScript-00b4d8?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Framework-Express-9d4edd?style=for-the-badge&logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/Database-MySQL-2a9d8f?style=for-the-badge&logo=mysql&logoColor=white" />
+</p>
 
 **BCIT Parkly** is a CRUD web application project built to help students, staff, and visitors easily find and manage parking options at and around the BCIT Downtown Campus. It features an interactive map layout that tracks parking spot availability, shows live spot details, and handles simple spot reservations.
 
 ---
 
-## 🛠️ Key Features
+## 🖼️ System Storyboard
+
+<table style="width: 100%; border-collapse: collapse; border: none;">
+  <tr style="border: none;">
+    <td align="center" style="border-bottom: 1px solid #333; border-right: 1px solid #333; padding: 20px; width: 50%;">
+      <b>Account Registration Page</b><br><br>
+      <img src="https://github.com/user-attachments/assets/e0653881-46b5-4e68-a531-8f9d855b2c63" width="400"><br><br>
+    </td>
+    <td align="center" style="border-bottom: 1px solid #333; padding: 20px; width: 50%;">
+      <b>Sign In Authentication</b><br><br>
+      <img src="https://github.com/user-attachments/assets/d4f1eead-f724-4074-baa7-50a000f02995" width="400"><br><br>
+    </td>
+  </tr>
+  <tr style="border: none;">
+    <td align="center" style="border-bottom: 1px solid #333; border-right: 1px solid #333; padding: 20px;">
+      <b>Main Interactive Map Dashboard</b><br><br>
+      <img src="https://github.com/user-attachments/assets/9f50ab9d-63b0-48ab-a310-f819d100a48d" width="400"><br><br>
+    </td>
+    <td align="center" style="border-bottom: 1px solid #333; padding: 20px;">
+      <b>Parking Lot "Details" Side Panel</b><br><br>
+      <img src="https://github.com/user-attachments/assets/75692df7-0e4f-4547-a200-9871e170f402" width="400"><br><br>
+    </td>
+  </tr>
+  <tr style="border: none;">
+    <td align="center" style="border-bottom: 1px solid #333; border-right: 1px solid #333; padding: 20px;">
+      <b>Permit Specifications & Rate Schedules</b><br><br>
+      <img src="https://github.com/user-attachments/assets/8a704bfa-62ea-4e34-a2c1-8c7512aba8e5" width="400"><br><br>
+    </td>
+    <td align="center" style="border-bottom: 1px solid #333; padding: 20px;">
+      <b>My Active Reservations Portal (User Signed In)</b><br><br>
+      <img src="https://github.com/user-attachments/assets/6cace417-b4a1-4570-ae21-716ba8b93f3c" width="400"><br><br>
+    </td>
+  </tr>
+  <tr style="border: none;">
+    <td align="center" style="border-right: 1px solid #333; padding: 20px;">
+      <b>Help & Support Knowledgebase</b><br><br>
+      <img src="https://github.com/user-attachments/assets/7a7b82c8-6c1b-4efc-a5fe-c1a1c1cf73e6" width="400"><br><br>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🛠️ Tech Stack & Core Libraries
+
+**Core Framework & Language**
+<p align="left">
+  <img src="https://img.shields.io/badge/TypeScript-Strict-3178c6?style=flat-square" />
+  <img src="https://img.shields.io/badge/Node.js-v18+-339933?style=flat-square" />
+  <img src="https://img.shields.io/badge/Express-MVC-000000?style=flat-square" />
+</p>
+
+**UI & Interactive Elements**
+<p align="left">
+  <img src="https://img.shields.io/badge/Google_Maps-API-4285F4?style=flat-square" />
+  <img src="https://img.shields.io/badge/Street_View-Static-4285F4?style=flat-square" />
+  <img src="https://img.shields.io/badge/EJS-Templates-b4ca65?style=flat-square" />
+</p>
+
+**Data & Security**
+<p align="left">
+  <img src="https://img.shields.io/badge/MySQL-Relational-4479A1?style=flat-square" />
+  <img src="https://img.shields.io/badge/Lucia-Auth-5f57ff?style=flat-square" />
+  <img src="https://img.shields.io/badge/Dotenv-Credentials-00b4d8?style=flat-square" />
+</p>
+
+---
+
+## ✨ Key Features
 
 ### 1. Interactive Map & Sidebar Synchronization
 
@@ -26,6 +101,12 @@
 
 * **Visual Peek**: Connects to the Google Street View API to fetch real, point-of-view images of the target parking lot coordinates.
 * **Built-in Fallbacks**: Uses customized lookup metrics (`radius=200` and `source=outdoor`) to make sure Google finds and shows the nearest outdoor road photo if the exact coordinates are slightly off-street.
+
+### 5. Secure User Authentication & Identity Management
+
+* **Lucia Auth Engine**: Handles account states utilizing a custom database-backed session storage design to maintain seamless user login sessions.
+* **Cryptographic Hashing**: Safeguards sensitive credentials by passing user passwords through strong hashing functions before database insertion, protecting user identity data.
+* **Persistent Cookie Verification**: Employs secure cookie configurations to retain authenticated states safely across multiple browser tabs and page navigation events.
 
 ---
 
@@ -87,15 +168,17 @@ The application is structured into clear, separate code layers to make code trou
 
 ```txt
 BCIT-Parkly/
-├── .github/                # GitHub workflows and automation actions
+├── .github/                # YAML files for GutHub workflows
 ├── database/               # Database initialization scripts and migrations
+│
 ├── public/                 # Static assets served directly to the browser
 │   ├── assets/             # Map markers, branding assets, and campus logos
-│   ├── css/
-│   │   └── main.css        # Layouts, slide animations, and side-panel styles
+│   ├── css/                # Page styles
 │   └── js/
 │       ├── details.js      # Compiled side-panel controller script
-│       └── map.js          # Compiled Google Maps rendering module
+│       ├── details.ts
+│       ├── map.js          # Compiled Google map script
+│       └── map.ts       
 │
 ├── src/                    # Main TypeScript source development directory
 │   ├── controllers/        # Route controllers parsing requests and responses
@@ -110,11 +193,12 @@ BCIT-Parkly/
 ├── views/                  # Embedded JavaScript (EJS) server-side layouts
 │   └── main.ejs            # Main map dashboard template layout
 │
-├── .env                    # Protected local environment credentials config
-├── .gitignore              # Tracking rules configuration for repository security
 ├── database.ts             # Database layer pooling and connection initialization
-├── package.json            # Manifest file managing project scripts and dependencies
-└── README.md               # Documentation landing page
+├── .env                    
+├── .gitignore              
+├── tsconfig.json
+├── package.json            
+└── README.md               # You're here!
 
 ```
 
@@ -151,11 +235,12 @@ npm run dev
 
 ## 📈 Roadmap
 
-* [x] **Milestone 1**: Set up basic Express server routing and views.
-* [x] **Milestone 2**: Generate interactive map markers with data layouts.
-* [x] **Milestone 3**: Synced sidebar components with dynamic details side panel.
-* [x] **Milestone 4**: Hide API key details on server and resolve Street View permissions.
-* [x] **Milestone 5**: Implement functional reservation forms (create, view, and delete).
+* [x] **Milestone 1**: Set up basic Express server routing and views
+* [x] **Milestone 2**: Generate interactive map markers with data layouts
+* [x] **Milestone 3**: Synced sidebar components with dynamic details side panel
+* [x] **Milestone 4**: Implement Lucia Auth for user registration and login
+* [x] **Milestone 5**: Hide API key details on server and resolve Street View permissions
+* [x] **Milestone 6**: Implement functional reservation forms (create, view, and delete)
 
 ## 💡 Pro-Tips
 
